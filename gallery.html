@@ -147,23 +147,121 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
     <a href="https://www.instagram.com/rodandhammerrock" target="_blank" class="btn-outline" style="font-size:11px">Follow @RodAndHammerRock ↗</a>
   </div>
 </section>
-<section style="background:var(--bg);padding:32px 60px 72px">
+
+<section style="background:var(--surface);padding:40px 60px 28px;border-bottom:1px solid var(--border)">
+  <div class="container" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px">
+    <div>
+      <p class="eyebrow">Photo Gallery</p>
+      <h2 class="section-title">The Rock in Pictures</h2>
+    </div>
+    <a href="https://www.instagram.com/rodandhammerrock" target="_blank" style="display:inline-block;background:transparent;color:var(--dark);border:1.5px solid var(--border);padding:14px 34px;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border-radius:2px;transition:all .2s">Follow @RodAndHammerRock ↗</a>
+  </div>
+</section>
+
+<!-- Venue & Events -->
+<section style="background:var(--bg);padding:32px 60px 0">
   <div class="container">
-    <div class="gallery-grid">
-      <div class="gi tall" style="min-height:520px"><img src="images/header-rock-outdoor.jpg" alt="The Rock Venue" style="height:100%"></div>
-      <div class="gi" style="aspect-ratio:1"><img src="images/food-flatbread.jpg" alt="Flatbread"></div>
-      <div class="gi wide" style="aspect-ratio:2/1"><img src="images/private-event-patio.jpg" alt="Private Event"></div>
-      <div class="gi" style="aspect-ratio:1"><img src="images/food-bbq-spread.jpg" alt="BBQ Spread"></div>
-      <div class="gi" style="aspect-ratio:1"><img src="https://images.unsplash.com/photo-1540039155733-5bb30b4c4f4f?w=500&q=80" alt="Live Music"></div>
-      <div class="gi wide" style="aspect-ratio:2/1"><img src="https://images.unsplash.com/photo-1598387993441-a364f854c3e1?w=900&q=80" alt="Band"></div>
-      <div class="gi" style="aspect-ratio:1"><img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400&q=80" alt="Cocktails"></div>
-      <div class="gi" style="aspect-ratio:1"><img src="https://images.unsplash.com/photo-1566633806827-ab969ba080b3?w=400&q=80" alt="Beer"></div>
-      <div class="gi" style="aspect-ratio:1"><img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&q=80" alt="Performer"></div>
-      <div class="gi" style="aspect-ratio:1"><img src="https://images.unsplash.com/photo-1471478331149-c72f17e33c73?w=400&q=80" alt="Concert"></div>
+    <p style="font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--orange);font-weight:600;margin-bottom:24px">The Venue</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px">
+      <div style="grid-row:1/3;overflow:hidden;min-height:540px">
+        <img src="images/header-rock-outdoor.jpg" alt="The Rock SLO aerial view" style="width:100%;height:100%;object-fit:cover;filter:brightness(.88);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.88)'">
+      </div>
+      <div style="grid-column:span 2;overflow:hidden;aspect-ratio:2/1">
+        <img src="images/private-event-patio.jpg" alt="Outdoor event with string lights" style="width:100%;height:100%;object-fit:cover;filter:brightness(.88);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.88)'">
+      </div>
+      <div style="overflow:hidden;aspect-ratio:1">
+        <img src="images/venue-gathering-bar.jpg" alt="Indoor bar gathering" style="width:100%;height:100%;object-fit:cover;filter:brightness(.82);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.82)'">
+      </div>
+      <div style="overflow:hidden;aspect-ratio:1">
+        <img src="images/venue-indoor-setup.jpg" alt="Indoor wedding setup" style="width:100%;height:100%;object-fit:cover;filter:brightness(.88);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.88)'">
+      </div>
+      <div style="overflow:hidden;aspect-ratio:1">
+        <img src="images/venue-indoor-botanical.jpg" alt="Venue with botanical decor" style="width:100%;height:100%;object-fit:cover;filter:brightness(.88);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.88)'">
+      </div>
+      <div style="overflow:hidden;aspect-ratio:1">
+        <img src="images/wedding-outdoor-tables.jpg" alt="Outdoor event tables by the rock" style="width:100%;height:100%;object-fit:cover;filter:brightness(.88);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.88)'">
+      </div>
     </div>
   </div>
 </section>
 
+<!-- Weddings -->
+<section style="background:var(--bg);padding:48px 60px 0">
+  <div class="container">
+    <p style="font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--orange);font-weight:600;margin-bottom:24px">Weddings</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px">
+      <div style="grid-column:span 2;overflow:hidden;aspect-ratio:16/9">
+        <img src="images/wedding-ceremony-outdoor.jpg" alt="Outdoor wedding ceremony by the rocks" style="width:100%;height:100%;object-fit:cover;filter:brightness(.88);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.88)'">
+      </div>
+      <div style="overflow:hidden;aspect-ratio:1">
+        <img src="images/wedding-first-dance.jpg" alt="First dance at The Rock" style="width:100%;height:100%;object-fit:cover;filter:brightness(.82);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.82)'">
+      </div>
+      <div style="overflow:hidden;aspect-ratio:1">
+        <img src="images/stage-lights-wedding.jpg" alt="Stage lighting at wedding" style="width:100%;height:100%;object-fit:cover;filter:brightness(.82);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.82)'">
+      </div>
+      <div style="overflow:hidden;aspect-ratio:1">
+        <img src="images/wedding-dance-floor-bw.jpg" alt="Wedding dance floor" style="width:100%;height:100%;object-fit:cover;filter:brightness(.88);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.88)'">
+      </div>
+      <div style="overflow:hidden;aspect-ratio:1">
+        <img src="images/wedding-outdoor-rocks.jpg" alt="Couple at outdoor table by rocks" style="width:100%;height:100%;object-fit:cover;filter:brightness(.88);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.88)'">
+      </div>
+      <div style="overflow:hidden;aspect-ratio:1">
+        <img src="images/wedding-reception-dance.jpg" alt="Wedding reception first dance" style="width:100%;height:100%;object-fit:cover;filter:brightness(.82);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.82)'">
+      </div>
+      <div style="overflow:hidden;aspect-ratio:1">
+        <img src="images/wedding-barrel-detail.jpg" alt="Custom monogrammed wedding barrel" style="width:100%;height:100%;object-fit:cover;filter:brightness(.88);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.88)'">
+      </div>
+      <div style="overflow:hidden;aspect-ratio:1">
+        <img src="images/bridal-suite-dress.jpg" alt="Bridal suite at The Rock" style="width:100%;height:100%;object-fit:cover;filter:brightness(.88);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.88)'">
+      </div>
+      <div style="overflow:hidden;aspect-ratio:1">
+        <img src="images/wedding-cake-desserts.jpg" alt="Wedding cake and dessert spread" style="width:100%;height:100%;object-fit:cover;filter:brightness(.88);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.88)'">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Food & Drinks -->
+<section style="background:var(--bg);padding:48px 60px 0">
+  <div class="container">
+    <p style="font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--orange);font-weight:600;margin-bottom:24px">Food &amp; Drinks</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px">
+      <div style="grid-row:1/3;overflow:hidden;min-height:480px">
+        <img src="images/food-flatbread.jpg" alt="BBQ flatbread at The Rock" style="width:100%;height:100%;object-fit:cover;filter:brightness(.88);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.88)'">
+      </div>
+      <div style="overflow:hidden;aspect-ratio:1">
+        <img src="images/cocktail-whiskey-sour.jpg" alt="Whiskey sour cocktail" style="width:100%;height:100%;object-fit:cover;filter:brightness(.88);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.88)'">
+      </div>
+      <div style="overflow:hidden;aspect-ratio:1">
+        <img src="images/catering-scallops.jpg" alt="Catering scallops" style="width:100%;height:100%;object-fit:cover;filter:brightness(.88);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.88)'">
+      </div>
+      <div style="overflow:hidden;aspect-ratio:1">
+        <img src="images/food-bbq-spread.jpg" alt="BBQ spread" style="width:100%;height:100%;object-fit:cover;filter:brightness(.88);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.88)'">
+      </div>
+      <div style="overflow:hidden;aspect-ratio:1">
+        <img src="images/catering-arancini.jpg" alt="Arancini appetizers" style="width:100%;height:100%;object-fit:cover;filter:brightness(.88);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.88)'">
+      </div>
+      <div style="overflow:hidden;aspect-ratio:1">
+        <img src="images/catering-shrimp.jpg" alt="Grilled shrimp skewers" style="width:100%;height:100%;object-fit:cover;filter:brightness(.88);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.88)'">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Live Music -->
+<section style="background:var(--bg);padding:48px 60px 72px">
+  <div class="container">
+    <p style="font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--orange);font-weight:600;margin-bottom:24px">Live Music</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px">
+      <div style="grid-column:span 2;overflow:hidden;aspect-ratio:16/9">
+        <img src="https://images.unsplash.com/photo-1540039155733-5bb30b4c4f4f?w=1200&q=80" alt="Live music at The Rock" style="width:100%;height:100%;object-fit:cover;filter:brightness(.82);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.82)'">
+      </div>
+      <div style="overflow:hidden;aspect-ratio:auto;min-height:300px">
+        <img src="https://images.unsplash.com/photo-1598387993441-a364f854c3e1?w=600&q=80" alt="Band at The Rock" style="width:100%;height:100%;object-fit:cover;filter:brightness(.82);transition:all .4s" onmouseover="this.style.filter='brightness(1)'" onmouseout="this.style.filter='brightness(.82)'">
+      </div>
+    </div>
+  </div>
+</section>
 <footer>
   <div class="container">
     <div class="footer-grid">
