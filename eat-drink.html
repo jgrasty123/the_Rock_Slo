@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eat & Drink — The Rock SLO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0D0D0D; --surface:#161616; --card:#1C1C1C; --border:#272727;
+  --orange:#D4691E; --amber:#E89840; --cream:#F2EDE4; --muted:#6E5E4A;
+  --muted-light:#9E8B75; --white:#FFFFFF;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--cream);font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:20px 52px;background:linear-gradient(to bottom,rgba(0,0,0,.88),transparent);transition:background .3s}
+.nav-brand{display:flex;flex-direction:column;line-height:1}
+.nav-brand-main{font-family:'Oswald',sans-serif;font-weight:700;font-size:20px;letter-spacing:4px;text-transform:uppercase;color:var(--cream)}
+.nav-brand-sub{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--orange);margin-top:2px}
+.nav-links{display:flex;align-items:center;gap:30px;list-style:none}
+.nav-links a{color:rgba(242,237,228,.75);font-size:12px;font-weight:500;letter-spacing:1.8px;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--cream)}
+.nav-links a.active{border-bottom:1px solid var(--orange);padding-bottom:2px}
+.btn-nav{background:var(--orange)!important;color:#fff!important;padding:11px 26px;border-radius:1px;transition:background .2s!important}
+.btn-nav:hover{background:var(--amber)!important}
+.btn-nav-outline{border:1px solid rgba(242,237,228,.4)!important;padding:10px 24px;border-radius:1px;transition:all .2s!important}
+.btn-nav-outline:hover{border-color:var(--cream)!important;background:rgba(255,255,255,.07)!important}
+
+/* ── PAGE HERO ── */
+.page-hero{position:relative;height:52vh;min-height:360px;display:flex;align-items:flex-end;overflow:hidden;padding:0 52px 60px}
+.page-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.35) saturate(.75)}
+.page-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(13,13,13,.95) 0%,rgba(13,13,13,.2) 100%)}
+.page-hero-content{position:relative;z-index:2}
+.page-eyebrow{font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--orange);font-weight:500;margin-bottom:12px}
+.page-title{font-family:'Oswald',sans-serif;font-weight:700;font-size:clamp(48px,7vw,88px);text-transform:uppercase;color:var(--cream);line-height:.9;letter-spacing:-1px}
+
+/* ── SECTIONS ── */
+section{padding:72px 52px}
+.container{max-width:1320px;margin:0 auto}
+.eyebrow{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--orange);font-weight:500;margin-bottom:10px}
+.section-title{font-family:'Oswald',sans-serif;font-weight:700;font-size:clamp(32px,5vw,52px);text-transform:uppercase;color:var(--cream);line-height:.95;letter-spacing:-.5px}
+.section-body{font-size:15px;color:var(--muted-light);line-height:1.8;margin-top:16px;max-width:640px}
+
+/* ── BUTTONS ── */
+.btn-primary{display:inline-block;background:var(--orange);color:#fff;padding:15px 38px;font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;border-radius:1px;border:none;cursor:pointer;transition:background .2s;font-family:'Inter',sans-serif}
+.btn-primary:hover{background:var(--amber)}
+.btn-outline{display:inline-block;background:transparent;color:var(--cream);border:1px solid rgba(242,237,228,.35);padding:14px 34px;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border-radius:1px;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.btn-outline:hover{border-color:var(--cream);background:rgba(255,255,255,.07)}
+
+/* ── FOOTER ── */
+footer{background:#090909;padding:64px 52px 28px;border-top:1px solid var(--border)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:52px;padding-bottom:48px;border-bottom:1px solid var(--border);margin-bottom:28px}
+.footer-logo-main{font-family:'Oswald',sans-serif;font-weight:700;font-size:26px;letter-spacing:4px;text-transform:uppercase;color:var(--cream);line-height:1}
+.footer-logo-loc{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--orange);margin-top:4px;margin-bottom:20px}
+.footer-addr{font-size:13px;color:var(--muted);line-height:2}
+.footer-socials{display:flex;gap:10px;margin-top:24px}
+.footer-social-btn{width:34px;height:34px;border:1px solid var(--border);display:grid;place-items:center;border-radius:1px;color:var(--muted);font-size:11px;font-weight:700;transition:all .2s}
+.footer-social-btn:hover{border-color:var(--orange);color:var(--orange)}
+.footer-col-hd{font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--muted-light);margin-bottom:18px}
+.footer-nav{list-style:none}
+.footer-nav li{margin-bottom:11px}
+.footer-nav a{font-size:13px;color:var(--muted);transition:color .2s}
+.footer-nav a:hover{color:var(--cream)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--muted);flex-wrap:wrap;gap:12px}
+.partner-links{display:flex;gap:24px}
+.partner-link{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);transition:color .2s}
+.partner-link:hover{color:var(--orange)}
+
+/* ── MOCKUP NOTICE ── */
+.mockup-notice{position:fixed;bottom:0;left:0;right:0;background:var(--orange);color:#fff;text-align:center;padding:9px 24px;font-size:11px;font-weight:600;letter-spacing:1px;z-index:300}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  nav{padding:16px 24px}
+  .nav-links{gap:16px}
+  section{padding:56px 24px}
+  .page-hero{padding:0 24px 48px}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  .footer-grid{grid-template-columns:1fr}
+}
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:48px}
+.menu-col{background:var(--card);padding:36px 32px}
+.menu-col-title{font-family:'Oswald',sans-serif;font-weight:600;font-size:20px;text-transform:uppercase;color:var(--cream);letter-spacing:1px;padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:20px}
+.menu-item{display:flex;justify-content:space-between;align-items:baseline;padding:12px 0;border-bottom:1px solid rgba(39,39,39,.6)}
+.menu-item:last-child{border-bottom:none}
+.menu-item-left{flex:1}
+.menu-item-name{font-size:14px;font-weight:500;color:var(--cream);margin-bottom:3px}
+.menu-item-desc{font-size:12px;color:var(--muted-light);line-height:1.4}
+.menu-item-price{font-size:14px;color:var(--amber);font-weight:600;margin-left:16px;white-space:nowrap}
+.drinks-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:48px}
+.drink-card{background:var(--card);padding:28px 24px}
+.drink-card-title{font-family:'Oswald',sans-serif;font-size:16px;text-transform:uppercase;letter-spacing:2px;color:var(--orange);margin-bottom:16px}
+.drink-item{padding:10px 0;border-bottom:1px solid rgba(39,39,39,.5);font-size:13px;color:var(--muted-light)}
+.drink-item:last-child{border-bottom:none}
+.drink-item strong{color:var(--cream);display:block;margin-bottom:2px}
+.cta-strip{background:var(--surface);padding:48px 52px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap;border-top:1px solid var(--border)}
+@media(max-width:800px){.menu-grid,.drinks-grid{grid-template-columns:1fr}}</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" style="text-decoration:none">
+    <div class="nav-brand">
+      <span class="nav-brand-main">The Rock</span>
+      <span class="nav-brand-sub">San Luis Obispo</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="events.html">Events</a></li>
+    <li><a href="eat-drink.html" class="active">Eat &amp; Drink</a></li>
+    <li><a href="private-events.html">Private Events</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="events.html" class="btn-nav-outline">🎟 Tickets</a></li>
+    <li><a href="order.html" class="btn-nav">Order Food</a></li>
+  </ul>
+</nav>
+<div class="page-hero">
+  <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1600&q=80')"></div>
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <p class="page-eyebrow">Kitchen + Bar</p>
+    <h1 class="page-title">Eat &amp;<br>Drink</h1>
+  </div>
+</div>
+
+<!-- Intro + CTAs -->
+<section style="background:var(--surface);padding:56px 52px 48px">
+  <div class="container" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px">
+    <div>
+      <p class="eyebrow">Kitchen + Bar</p>
+      <h2 class="section-title">Eat &amp; Drink</h2>
+      <p class="section-body">Casual cuisine, creative cocktails, Rod &amp; Hammer whiskey, and SLO Brew craft beer — all served in one of the Central Coast's most unique settings.</p>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+      <a href="order.html" class="btn-primary">Order for Pickup</a>
+      <a href="#" class="btn-outline">Make a Reservation</a>
+    </div>
+  </div>
+</section>
+
+<!-- Hours banner -->
+<div style="background:var(--orange);padding:18px 52px;display:flex;justify-content:center;gap:52px;flex-wrap:wrap">
+  <div style="text-align:center"><div style="font-family:'Oswald',sans-serif;font-weight:700;font-size:16px;color:#fff;letter-spacing:1px">MON – THU</div><div style="font-size:12px;letter-spacing:1px;color:rgba(255,255,255,.8)">4:00 PM – 10:00 PM</div></div>
+  <div style="text-align:center"><div style="font-family:'Oswald',sans-serif;font-weight:700;font-size:16px;color:#fff;letter-spacing:1px">FRI – SAT</div><div style="font-size:12px;letter-spacing:1px;color:rgba(255,255,255,.8)">11:00 AM – Midnight</div></div>
+  <div style="text-align:center"><div style="font-family:'Oswald',sans-serif;font-weight:700;font-size:16px;color:#fff;letter-spacing:1px">SUNDAY</div><div style="font-size:12px;letter-spacing:1px;color:rgba(255,255,255,.8)">11:00 AM – 10:00 PM</div></div>
+</div>
+
+<!-- Food Menu -->
+<section style="background:var(--bg);padding:72px 52px">
+  <div class="container">
+    <p class="eyebrow">The Menu</p>
+    <h2 class="section-title">Food</h2>
+    <div class="menu-grid">
+      <div class="menu-col">
+        <div class="menu-col-title">🍕 Flatbreads</div>
+        <div class="menu-item"><div class="menu-item-left"><div class="menu-item-name">Margherita</div><div class="menu-item-desc">House tomato, fresh mozzarella, basil, olive oil</div></div><div class="menu-item-price">$16</div></div>
+        <div class="menu-item"><div class="menu-item-left"><div class="menu-item-name">BBQ Chicken</div><div class="menu-item-desc">Smoked chicken, pickled jalapeño, red onion, cilantro</div></div><div class="menu-item-price">$18</div></div>
+        <div class="menu-item"><div class="menu-item-left"><div class="menu-item-name">Spicy Sausage</div><div class="menu-item-desc">Italian sausage, roasted peppers, honey drizzle</div></div><div class="menu-item-price">$18</div></div>
+        <div class="menu-item"><div class="menu-item-left"><div class="menu-item-name">Mushroom &amp; Truffle</div><div class="menu-item-desc">Wild mushrooms, truffle oil, arugula, shaved parmesan</div></div><div class="menu-item-price">$19</div></div>
+        <div class="menu-item"><div class="menu-item-left"><div class="menu-item-name">The Rock Special</div><div class="menu-item-desc">Rotating seasonal flatbread — ask your server</div></div><div class="menu-item-price">Market</div></div>
+      </div>
+      <div class="menu-col">
+        <div class="menu-col-title">🍽 Small Plates</div>
+        <div class="menu-item"><div class="menu-item-left"><div class="menu-item-name">Onion Rings</div><div class="menu-item-desc">Beer-battered, chipotle ranch</div></div><div class="menu-item-price">$10</div></div>
+        <div class="menu-item"><div class="menu-item-left"><div class="menu-item-name">Soft Pretzels</div><div class="menu-item-desc">Two house-made pretzels, whole grain mustard, beer cheese</div></div><div class="menu-item-price">$12</div></div>
+        <div class="menu-item"><div class="menu-item-left"><div class="menu-item-name">Wings</div><div class="menu-item-desc">Choice of buffalo, BBQ, or honey garlic — served with celery &amp; ranch</div></div><div class="menu-item-price">$14</div></div>
+        <div class="menu-item"><div class="menu-item-left"><div class="menu-item-name">BBQ Plate</div><div class="menu-item-desc">Smoked brisket, two sides, cornbread</div></div><div class="menu-item-price">$22</div></div>
+        <div class="menu-item"><div class="menu-item-left"><div class="menu-item-name">Charcuterie Board</div><div class="menu-item-desc">Cured meats, seasonal cheeses, pickles, crackers</div></div><div class="menu-item-price">$24</div></div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:16px;font-style:italic">* Sample menu — items and prices subject to change. Full menu available in-house.</p>
+  </div>
+</section>
+
+<!-- Drinks -->
+<section style="background:var(--surface);padding:72px 52px">
+  <div class="container">
+    <p class="eyebrow">The Bar</p>
+    <h2 class="section-title">Drinks</h2>
+    <div class="drinks-grid">
+      <div class="drink-card">
+        <div class="drink-card-title">🍸 Cocktails</div>
+        <div class="drink-item"><strong>Whiskey Sour</strong>Rod &amp; Hammer, lemon, simple, egg white</div>
+        <div class="drink-item"><strong>Smoky Mule</strong>Mezcal, ginger beer, lime, smoked salt rim</div>
+        <div class="drink-item"><strong>The Rock Old Fashioned</strong>R&amp;H Single Barrel, bitters, orange</div>
+        <div class="drink-item"><strong>Rotating Seasonals</strong>Ask your bartender for today's specials</div>
+      </div>
+      <div class="drink-card">
+        <div class="drink-card-title">🍺 SLO Brew On Tap</div>
+        <div class="drink-item"><strong>Superbloom Pale Ale</strong>5.8% ABV — Light, floral, citrus</div>
+        <div class="drink-item"><strong>Hazy IPA</strong>6.4% ABV — Tropical, juicy, soft bitterness</div>
+        <div class="drink-item"><strong>Schwarzbier</strong>5.1% ABV — Dark lager, roasty, smooth</div>
+        <div class="drink-item"><strong>Seasonal Rotation</strong>Ask about what's on tap today</div>
+      </div>
+      <div class="drink-card">
+        <div class="drink-card-title">🥃 Rod &amp; Hammer</div>
+        <div class="drink-item"><strong>California Whiskey</strong>Smooth, caramel, oak — flagship expression</div>
+        <div class="drink-item"><strong>Single Barrel</strong>Limited release, estate-bottled</div>
+        <div class="drink-item"><strong>Whiskey Wednesday</strong>Every Wed — featured pours &amp; tastings</div>
+        <div class="drink-item"><strong>Tasting Flights</strong>Three pour flights available daily</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Order CTA -->
+<div class="cta-strip">
+  <div style="text-align:center">
+    <p style="font-family:'Oswald',sans-serif;font-size:24px;text-transform:uppercase;color:var(--cream);margin-bottom:6px">Ready to Order?</p>
+    <p style="font-size:14px;color:var(--muted-light);margin-bottom:24px">Order ahead for pickup — skip the wait and grab your food on your terms.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="order.html" class="btn-primary">Order for Pickup</a>
+      <a href="private-events.html" class="btn-outline">Plan a Private Dinner</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo-main">The Rock</div>
+        <div class="footer-logo-loc">San Luis Obispo</div>
+        <div class="footer-addr">855 Aerovista Place<br>San Luis Obispo, CA 93401<br><br>Mon–Thu: 4pm – 10pm<br>Fri–Sat: 11am – Midnight<br>Sun: 11am – 10pm</div>
+        <div class="footer-socials">
+          <a href="#" class="footer-social-btn">IG</a>
+          <a href="#" class="footer-social-btn">FB</a>
+          <a href="#" class="footer-social-btn">TK</a>
+          <a href="#" class="footer-social-btn">YT</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-hd">Explore</p>
+        <ul class="footer-nav">
+          <li><a href="events.html">Events Calendar</a></li>
+          <li><a href="eat-drink.html">Food Menu</a></li>
+          <li><a href="order.html">Order Online</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="about.html">About The Rock</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-hd">Private Events</p>
+        <ul class="footer-nav">
+          <li><a href="private-events.html">Request a Quote</a></li>
+          <li><a href="private-events.html#weddings">Weddings</a></li>
+          <li><a href="private-events.html#corporate">Corporate Events</a></li>
+          <li><a href="private-events.html#capacity">Venue Capacity</a></li>
+          <li><a href="private-events.html#faq">Event FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-hd">Info</p>
+        <ul class="footer-nav">
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="about.html#press">Press &amp; Media</a></li>
+          <li><a href="about.html#careers">Careers</a></li>
+          <li><a href="#">Gift Cards</a></li>
+          <li><a href="index.html#newsletter">Newsletter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 The Rock SLO — SLo5Rock LLC. All rights reserved.</span>
+      <div class="partner-links">
+        <a href="#" class="partner-link">Rod &amp; Hammer Whiskey ↗</a>
+        <a href="#" class="partner-link">SLO Brew ↗</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<div class="mockup-notice">⚡ Design Mockup — The Rock SLO · Prepared by Yecommerce · yecommerce.io</div>
+</body>
+</html>
