@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Rock SLO — Live Music, Dining & Event Venue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0D0D0D;
+  --surface:#161616;
+  --card:#1C1C1C;
+  --border:#272727;
+  --orange:#D4691E;
+  --amber:#E89840;
+  --cream:#F2EDE4;
+  --muted:#6E5E4A;
+  --muted-light:#9E8B75;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--cream);font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{text-decoration:none}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:20px 52px;background:linear-gradient(to bottom,rgba(0,0,0,.85) 0%,rgba(0,0,0,0) 100%);transition:background .3s}
+.nav-brand{display:flex;flex-direction:column;line-height:1}
+.nav-brand-main{font-family:'Oswald',sans-serif;font-weight:700;font-size:20px;letter-spacing:4px;text-transform:uppercase;color:var(--cream)}
+.nav-brand-sub{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--orange);margin-top:2px}
+.nav-links{display:flex;align-items:center;gap:36px;list-style:none}
+.nav-links a{color:rgba(242,237,228,.75);font-size:12px;font-weight:500;letter-spacing:1.8px;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--cream)}
+.btn-nav{background:var(--orange)!important;color:#fff!important;padding:11px 26px;border-radius:1px;transition:background .2s!important}
+.btn-nav:hover{background:var(--amber)!important}
+.btn-nav-outline{border:1px solid rgba(242,237,228,.45)!important;padding:10px 24px;border-radius:1px;transition:all .2s!important}
+.btn-nav-outline:hover{border-color:var(--cream)!important;background:rgba(255,255,255,.06)!important}
+
+/* HERO */
+.hero{position:relative;height:100vh;min-height:680px;display:flex;align-items:center;justify-content:center;overflow:hidden;text-align:center}
+.hero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1540039155733-5bb30b4c4f4f?w=1800&q=85');background-size:cover;background-position:center 35%;filter:brightness(.38) saturate(.75)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(13,13,13,.15) 0%,rgba(13,13,13,.45) 55%,rgba(13,13,13,.92) 100%)}
+.hero-content{position:relative;z-index:2;padding:0 24px;max-width:900px}
+.hero-eyebrow{font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--orange);font-weight:500;margin-bottom:20px;opacity:.9}
+.hero-title{font-family:'Oswald',sans-serif;font-weight:700;font-size:clamp(90px,15vw,172px);line-height:.88;letter-spacing:-2px;text-transform:uppercase;color:var(--cream);margin-bottom:14px}
+.hero-rule{width:80px;height:2px;background:var(--orange);margin:0 auto 20px}
+.hero-tagline{font-family:'Oswald',sans-serif;font-weight:400;font-size:clamp(14px,2vw,22px);letter-spacing:5px;text-transform:uppercase;color:rgba(242,237,228,.7);margin-bottom:48px}
+.hero-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn-hero-primary{background:var(--orange);color:#fff;padding:16px 40px;font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;border-radius:1px;transition:background .2s}
+.btn-hero-primary:hover{background:var(--amber)}
+.btn-hero-outline{background:transparent;color:var(--cream);border:1px solid rgba(242,237,228,.4);padding:15px 36px;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border-radius:1px;transition:all .2s}
+.btn-hero-outline:hover{border-color:var(--cream);background:rgba(255,255,255,.07)}
+
+/* PULSE BAR */
+.pulse-bar{background:var(--orange);display:flex;justify-content:center;gap:0;overflow:hidden}
+.pulse-item{flex:1;text-align:center;padding:22px 16px;border-right:1px solid rgba(0,0,0,.15);position:relative}
+.pulse-item:last-child{border-right:none}
+.pulse-num{font-family:'Oswald',sans-serif;font-weight:700;font-size:30px;color:#fff;line-height:1}
+.pulse-label{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.75);margin-top:4px}
+
+/* SHOWS */
+.shows-section{padding:80px 52px;background:var(--bg)}
+.container{max-width:1380px;margin:0 auto}
+.section-row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px}
+.eyebrow{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--orange);font-weight:500;margin-bottom:10px}
+.section-title{font-family:'Oswald',sans-serif;font-weight:700;font-size:clamp(36px,5vw,54px);text-transform:uppercase;color:var(--cream);line-height:.95;letter-spacing:-.5px}
+.view-all{font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted-light);border-bottom:1px solid var(--muted);padding-bottom:2px;white-space:nowrap;transition:color .2s}
+.view-all:hover{color:var(--orange);border-color:var(--orange)}
+
+.shows-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.show-card{background:var(--card);overflow:hidden;position:relative;cursor:pointer}
+.show-card:hover .show-img{filter:brightness(.55) saturate(1.1)}
+.show-card:hover .show-ticket-btn{background:var(--amber)}
+.show-img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;filter:brightness(.45) saturate(.8);transition:filter .35s}
+.show-info{padding:18px 20px 0 24px;border-left:3px solid var(--orange)}
+.show-date{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:7px}
+.show-name{font-family:'Oswald',sans-serif;font-weight:600;font-size:18px;text-transform:uppercase;color:var(--cream);line-height:1.1;margin-bottom:5px}
+.show-support{font-size:11px;color:var(--muted-light);margin-bottom:12px;font-style:italic}
+.show-meta{display:flex;justify-content:space-between;align-items:center;padding:12px 20px 0;font-size:11px;color:var(--muted)}
+.show-price{color:var(--amber);font-weight:600;font-size:13px}
+.show-ticket-btn{display:block;background:var(--orange);color:#fff;text-align:center;padding:13px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:16px;transition:background .2s}
+
+/* VENUE */
+.venue-section{display:grid;grid-template-columns:1fr 1fr;background:var(--surface)}
+.venue-content{padding:80px 64px;display:flex;flex-direction:column;justify-content:center}
+.venue-body{font-size:15px;color:var(--muted-light);line-height:1.8;margin:24px 0 40px;max-width:480px}
+.cap-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:44px}
+.cap-item{border-left:2px solid var(--orange);padding-left:16px}
+.cap-num{font-family:'Oswald',sans-serif;font-weight:700;font-size:44px;color:var(--cream);line-height:1}
+.cap-lbl{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-top:3px;line-height:1.5}
+.btn-primary{display:inline-block;background:var(--orange);color:#fff;padding:16px 40px;font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;border-radius:1px;transition:background .2s;align-self:flex-start}
+.btn-primary:hover{background:var(--amber)}
+.venue-photo-wrap{position:relative;overflow:hidden}
+.venue-photo{width:100%;height:100%;object-fit:cover;min-height:600px;display:block;filter:brightness(.65) saturate(.85)}
+.venue-photo-grad{position:absolute;inset:0;background:linear-gradient(to right,var(--surface) 0%,transparent 25%)}
+.venue-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:36px}
+.venue-tag{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted-light);border:1px solid var(--border);padding:6px 14px;border-radius:1px}
+
+/* FOOD */
+.food-section{padding:80px 52px;background:var(--bg)}
+.food-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.food-mosaic{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:3px}
+.food-img-main{grid-row:1/3;width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.8) saturate(.9);min-height:380px}
+.food-img-sm{width:100%;aspect-ratio:1;object-fit:cover;display:block;filter:brightness(.78) saturate(.9)}
+.food-body{font-size:15px;color:var(--muted-light);line-height:1.8;margin:24px 0 36px}
+.food-ctas{display:flex;gap:12px;flex-wrap:wrap}
+.btn-outline{display:inline-block;background:transparent;color:var(--cream);border:1px solid rgba(242,237,228,.35);padding:15px 36px;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border-radius:1px;transition:all .2s}
+.btn-outline:hover{border-color:var(--cream);background:rgba(255,255,255,.06)}
+
+/* INSTAGRAM STRIP */
+.ig-section{padding:60px 52px;background:var(--surface);text-align:center;border-top:1px solid var(--border)}
+.ig-handle{font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:5px;text-transform:uppercase;color:var(--orange);margin-bottom:28px;display:block}
+.ig-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:3px}
+.ig-cell{aspect-ratio:1;overflow:hidden}
+.ig-cell img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.75) saturate(.9);transition:filter .3s}
+.ig-cell:hover img{filter:brightness(.95) saturate(1.1)}
+
+/* EMAIL */
+.email-section{background:var(--bg);text-align:center;padding:80px 52px;border-top:1px solid var(--border)}
+.email-subtitle{font-size:15px;color:var(--muted-light);margin:14px auto 40px;max-width:460px;line-height:1.7}
+.email-row{display:flex;max-width:480px;margin:0 auto}
+.email-input{flex:1;background:var(--card);border:1px solid var(--border);border-right:none;color:var(--cream);padding:16px 20px;font-family:'Inter',sans-serif;font-size:14px;outline:none;border-radius:1px 0 0 1px}
+.email-input::placeholder{color:var(--muted)}
+.email-input:focus{border-color:var(--orange)}
+.email-submit{background:var(--orange);color:#fff;border:none;padding:16px 28px;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:0 1px 1px 0;transition:background .2s;white-space:nowrap}
+.email-submit:hover{background:var(--amber)}
+.email-fine{font-size:11px;color:var(--muted);margin-top:14px}
+
+/* FOOTER */
+footer{background:#090909;padding:64px 52px 28px;border-top:1px solid var(--border)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:52px;padding-bottom:48px;border-bottom:1px solid var(--border);margin-bottom:28px}
+.footer-logo-main{font-family:'Oswald',sans-serif;font-weight:700;font-size:26px;letter-spacing:4px;text-transform:uppercase;color:var(--cream);line-height:1}
+.footer-logo-loc{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--orange);margin-top:4px;margin-bottom:20px}
+.footer-addr{font-size:13px;color:var(--muted);line-height:2}
+.footer-socials{display:flex;gap:10px;margin-top:24px}
+.footer-social-btn{width:34px;height:34px;border:1px solid var(--border);display:grid;place-items:center;border-radius:1px;color:var(--muted);font-size:11px;font-weight:700;transition:all .2s}
+.footer-social-btn:hover{border-color:var(--orange);color:var(--orange)}
+.footer-col-hd{font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--muted-light);margin-bottom:18px}
+.footer-nav{list-style:none}
+.footer-nav li{margin-bottom:11px}
+.footer-nav a{font-size:13px;color:var(--muted);transition:color .2s}
+.footer-nav a:hover{color:var(--cream)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--muted)}
+.partner-links{display:flex;gap:24px}
+.partner-link{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);transition:color .2s}
+.partner-link:hover{color:var(--orange)}
+
+/* NOTICE BANNER (mockup only) */
+.mockup-notice{position:fixed;bottom:0;left:0;right:0;background:#D4691E;color:#fff;text-align:center;padding:10px 24px;font-size:12px;font-weight:600;letter-spacing:1px;z-index:300}
+
+@media(max-width:1000px){
+  nav{padding:16px 24px}
+  .shows-grid{grid-template-columns:repeat(2,1fr)}
+  .venue-section{grid-template-columns:1fr}
+  .venue-photo-wrap{display:none}
+  .food-inner{grid-template-columns:1fr;gap:40px}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .section-row{flex-direction:column;align-items:flex-start;gap:16px}
+  .ig-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:640px){
+  nav{padding:14px 20px}
+  .hero-title{font-size:72px}
+  .pulse-bar{gap:0;flex-wrap:wrap}
+  .pulse-item{flex:1 0 50%;border-right:none;border-bottom:1px solid rgba(0,0,0,.15)}
+  .shows-grid{grid-template-columns:1fr}
+  .shows-section{padding:60px 20px}
+  .venue-content{padding:60px 24px}
+  .food-section{padding:60px 20px}
+  .footer-grid{grid-template-columns:1fr}
+  .ig-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- MOCKUP BANNER -->
+<div class="mockup-notice">⚡ Design Mockup — The Rock SLO · therockslo.com · Prepared by Yecommerce</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" style="text-decoration:none">
+    <div class="nav-brand">
+      <span class="nav-brand-main">The Rock</span>
+      <span class="nav-brand-sub">San Luis Obispo</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#">Events</a></li>
+    <li><a href="#">Eat &amp; Drink</a></li>
+    <li><a href="#">Private Events</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#" class="btn-nav-outline">🎟 Tickets</a></li>
+    <li><a href="#" class="btn-nav">Order Food</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">855 Aerovista Place · San Luis Obispo, CA</p>
+    <h1 class="hero-title">The<br>Rock</h1>
+    <div class="hero-rule"></div>
+    <p class="hero-tagline">Live Music &nbsp;·&nbsp; Craft Drinks &nbsp;·&nbsp; Private Events</p>
+    <div class="hero-ctas">
+      <a href="#" class="btn-hero-primary">See All Shows</a>
+      <a href="#" class="btn-hero-outline">Book a Private Event</a>
+      <a href="#" class="btn-hero-outline">Order for Pickup</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="pulse-bar">
+  <div class="pulse-item">
+    <div class="pulse-num">520+</div>
+    <div class="pulse-label">Event Capacity</div>
+  </div>
+  <div class="pulse-item">
+    <div class="pulse-num">10+</div>
+    <div class="pulse-label">Shows / Month</div>
+  </div>
+  <div class="pulse-item">
+    <div class="pulse-num">SLO's</div>
+    <div class="pulse-label">Largest Venue</div>
+  </div>
+  <div class="pulse-item">
+    <div class="pulse-num">Indoor+Out</div>
+    <div class="pulse-label">Dual Event Spaces</div>
+  </div>
+</div>
+
+<!-- UPCOMING SHOWS -->
+<section class="shows-section">
+  <div class="container">
+    <div class="section-row">
+      <div>
+        <p class="eyebrow">On Stage</p>
+        <h2 class="section-title">Upcoming Shows</h2>
+      </div>
+      <a href="#" class="view-all">Full Calendar →</a>
+    </div>
+    <div class="shows-grid">
+
+      <div class="show-card">
+        <img class="show-img" src="https://images.unsplash.com/photo-1598387993441-a364f854c3e1?w=500&q=80" alt="The Charities">
+        <div class="show-info">
+          <p class="show-date">Aug 29 &nbsp;·&nbsp; 7:00 PM &nbsp;·&nbsp; All Ages</p>
+          <p class="show-name">The Charities</p>
+          <p class="show-support">w/ Nydia Gonzalez</p>
+        </div>
+        <div class="show-meta">
+          <span>SLO Brew Rock</span>
+          <span class="show-price">from $29</span>
+        </div>
+        <a href="#" class="show-ticket-btn">Get Tickets</a>
+      </div>
+
+      <div class="show-card">
+        <img class="show-img" src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=500&q=80" alt="Rehash">
+        <div class="show-info">
+          <p class="show-date">Sep 2 &nbsp;·&nbsp; 7:00 PM &nbsp;·&nbsp; All Ages</p>
+          <p class="show-name">Rehash</p>
+          <p class="show-support">w/ Makeout Reef</p>
+        </div>
+        <div class="show-meta">
+          <span>SLO Brew Rock</span>
+          <span class="show-price">from $32</span>
+        </div>
+        <a href="#" class="show-ticket-btn">Get Tickets</a>
+      </div>
+
+      <div class="show-card">
+        <img class="show-img" src="https://images.unsplash.com/photo-1571816119607-8c69b1e29e5d?w=500&q=80" alt="W.I.T.C.H.">
+        <div class="show-info">
+          <p class="show-date">Aug 26 &nbsp;·&nbsp; 7:00 PM &nbsp;·&nbsp; All Ages</p>
+          <p class="show-name">W.I.T.C.H.</p>
+          <p class="show-support">&nbsp;</p>
+        </div>
+        <div class="show-meta">
+          <span>SLO Brew Rock</span>
+          <span class="show-price">from $34</span>
+        </div>
+        <a href="#" class="show-ticket-btn">Get Tickets</a>
+      </div>
+
+      <div class="show-card">
+        <img class="show-img" src="https://images.unsplash.com/photo-1471478331149-c72f17e33c73?w=500&q=80" alt="Bombargo">
+        <div class="show-info">
+          <p class="show-date">Nov 14 &nbsp;·&nbsp; 7:00 PM &nbsp;·&nbsp; All Ages</p>
+          <p class="show-name">Bombargo</p>
+          <p class="show-support">&nbsp;</p>
+        </div>
+        <div class="show-meta">
+          <span>SLO Brew Rock</span>
+          <span class="show-price">$27–$117</span>
+        </div>
+        <a href="#" class="show-ticket-btn">Get Tickets</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PRIVATE EVENTS / VENUE -->
+<div class="venue-section">
+  <div class="venue-content">
+    <p class="eyebrow">Private Events</p>
+    <h2 class="section-title">SLO's Premiere<br>Event Space</h2>
+    <p class="venue-body">From intimate weddings and corporate gatherings to private concerts and birthday parties — The Rock offers a truly one-of-a-kind indoor/outdoor venue experience on the Central Coast. Extensive landscaping, fire pits, a full bar, and professional sound &amp; lighting.</p>
+    <div class="cap-grid">
+      <div class="cap-item">
+        <div class="cap-num">520</div>
+        <div class="cap-lbl">Main Venue<br>Standing</div>
+      </div>
+      <div class="cap-item">
+        <div class="cap-num">220</div>
+        <div class="cap-lbl">Main Venue<br>Seated</div>
+      </div>
+      <div class="cap-item">
+        <div class="cap-num">250</div>
+        <div class="cap-lbl">Beer Garden<br>Standing</div>
+      </div>
+      <div class="cap-item">
+        <div class="cap-num">100</div>
+        <div class="cap-lbl">Beer Garden<br>Seated</div>
+      </div>
+    </div>
+    <div class="venue-tags">
+      <span class="venue-tag">Weddings</span>
+      <span class="venue-tag">Corporate</span>
+      <span class="venue-tag">Birthdays</span>
+      <span class="venue-tag">Private Concerts</span>
+      <span class="venue-tag">Bachelor / Bridal</span>
+    </div>
+    <a href="#" class="btn-primary">Plan Your Event →</a>
+  </div>
+  <div class="venue-photo-wrap">
+    <img class="venue-photo" src="https://images.unsplash.com/photo-1519750783826-e2420f4d687f?w=1200&q=85" alt="The Rock Venue">
+    <div class="venue-photo-grad"></div>
+  </div>
+</div>
+
+<!-- EAT & DRINK -->
+<section class="food-section">
+  <div class="container">
+    <div class="food-inner">
+      <div class="food-mosaic">
+        <img class="food-img-main" src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&q=85" alt="Flatbread">
+        <img class="food-img-sm" src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400&q=80" alt="Cocktails">
+        <img class="food-img-sm" src="https://images.unsplash.com/photo-1566633806827-ab969ba080b3?w=400&q=80" alt="Beer">
+      </div>
+      <div>
+        <p class="eyebrow">Eat &amp; Drink</p>
+        <h2 class="section-title">Casual Cuisine<br>&amp; Craft Drinks</h2>
+        <p class="food-body">Artisan flatbreads, BBQ plates, creative cocktails, and a rotating tap list featuring SLO Brew craft beer and Rod &amp; Hammer whiskey — all served in a setting worth staying for. Dining in, ordering to-go, or sipping in the beer garden: we've got you.</p>
+        <div class="food-ctas">
+          <a href="#" class="btn-primary">Order for Pickup</a>
+          <a href="#" class="btn-outline">View Menu</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IG STRIP -->
+<section class="ig-section">
+  <a href="https://www.instagram.com/rodandhammerrock" target="_blank" class="ig-handle">@RodAndHammerRock</a>
+  <div class="ig-grid">
+    <div class="ig-cell"><img src="https://images.unsplash.com/photo-1540039155733-5bb30b4c4f4f?w=300&q=80" alt=""></div>
+    <div class="ig-cell"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300&q=80" alt=""></div>
+    <div class="ig-cell"><img src="https://images.unsplash.com/photo-1519750783826-e2420f4d687f?w=300&q=80" alt=""></div>
+    <div class="ig-cell"><img src="https://images.unsplash.com/photo-1571816119607-8c69b1e29e5d?w=300&q=80" alt=""></div>
+    <div class="ig-cell"><img src="https://images.unsplash.com/photo-1598387993441-a364f854c3e1?w=300&q=80" alt=""></div>
+  </div>
+</section>
+
+<!-- EMAIL -->
+<section class="email-section">
+  <div class="container">
+    <p class="eyebrow" style="text-align:center">Stay in the Loop</p>
+    <h2 class="section-title" style="text-align:center;font-size:clamp(30px,4vw,46px)">Never Miss a Show</h2>
+    <p class="email-subtitle">New events, exclusive presales, and special offers — delivered to your inbox. No spam, ever.</p>
+    <div class="email-row">
+      <input type="email" class="email-input" placeholder="your@email.com">
+      <button class="email-submit">Subscribe</button>
+    </div>
+    <p class="email-fine">Join 2,400+ locals who never miss a show at The Rock.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo-main">The Rock</div>
+        <div class="footer-logo-loc">San Luis Obispo</div>
+        <div class="footer-addr">
+          855 Aerovista Place<br>
+          San Luis Obispo, CA 93401<br><br>
+          Mon–Thu: 4pm – 10pm<br>
+          Fri–Sat: 11am – Midnight<br>
+          Sun: 11am – 10pm
+        </div>
+        <div class="footer-socials">
+          <a href="#" class="footer-social-btn">IG</a>
+          <a href="#" class="footer-social-btn">FB</a>
+          <a href="#" class="footer-social-btn">TK</a>
+          <a href="#" class="footer-social-btn">YT</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-hd">Explore</p>
+        <ul class="footer-nav">
+          <li><a href="#">Events Calendar</a></li>
+          <li><a href="#">Food Menu</a></li>
+          <li><a href="#">Order Online</a></li>
+          <li><a href="#">Gallery</a></li>
+          <li><a href="#">About The Rock</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-hd">Private Events</p>
+        <ul class="footer-nav">
+          <li><a href="#">Request a Quote</a></li>
+          <li><a href="#">Weddings</a></li>
+          <li><a href="#">Corporate Events</a></li>
+          <li><a href="#">Venue Capacity</a></li>
+          <li><a href="#">Event FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-hd">Info</p>
+        <ul class="footer-nav">
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Press &amp; Media</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Gift Cards</a></li>
+          <li><a href="#">Newsletter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 The Rock SLO — SLo5Rock LLC. All rights reserved.</span>
+      <div class="partner-links">
+        <a href="#" class="partner-link">Rod &amp; Hammer Whiskey ↗</a>
+        <a href="#" class="partner-link">SLO Brew ↗</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
