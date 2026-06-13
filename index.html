@@ -180,7 +180,114 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
   .pulse-item{flex:1 0 50%}
   .events-row{grid-template-columns:1fr}
   .pe-cap-row{grid-template-columns:repeat(2,1fr)}
-}</style>
+}
+/* ── HAMBURGER TOGGLE ── */
+.nav-toggle-input{display:none}
+.nav-hamburger{display:none;flex-direction:column;justify-content:space-between;width:26px;height:19px;cursor:pointer;flex-shrink:0;padding:2px 0}
+.nav-hamburger span{display:block;height:2px;width:100%;background:var(--dark);border-radius:2px;transition:all .3s ease}
+
+/* ── MOBILE BREAKPOINT ── */
+@media(max-width:860px){
+  html,body{overflow-x:hidden;max-width:100%}
+
+  /* Nav */
+  nav{padding:0 20px;height:60px;position:fixed}
+  .nav-brand-main{font-size:16px;letter-spacing:2px}
+  .nav-brand-sub{letter-spacing:3px;font-size:8px}
+  .nav-hamburger{display:flex}
+
+  .nav-links{
+    display:none;
+    position:fixed;
+    top:60px;left:0;right:0;
+    background:var(--bg);
+    flex-direction:column;
+    align-items:stretch;
+    padding:8px 0 24px;
+    gap:0;
+    border-top:3px solid var(--orange);
+    z-index:199;
+    box-shadow:0 8px 32px rgba(28,20,8,.15);
+    max-height:calc(100vh - 60px);
+    overflow-y:auto;
+    width:100%;
+  }
+  .nav-links li{border-bottom:1px solid var(--border);width:100%}
+  .nav-links a{
+    display:block;padding:15px 24px;
+    font-size:13px;letter-spacing:1.5px;
+    color:var(--dark)!important;
+    background:transparent!important;
+    border:none!important;border-radius:0!important;
+    transition:background .2s,color .2s;
+  }
+  .nav-links a:hover{background:var(--card)!important;color:var(--orange)!important}
+
+  /* Hamburger open state */
+  .nav-toggle-input:checked~.nav-links{display:flex}
+  .nav-toggle-input:checked~.nav-hamburger span:first-child{transform:translateY(8.5px) rotate(45deg)}
+  .nav-toggle-input:checked~.nav-hamburger span:nth-child(2){opacity:0;transform:scaleX(0)}
+  .nav-toggle-input:checked~.nav-hamburger span:last-child{transform:translateY(-8.5px) rotate(-45deg)}
+
+  /* Hero */
+  .page-hero{margin-top:60px;min-height:420px;padding:0 20px 40px;height:50vh}
+  .page-title{font-size:clamp(44px,12vw,72px)!important}
+
+  /* Homepage hero */
+  .home-hero{margin-top:60px!important;padding:0 20px 52px!important;min-height:560px!important}
+  .home-hero-title{font-size:clamp(72px,18vw,100px)!important;line-height:.88!important}
+  .home-hero-ctas{flex-direction:column!important;gap:12px!important;align-items:flex-start}
+  .home-hero-ctas a{text-align:center;min-width:240px}
+
+  /* Sections */
+  section{padding:52px 20px!important}
+
+  /* Pulse bar */
+  .pulse-bar{flex-wrap:wrap}
+  .pulse-item{flex:1 1 50%;border-right:none;border-bottom:1px solid rgba(255,255,255,.18)}
+
+  /* Event cards */
+  .events-row,.events-grid{grid-template-columns:1fr 1fr!important}
+
+  /* Split layouts */
+  .food-feature,.pe-feature,
+  div[style*="grid-template-columns:1fr 1fr"],
+  div[style*="grid-template-columns: 1fr 1fr"]{grid-template-columns:1fr!important}
+
+  /* Venue space grids */
+  .vs-grid,.photo-grid-2,.menu-cols,.drinks-cols,.corp-type-grid,
+  .av-grid,.stat-row{grid-template-columns:1fr!important}
+
+  /* Photo grids - keep 2-col on mobile */
+  .photo-grid-3,.photo-grid-4{grid-template-columns:1fr 1fr!important}
+
+  /* Gallery */
+  .gallery-grid{grid-template-columns:1fr 1fr!important}
+  .gi.tall,.gi.wide{grid-row:auto!important;grid-column:auto!important;aspect-ratio:1!important}
+
+  /* Footer */
+  footer{padding:48px 20px 80px}
+  .footer-grid{grid-template-columns:1fr!important;gap:36px}
+  .footer-bottom{flex-direction:column;gap:8px;text-align:center}
+
+  /* Feature strip */
+  .feature-strip{grid-template-columns:1fr 1fr!important}
+
+  /* Mockup notice */
+  .mockup-notice{padding:8px 16px;font-size:10px;line-height:1.5}
+
+  /* Img mosaic spans */
+  div[style*="grid-row:1/3"]{grid-row:auto!important}
+}
+
+@media(max-width:480px){
+  .events-row,.events-grid{grid-template-columns:1fr!important}
+  .photo-grid-3,.photo-grid-4{grid-template-columns:1fr!important}
+  .gallery-grid{grid-template-columns:1fr!important}
+  .feature-strip{grid-template-columns:1fr!important}
+  .home-hero-title{font-size:clamp(64px,16vw,88px)!important}
+}
+</style>
 </head>
 <body>
 
@@ -191,6 +298,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
       <span class="nav-brand-sub">San Luis Obispo</span>
     </div>
   </a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"><label for="nav-toggle" class="nav-hamburger" aria-label="Open navigation menu"><span></span><span></span><span></span></label>
   <ul class="nav-links">
     <li><a href="events.html">Events</a></li>
     <li><a href="eat-drink.html">Eat &amp; Drink</a></li>
