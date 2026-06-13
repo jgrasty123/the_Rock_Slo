@@ -262,6 +262,43 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
   .feature-strip{grid-template-columns:1fr!important}
   .home-hero-title{font-size:clamp(64px,16vw,88px)!important}
 }
+
+/* ── INLINE GRID MOBILE FIXES ── */
+@media(max-width:860px){
+  /* Flatten repeat(3) and repeat(4) inline grids to 2-column */
+  div[style*="repeat(3,1fr)"]{grid-template-columns:1fr 1fr!important}
+  div[style*="repeat(4,1fr)"]{grid-template-columns:1fr 1fr!important}
+
+  /* Flatten all row/column spans inside those grids */
+  div[style*="repeat(3,1fr)"] > div,
+  div[style*="repeat(4,1fr)"] > div{
+    grid-row:auto!important;
+    grid-column:auto!important;
+    min-height:160px!important;
+    aspect-ratio:1!important;
+  }
+
+  /* Last orphaned item (odd position) in inline grids → full width */
+  div[style*="repeat(3,1fr)"] > div:last-child:nth-child(odd){
+    grid-column:1/-1!important;
+    aspect-ratio:16/9!important;
+  }
+  div[style*="repeat(4,1fr)"] > div:last-child:nth-child(odd){
+    grid-column:1/-1!important;
+    aspect-ratio:16/9!important;
+  }
+
+  /* Stat rows and location grids */
+  div[style*="repeat(4,1fr)"].stat-row,
+  .stat-row{grid-template-columns:1fr 1fr!important}
+
+  /* Food feature mosaic */
+  .food-img-mosaic{grid-template-columns:1fr 1fr!important}
+  .food-img-mosaic > img:first-child{grid-row:auto!important;min-height:160px!important;aspect-ratio:1!important}
+
+  /* Section headers with flex space-between */
+  div[style*="justify-content:space-between"]{flex-wrap:wrap!important;gap:16px!important}
+}
 </style>
 </head>
 <body>
@@ -337,8 +374,8 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
     <p class="eyebrow">What We Host</p>
     <h2 class="section-title" style="margin-bottom:48px">Every Occasion, One Venue</h2>
     <div class="et-grid">
-      <div id="weddings" class="et-card"><div class="et-icon">💍</div><div class="et-name">Weddings &amp; Receptions</div><div class="et-desc">Say yes in one of SLO County's most iconic settings. Ceremony, cocktail hour, and reception — all under one roof.</div></div>
-      <div id="corporate" class="et-card"><div class="et-icon">🏢</div><div class="et-name">Corporate Events</div><div class="et-desc">Offsites, launches, holiday parties, client entertaining. Professional AV, full bar, and catering available.</div></div>
+      <a href="weddings.html" id="weddings" class="et-card" style="display:block;text-decoration:none;color:inherit"><div class="et-icon">💍</div><div class="et-name">Weddings &amp; Receptions</div><div class="et-desc">Say yes in one of SLO County's most iconic settings. Ceremony, cocktail hour, and reception — all under one roof.</div><p style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-top:14px">View Wedding Page →</p></a>
+      <a href="corporate-events.html" id="corporate" class="et-card" style="display:block;text-decoration:none;color:inherit"><div class="et-icon">🏢</div><div class="et-name">Corporate Events</div><div class="et-desc">Offsites, launches, holiday parties, client entertaining. Professional AV, full bar, and catering available.</div><p style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-top:14px">View Corporate Page →</p></a>
       <div class="et-card"><div class="et-icon">🎂</div><div class="et-name">Birthday Celebrations</div><div class="et-desc">Private bar, custom music, and a space that scales from 20-person dinners to 500+ guest parties.</div></div>
       <div class="et-card"><div class="et-icon">💐</div><div class="et-name">Bridal &amp; Bachelor Parties</div><div class="et-desc">Private buyouts, bottle service, custom signage, and an outdoor beer garden built for celebration.</div></div>
       <div class="et-card"><div class="et-icon">🎸</div><div class="et-name">Private Concerts</div><div class="et-desc">Bring your favorite band or let us book talent. Professional stage, lighting, and sound built for live music.</div></div>

@@ -227,6 +227,43 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
   .feature-strip{grid-template-columns:1fr!important}
   .home-hero-title{font-size:clamp(64px,16vw,88px)!important}
 }
+
+/* ── INLINE GRID MOBILE FIXES ── */
+@media(max-width:860px){
+  /* Flatten repeat(3) and repeat(4) inline grids to 2-column */
+  div[style*="repeat(3,1fr)"]{grid-template-columns:1fr 1fr!important}
+  div[style*="repeat(4,1fr)"]{grid-template-columns:1fr 1fr!important}
+
+  /* Flatten all row/column spans inside those grids */
+  div[style*="repeat(3,1fr)"] > div,
+  div[style*="repeat(4,1fr)"] > div{
+    grid-row:auto!important;
+    grid-column:auto!important;
+    min-height:160px!important;
+    aspect-ratio:1!important;
+  }
+
+  /* Last orphaned item (odd position) in inline grids → full width */
+  div[style*="repeat(3,1fr)"] > div:last-child:nth-child(odd){
+    grid-column:1/-1!important;
+    aspect-ratio:16/9!important;
+  }
+  div[style*="repeat(4,1fr)"] > div:last-child:nth-child(odd){
+    grid-column:1/-1!important;
+    aspect-ratio:16/9!important;
+  }
+
+  /* Stat rows and location grids */
+  div[style*="repeat(4,1fr)"].stat-row,
+  .stat-row{grid-template-columns:1fr 1fr!important}
+
+  /* Food feature mosaic */
+  .food-img-mosaic{grid-template-columns:1fr 1fr!important}
+  .food-img-mosaic > img:first-child{grid-row:auto!important;min-height:160px!important;aspect-ratio:1!important}
+
+  /* Section headers with flex space-between */
+  div[style*="justify-content:space-between"]{flex-wrap:wrap!important;gap:16px!important}
+}
 </style>
 </head>
 <body>
