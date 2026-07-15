@@ -106,6 +106,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
   .page-hero{margin-top:60px}
 }
 .vs-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.vs-grid > .vs-card:last-child:nth-child(odd){grid-column:1/-1}
 .vs-card{position:relative;overflow:hidden;padding:48px 40px;min-height:340px;display:flex;flex-direction:column;justify-content:flex-end}
 .vs-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.45)}
 .vs-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,20,8,.92) 0%,rgba(28,20,8,.1) 60%)}
@@ -315,6 +316,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
     <li><a href="eat-drink.html">Eat &amp; Drink</a></li>
     <li><a href="private-events.html" class="active">Private Events</a></li>
     <li><a href="events.html">Live Music</a></li>
+    <li><a href="slo-brew-live.html">SLO Brew Live</a></li>
     <li><a href="about.html">About</a></li>
     <li><a href="events.html" class="btn-nav-outline">🎟 Tickets</a></li>
     <li><a href="order.html" class="btn-nav">Order Food</a></li>
@@ -351,6 +353,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
           <div class="vs-desc">Full indoor/outdoor with professional stage, PA, lighting rig, and bar. Ideal for concerts, receptions, and large celebrations.</div>
         </div>
       </div>
+      <!-- UPDATED PHOTO INCOMING from team (current beer-garden.jpg is the aerial shot, also used as homepage hero) -->
       <div class="vs-card">
         <div class="vs-bg" style="background-image:url('images/beer-garden.jpg')"></div>
         <div class="vs-ov"></div>
@@ -361,7 +364,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
           <div class="vs-desc">String lights, fire pits, pergola frames, and an outdoor bar. Perfect for cocktail receptions and al fresco gatherings.</div>
         </div>
       </div>
-      <!-- CAPACITY TBD: Barrel Room — photo confirmed by James 2026-07-15 -->
+      <!-- CAPACITY TBD · UPDATED PHOTO INCOMING from team (current image confirmed by James as the room, to be replaced) -->
       <div class="vs-card">
         <div class="vs-bg" style="background-image:url('images/wedding-barrel-detail.jpg')"></div>
         <div class="vs-ov"></div>
@@ -381,6 +384,17 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
           <div class="vs-name">The Terrace Patio</div>
           <div class="cap-row"><div><div class="cap-num">TBD</div><div class="cap-lbl">Standing</div></div><div><div class="cap-num">TBD</div><div class="cap-lbl">Seated</div></div></div>
           <div class="vs-desc">An open-air terrace for ceremonies, cocktail hours, and outdoor celebrations. [Capacity pending]</div>
+        </div>
+      </div>
+      <!-- ASSET NEEDED: Tap Room photo · capacity confirmed by James 2026-07-15 (35 standing / 20 seated) -->
+      <div class="vs-card">
+        <div class="vs-bg" style="background-color:#2A1E12;background-image:url('images/venue-bar-gathering.jpg')"></div>
+        <div class="vs-ov"></div>
+        <div class="vs-content">
+          <p style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--amber);margin-bottom:8px">Space 05</p>
+          <div class="vs-name">The Tap Room</div>
+          <div class="cap-row"><div><div class="cap-num">35</div><div class="cap-lbl">Standing</div></div><div><div class="cap-num">20</div><div class="cap-lbl">Seated</div></div></div>
+          <div class="vs-desc">[PLACEHOLDER PHOTO — awaiting Tap Room image] Our most intimate space, ideal for small private gatherings, tastings, and meetings.</div>
         </div>
       </div>
     </div>
@@ -530,6 +544,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
           <label class="radio-option"><input type="radio" name="space" value="garden"> &nbsp; Beer Garden — 250 standing / 100 seated (outdoor + fire pits)</label>
           <label class="radio-option"><input type="radio" name="space" value="barrel"> &nbsp; Barrel Room — intimate indoor space</label>
           <label class="radio-option"><input type="radio" name="space" value="terrace"> &nbsp; Terrace Patio — open-air outdoor space</label>
+          <label class="radio-option"><input type="radio" name="space" value="taproom"> &nbsp; Tap Room — 35 standing / 20 seated (most intimate space)</label>
           <label class="radio-option"><input type="radio" name="space" value="full"> &nbsp; Full Venue Buyout — Multiple spaces combined</label>
         </div>
         <p class="fs-title">Budget &amp; Notes</p>
@@ -567,6 +582,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
         <p class="footer-col-hd">Explore</p>
         <ul class="footer-nav">
           <li><a href="events.html">Events Calendar</a></li>
+          <li><a href="slo-brew-live.html">SLO Brew Live</a></li>
           <li><a href="eat-drink.html">Food Menu</a></li>
           <li><a href="order.html">Order Online</a></li>
           <li><a href="gallery.html">Gallery</a></li>
@@ -586,6 +602,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
         <p class="footer-col-hd">Info</p>
         <ul class="footer-nav">
           <li><a href="contact.html">Contact</a></li>
+          <li><a href="team.html">Meet the Team</a></li>
           <li><a href="about.html#press">Press &amp; Media</a></li>
           <li><a href="about.html#careers">Careers</a></li>
           <li><a href="#">Gift Cards</a></li>
