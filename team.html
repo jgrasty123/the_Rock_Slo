@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Order for Pickup — The Rock SLO</title>
+<title>Meet the Team — The Rock SLO</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -248,6 +248,20 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
   /* Section headers with flex space-between */
   div[style*="justify-content:space-between"]{flex-wrap:wrap!important;gap:16px!important}
 }
+
+/* ── MEET THE TEAM ── */
+.team-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:3px}
+.team-card{background:var(--surface);border:1px solid var(--border);padding:40px 36px;display:grid;grid-template-columns:140px 1fr;gap:28px;align-items:start}
+.team-photo{width:140px;height:140px;background:var(--card-dark);border:1px dashed var(--muted-light);border-radius:2px;display:grid;place-items:center;text-align:center;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted-light);line-height:1.7;padding:10px;background-size:cover;background-position:center}
+.team-name{font-family:'Oswald',sans-serif;font-weight:700;font-size:26px;text-transform:uppercase;color:var(--dark);letter-spacing:-.5px;line-height:1.05}
+.team-role{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);font-weight:600;margin-top:6px;margin-bottom:14px}
+.team-bio{font-size:13.5px;color:var(--muted);line-height:1.8}
+.team-contact{display:inline-block;margin-top:14px;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);border-bottom:1px solid rgba(200,90,15,.35);padding-bottom:2px}
+@media(max-width:1000px){.team-grid{grid-template-columns:1fr}}
+@media(max-width:560px){
+  .team-card{grid-template-columns:1fr;gap:20px}
+  .team-photo{width:100%;max-width:180px}
+}
 </style>
 </head>
 <body>
@@ -270,39 +284,84 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
     <li><a href="order.html" class="btn-nav">Order Food</a></li>
   </ul>
 </nav>
+
 <div class="page-hero">
-  <div class="page-hero-bg" style="background-image:url('images/food-bbq-spread.jpg')"></div>
+  <div class="page-hero-bg" style="background-image:url('images/venue-gathering-bar.jpg')"></div>
   <div class="page-hero-overlay"></div>
   <div class="page-hero-content">
-    <p class="page-eyebrow">Online Ordering · Toast</p>
-    <h1 class="page-title">Order<br>for Pickup</h1>
+    <p class="page-eyebrow">The People Behind The Rock</p>
+    <h1 class="page-title">Meet<br>The Team</h1>
   </div>
 </div>
 
-<section style="background:var(--surface);padding:56px 60px 48px;text-align:center;border-bottom:1px solid var(--border)">
-  <div class="container" style="max-width:600px">
-    <p class="eyebrow">Kitchen · Powered by Toast</p>
-    <h2 class="section-title">Order for Pickup</h2>
-    <div class="section-rule" style="margin:18px auto"></div>
-    <p style="font-size:15px;color:var(--muted);line-height:1.8">Skip the wait. Order ahead and your food will be ready when you arrive.</p>
+<section style="background:var(--surface);padding:56px 60px;border-bottom:1px solid var(--border)">
+  <div class="container" style="max-width:820px">
+    <p class="eyebrow">Who We Are</p>
+    <h2 class="section-title">The Crew Behind<br>Every Night Here</h2>
+    <div class="section-rule"></div>
+    <p class="section-body" style="max-width:100%">From the kitchen to the stage to your event, The Rock runs on a team that knows this venue inside out. Get to know the people making it happen.</p>
   </div>
 </section>
-<section style="background:var(--bg);padding:64px 60px 80px">
-  <div class="container" style="max-width:680px">
-    <div style="background:var(--surface);border:2px dashed var(--border);padding:72px 40px;text-align:center;border-radius:2px">
-      <div style="font-size:52px;margin-bottom:20px">🍕</div>
-      <p style="font-family:'Oswald',sans-serif;font-size:24px;text-transform:uppercase;color:var(--dark);margin-bottom:8px">Online Ordering</p>
-      <p style="font-family:'Oswald',sans-serif;font-size:14px;text-transform:uppercase;color:var(--orange);letter-spacing:2px;margin-bottom:20px">Powered by Toast — Coming Soon</p>
-      <p style="font-size:14px;color:var(--muted);line-height:1.8;max-width:460px;margin:0 auto 32px">Our Toast online ordering system will be live shortly. In the meantime, call ahead or stop by.</p>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-        <a href="tel:+16612041500" class="btn-primary">📞 Call to Order</a>
-        <a href="eat-drink.html" class="btn-outline">View Menu</a>
+
+<!-- PLACEHOLDER: all bios, headshots, and job titles pending from the team.
+     Titles below are INFERRED from the Jul 2026 email thread and must be confirmed before launch. -->
+<section style="background:var(--bg);padding:72px 60px">
+  <div class="container">
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-photo">Photo<br>Pending</div>
+        <div>
+          <div class="team-name">Steven Sandecki</div>
+          <div class="team-role">Role TBC</div>
+          <p class="team-bio">[PLACEHOLDER — bio pending] Steven's bio will go here — his role at The Rock, background, and what he oversees day to day.</p>
+        <!-- PENDING TEAM APPROVAL: direct email was ssandecki@rodandhammer.com — using contact page until confirmed OK to publish -->
+        <a href="contact.html" class="team-contact">Contact Steven →</a>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-photo">Photo<br>Pending</div>
+        <div>
+          <div class="team-name">Trevor Seward</div>
+          <div class="team-role">Role TBC</div>
+          <p class="team-bio">[PLACEHOLDER — bio pending] Trevor's bio will go here — his culinary background and the kitchen's approach to the menu.</p>
+        <!-- PENDING TEAM APPROVAL: direct email was trevor@therockslo.com — using contact page until confirmed OK to publish -->
+        <a href="contact.html" class="team-contact">Contact Trevor →</a>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-photo">Photo<br>Pending</div>
+        <div>
+          <div class="team-name">Ryan Orr</div>
+          <div class="team-role">Talent Buyer · SLO Brew Live</div>
+          <p class="team-bio">[PLACEHOLDER — bio pending] Ryan's bio will go here — his history with SLO Brew Live, the artists he's brought to the Central Coast, and how he approaches booking. <em>(See also the SLO Brew Live page.)</em></p>
+        <!-- PENDING TEAM APPROVAL: direct email was ryan@therockslo.com — using contact page until confirmed OK to publish -->
+        <a href="contact.html" class="team-contact">Contact Ryan →</a>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-photo">Photo<br>Pending</div>
+        <div>
+          <div class="team-name">Todd Eads</div>
+          <div class="team-role">Role TBC</div>
+          <p class="team-bio">[PLACEHOLDER — bio pending] Todd's bio will go here — his role across events and what he handles for private bookings.</p>
+        <!-- PENDING TEAM APPROVAL: direct email was todd@therockslo.com — using contact page until confirmed OK to publish -->
+        <a href="contact.html" class="team-contact">Contact Todd →</a>
+        </div>
       </div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin-top:3px">
-      <div style="background:var(--surface);border:1px solid var(--border);padding:24px 20px;text-align:center"><div style="font-size:24px;margin-bottom:8px">⏱</div><p style="font-family:'Oswald',sans-serif;font-size:14px;text-transform:uppercase;color:var(--dark);margin-bottom:4px">Ready Fast</p><p style="font-size:12px;color:var(--muted)">Most orders in 15–25 mins</p></div>
-      <div style="background:var(--surface);border:1px solid var(--border);padding:24px 20px;text-align:center"><div style="font-size:24px;margin-bottom:8px">🚗</div><p style="font-family:'Oswald',sans-serif;font-size:14px;text-transform:uppercase;color:var(--dark);margin-bottom:4px">Easy Pickup</p><p style="font-size:12px;color:var(--muted)">Free parking at 855 Aerovista</p></div>
-      <div style="background:var(--surface);border:1px solid var(--border);padding:24px 20px;text-align:center"><div style="font-size:24px;margin-bottom:8px">🚚</div><p style="font-family:'Oswald',sans-serif;font-size:14px;text-transform:uppercase;color:var(--dark);margin-bottom:4px">3rd Party Delivery</p><p style="font-size:12px;color:var(--muted)">Available via Grubhub &amp; Postmates</p></div>
+    <p style="font-size:12px;color:var(--muted-light);margin-top:20px;font-style:italic">* Bios, headshots, and job titles pending confirmation from the team.</p>
+  </div>
+</section>
+
+<section style="background:var(--surface);padding:64px 60px;border-top:1px solid var(--border)">
+  <div class="container" style="max-width:820px;text-align:center">
+    <p class="eyebrow" style="text-align:center">Get In Touch</p>
+    <h2 class="section-title" style="margin-bottom:16px">Have a Question?</h2>
+    <p style="font-size:15px;color:var(--muted);max-width:520px;margin:0 auto 32px;line-height:1.8">Whether it's a private event, a booking inquiry, or a question about the kitchen — our team is here to help.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="contact.html" class="btn-primary">Contact Us</a>
+      <a href="private-events.html#book" class="btn-outline">Plan an Event</a>
+      <a href="slo-brew-live.html#booking" class="btn-outline">Book a Show</a>
     </div>
   </div>
 </section>
