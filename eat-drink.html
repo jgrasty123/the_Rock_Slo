@@ -39,6 +39,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content
 .nav-links a{color:var(--muted);font-size:12px;font-weight:500;letter-spacing:1.8px;text-transform:uppercase;transition:color .2s}
 .nav-links a:hover,.nav-links a.active{color:var(--dark)}
 .nav-links a.active{border-bottom:2px solid var(--orange);padding-bottom:2px}
+.nav-dropdown{position:relative}
+.nav-dropdown-trigger{display:flex;align-items:center}
+.nav-dropdown-toggle{width:24px;height:24px;margin-left:2px;border:0;background:transparent;cursor:pointer;position:relative;color:var(--muted)}
+.nav-dropdown-toggle::after{content:"";display:block;width:6px;height:6px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .2s ease}
+.nav-dropdown:hover .nav-dropdown-toggle::after,.nav-dropdown:focus-within .nav-dropdown-toggle::after{transform:translateY(1px) rotate(225deg)}
+.nav-submenu{display:none;position:absolute;top:calc(100% + 18px);left:-18px;min-width:190px;padding:8px 0;list-style:none;background:var(--surface);border:1px solid var(--border);box-shadow:0 12px 28px rgba(28,20,8,.14)}
+.nav-submenu::before{content:"";position:absolute;left:0;right:0;top:-19px;height:19px}
+.nav-dropdown:hover .nav-submenu,.nav-dropdown:focus-within .nav-submenu{display:block}
+.nav-submenu li{width:100%}
+.nav-submenu a{display:block;padding:11px 18px;white-space:nowrap}
+.nav-submenu a:hover{background:var(--card);color:var(--orange)}
 .btn-nav{background:var(--orange)!important;color:#fff!important;padding:10px 24px;border-radius:2px;transition:background .2s!important}
 .btn-nav:hover{background:var(--orange-hover)!important}
 .btn-nav-outline{border:1.5px solid var(--border)!important;color:var(--dark)!important;padding:9px 22px;border-radius:2px;transition:all .2s!important}
@@ -162,6 +173,16 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
     transition:background .2s,color .2s;
   }
   .nav-links a:hover{background:var(--card)!important;color:var(--orange)!important}
+  .nav-dropdown-trigger{width:100%;position:relative}
+  .nav-dropdown-trigger>a{flex:1}
+  .nav-dropdown-toggle{width:54px;height:46px;margin:0;color:var(--dark)}
+  .nav-submenu,.nav-dropdown:hover .nav-submenu,.nav-dropdown:focus-within .nav-submenu{
+    display:block;position:static;min-width:0;padding:0;
+    background:var(--card);border:0;border-top:1px solid var(--border);box-shadow:none;
+  }
+  .nav-submenu::before{display:none}
+  .nav-submenu li{border:0}
+  .nav-submenu a{padding:12px 24px 12px 44px;font-size:11px;letter-spacing:1.4px}
 
   /* Hamburger open state */
   .nav-toggle-input:checked~.nav-links{display:flex}
@@ -279,8 +300,15 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
   <ul class="nav-links">
     <li><a href="eat-drink.html" class="active">Eat &amp; Drink</a></li>
     <li><a href="private-events.html">Private Events</a></li>
-    <li><a href="events.html">Live Music</a></li>
-    <li><a href="slo-brew-live.html">SLO Brew Live</a></li>
+    <li class="nav-dropdown">
+      <div class="nav-dropdown-trigger">
+        <a href="events.html" aria-haspopup="true">Live Music</a>
+        <button class="nav-dropdown-toggle" type="button" aria-label="Show Live Music submenu"></button>
+      </div>
+      <ul class="nav-submenu">
+        <li><a href="slo-brew-live.html">SLO Brew Live</a></li>
+      </ul>
+    </li>
     <li><a href="about.html">About</a></li>
     <li><a href="events.html" class="btn-nav-outline">🎟 Tickets</a></li>
     <li><a href="order.html" class="btn-nav">Order Food</a></li>
