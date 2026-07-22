@@ -347,6 +347,21 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
   /* Section headers with flex space-between */
   div[style*="justify-content:space-between"]{flex-wrap:wrap!important;gap:16px!important}
 }
+
+/* Photo slider */
+.rock-slider{position:relative;width:100%;height:min(64vh,620px);overflow:hidden}
+.rs-track{display:flex;height:100%;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.rs-slide{min-width:100%;height:100%}
+.rs-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.rs-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(28,20,16,.45);color:#fff;border:none;width:52px;height:52px;border-radius:50%;font-size:26px;cursor:pointer;display:grid;place-items:center;transition:background .2s;z-index:3}
+.rs-arrow:hover{background:rgba(200,90,15,.85)}
+.rs-prev{left:24px}.rs-next{right:24px}
+.rs-dots{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);display:flex;gap:9px;z-index:3}
+.rs-dots button{width:9px;height:9px;border-radius:50%;border:none;background:rgba(255,255,255,.45);cursor:pointer;padding:0;transition:all .2s}
+.rs-dots button.active{background:#fff;width:24px;border-radius:5px}
+.rs-cta{position:absolute;top:24px;right:24px;background:rgba(28,20,16,.5);color:#fff;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:11px 18px;border-radius:2px;z-index:3;transition:background .2s}
+.rs-cta:hover{background:var(--orange)}
+@media(max-width:600px){.rock-slider{height:46vh}.rs-arrow{width:42px;height:42px;font-size:22px}.rs-prev{left:12px}.rs-next{right:12px}.rs-cta{top:14px;right:14px;font-size:10px;padding:8px 12px}}
 </style>
 </head>
 <body>
@@ -530,6 +545,25 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
   </div>
 </div>
 
+<!-- PHOTO SLIDER -->
+<section style="background:var(--dark);padding:0;overflow:hidden">
+  <div class="rock-slider" id="rockSlider">
+    <div class="rs-track" id="rsTrack">
+      <div class="rs-slide"><img src="images/gallery/outdoor-dining-dusk.jpg" alt="Outdoor dining at dusk"></div>
+      <div class="rs-slide"><img src="images/gallery/patio-rockwall-umbrellas.jpg" alt="Patio against the rock wall"></div>
+      <div class="rs-slide"><img src="images/gallery/live-band-concert.jpg" alt="Live music on stage"></div>
+      <div class="rs-slide"><img src="images/gallery/patio-yellow-tables.jpg" alt="Beer garden tables"></div>
+      <div class="rs-slide"><img src="images/gallery/interior-dining-crowd.jpg" alt="Guests dining in the main hall"></div>
+      <div class="rs-slide"><img src="images/gallery/courtyard-umbrellas.jpg" alt="Courtyard dining under umbrellas"></div>
+      <div class="rs-slide"><img src="images/gallery/patio-dining-dusk.jpg" alt="Patio dining at sunset"></div>
+    </div>
+    <button class="rs-arrow rs-prev" aria-label="Previous">&#8249;</button>
+    <button class="rs-arrow rs-next" aria-label="Next">&#8250;</button>
+    <div class="rs-dots" id="rsDots"></div>
+    <a href="gallery.html" class="rs-cta">View Full Gallery →</a>
+  </div>
+</section>
+
 
 <footer>
   <div class="container">
@@ -589,5 +623,20 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
   </div>
 </footer>
 <div class="mockup-notice">⚡ Design Mockup — The Rock SLO · Prepared by Yecommerce · yecommerce.io</div>
+
+<script>
+(function(){
+  var track=document.getElementById('rsTrack'); if(!track)return;
+  var slides=track.children, dots=document.getElementById('rsDots'), i=0, n=slides.length, timer;
+  for(var d=0;d<n;d++){(function(d){var b=document.createElement('button');if(d===0)b.className='active';b.addEventListener('click',function(){go(d)});dots.appendChild(b);})(d);}
+  function render(){track.style.transform='translateX('+(-i*100)+'%)';var db=dots.children;for(var k=0;k<db.length;k++)db[k].className=(k===i?'active':'');}
+  function go(x){i=(x+n)%n;render();reset();}
+  function reset(){clearInterval(timer);timer=setInterval(function(){go(i+1)},5000);}
+  document.querySelector('.rs-next').addEventListener('click',function(){go(i+1)});
+  document.querySelector('.rs-prev').addEventListener('click',function(){go(i-1)});
+  reset();
+})();
+</script>
+
 </body>
 </html>
