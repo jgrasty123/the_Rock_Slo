@@ -320,6 +320,16 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
 .f-submit:hover{background:var(--orange-hover)}
 .widget-box{background:var(--surface);border:2px dashed var(--border);padding:56px 40px;text-align:center;border-radius:2px}
 @media(max-width:900px){.f-row{grid-template-columns:1fr}}
+
+/* Instagram grid */
+.ig-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+.ig-tile{position:relative;aspect-ratio:1;overflow:hidden;display:block}
+.ig-tile img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.ig-ov{position:absolute;inset:0;background:rgba(28,20,16,0);transition:background .3s}
+.ig-tile:hover img{transform:scale(1.06)}
+.ig-tile:hover .ig-ov{background:rgba(28,20,16,.18)}
+@media(max-width:900px){.ig-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:480px){.ig-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
@@ -334,6 +344,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
   <input type="checkbox" id="nav-toggle" class="nav-toggle-input"><label for="nav-toggle" class="nav-hamburger" aria-label="Open navigation menu"><span></span><span></span><span></span></label>
   <ul class="nav-links">
     <li><a href="eat-drink.html">Eat &amp; Drink</a></li>
+    <li><a href="menu.html">Menu</a></li>
     <li><a href="private-events.html">Private Events</a></li>
     <li class="nav-dropdown">
       <div class="nav-dropdown-trigger">
@@ -412,15 +423,38 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
   <div class="container" style="max-width:1000px">
     <p class="eyebrow">Who Books The Shows</p>
     <h2 class="section-title" style="margin-bottom:40px">Meet Ryan</h2>
-    <!-- PLACEHOLDER: bio copy + headshot pending from Ryan Orr -->
     <div class="bio-card">
-      <div class="bio-photo">Photo<br>Pending</div>
+      <div class="bio-photo" style="background-image:url('images/ryan-orr.jpg');background-size:cover;background-position:center;border:none"></div>
       <div>
         <div class="bio-name">Ryan Orr</div>
         <div class="bio-role">Talent Buyer · SLO Brew Live</div>
-        <p class="bio-body">[PLACEHOLDER — bio copy pending from Ryan] A short bio covering Ryan's history with SLO Brew Live, the artists he's brought to the Central Coast, and how he approaches booking will go here.</p>
+        <p class="bio-body">Ryan Orr is a music industry executive with more than 20 years of experience in live entertainment, venue management, concert production, and strategic partnerships. He began his career working with the Dave Matthews Band organization, where he helped coordinate national promotions, large-scale events, artist logistics, and media initiatives. Throughout his career, Ryan has collaborated with a wide range of acclaimed artists and industry professionals while producing memorable live experiences across the country.</p>
+        <p class="bio-body" style="margin-top:14px">Known for his leadership, creative vision, and ability to execute complex productions, Ryan has built a reputation for developing successful events, cultivating lasting industry relationships, and creating meaningful connections between artists, audiences, and communities. Today, he continues to lead concert programming, event production, and business development on California's Central Coast.</p>
       </div>
     </div>
+  </div>
+</section>
+
+
+<!-- INSTAGRAM (static grid + follow CTA; swap tiles for real @slobrewlive posts, or replace with a live widget e.g. Elfsight/LightWidget) -->
+<section style="background:var(--bg);padding:72px 60px;border-top:1px solid var(--border)">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:36px;flex-wrap:wrap;gap:16px">
+      <div>
+        <p class="eyebrow">On Instagram</p>
+        <h2 class="section-title" style="margin-bottom:0">@slobrewlive</h2>
+      </div>
+      <a href="https://www.instagram.com/slobrewlive/" target="_blank" rel="noopener" class="btn-primary">Follow @slobrewlive →</a>
+    </div>
+    <div class="ig-grid">
+      <a href="https://www.instagram.com/slobrewlive/" target="_blank" rel="noopener" class="ig-tile"><img src="images/live-concert-crowd.jpg" alt="SLO Brew Live on Instagram" loading="lazy"><span class="ig-ov"></span></a>
+      <a href="https://www.instagram.com/slobrewlive/" target="_blank" rel="noopener" class="ig-tile"><img src="images/live-concert-band.jpg" alt="SLO Brew Live on Instagram" loading="lazy"><span class="ig-ov"></span></a>
+      <a href="https://www.instagram.com/slobrewlive/" target="_blank" rel="noopener" class="ig-tile"><img src="images/live-venue-stage.jpg" alt="SLO Brew Live on Instagram" loading="lazy"><span class="ig-ov"></span></a>
+      <a href="https://www.instagram.com/slobrewlive/" target="_blank" rel="noopener" class="ig-tile"><img src="images/venue-bar-gathering.jpg" alt="SLO Brew Live on Instagram" loading="lazy"><span class="ig-ov"></span></a>
+      <a href="https://www.instagram.com/slobrewlive/" target="_blank" rel="noopener" class="ig-tile"><img src="images/venue-indoor-setup.jpg" alt="SLO Brew Live on Instagram" loading="lazy"><span class="ig-ov"></span></a>
+      <a href="https://www.instagram.com/slobrewlive/" target="_blank" rel="noopener" class="ig-tile"><img src="images/stage-lights-wedding.jpg" alt="SLO Brew Live on Instagram" loading="lazy"><span class="ig-ov"></span></a>
+    </div>
+    <p style="font-size:12px;color:var(--muted-light);margin-top:16px;font-style:italic">* Placeholder images — swap for live @slobrewlive posts or connect a live Instagram feed widget.</p>
   </div>
 </section>
 
@@ -431,8 +465,11 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
     <h2 class="section-title" style="margin-bottom:8px">Booking</h2>
     <p style="font-size:15px;color:var(--muted);margin-bottom:36px">Are you an artist, agent, or promoter interested in playing SLO Brew Live? Send us your details below and our booking team will be in touch.</p>
     <div class="bk-wrap">
-      <!-- PENDING: wire form action to Ryan's booking inbox / Formspree endpoint before launch -->
-      <form action="#" method="POST">
+      <!-- Booking goes to Ryan Orr (ryanorr@rodandhammer.com).
+           Using mailto for now (static site). To upgrade to a clean submit experience,
+           create a Formspree form pointed at ryanorr@rodandhammer.com and set:
+           action="https://formspree.io/f/XXXXXXX" method="POST" (remove the mailto action). -->
+      <form action="mailto:ryanorr@rodandhammer.com" method="POST" enctype="text/plain">
         <p style="font-size:12px;color:var(--muted);margin-bottom:24px">Fields marked with an <span style="color:var(--orange)">*</span> are required.</p>
         <div class="f-row">
           <div class="f-group"><label class="f-label">Band / Artist <span class="f-req">*</span></label><input type="text" name="band" class="f-input" placeholder="Band or artist name" required></div>
@@ -473,6 +510,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
           <li><a href="events.html">Events Calendar</a></li>
           <li><a href="slo-brew-live.html">SLO Brew Live</a></li>
           <li><a href="eat-drink.html">Food Menu</a></li>
+          <li><a href="menu.html">Full Menu</a></li>
           <li><a href="order.html">Order Online</a></li>
           <li><a href="gallery.html">Gallery</a></li>
           <li><a href="about.html">About The Rock</a></li>
