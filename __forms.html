@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Netlify form registration (not linked)</title></head>
+<body>
+<!-- This hidden page exists only so Netlify's build-time bots detect and register the site's forms.
+     Real users submit the JS-enhanced versions on the actual pages. Do not link to this page. -->
+
+<form name="booking" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="booking">
+  <input name="bot-field"><input type="text" name="band"><input type="text" name="contact">
+  <input type="email" name="email"><textarea name="message"></textarea>
+</form>
+
+<form name="event-quote" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="event-quote">
+  <input name="bot-field">
+  <input type="text" name="first-name"><input type="text" name="last-name">
+  <input type="email" name="email"><input type="tel" name="phone">
+  <select name="event-type"></select><select name="guests"></select>
+  <input type="date" name="preferred-date"><input type="date" name="alternate-date">
+  <input type="radio" name="space"><select name="budget"></select>
+  <select name="referral"></select><textarea name="message"></textarea>
+</form>
+
+<form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="contact">
+  <input name="bot-field">
+  <input type="text" name="first-name"><input type="text" name="last-name">
+  <input type="email" name="email"><select name="reason"></select>
+  <textarea name="message"></textarea>
+</form>
+
+</body>
+</html>

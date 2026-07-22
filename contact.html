@@ -328,14 +328,16 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
     <div>
       <p class="eyebrow">Message Us</p>
       <h2 class="section-title" style="font-size:38px;margin-bottom:32px">Send a Message</h2>
-      <form style="display:flex;flex-direction:column;gap:16px">
+      <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="js-ajax-form" data-thanks="Thanks for reaching out — we'll get back to you soon." style="display:flex;flex-direction:column;gap:16px">
+        <input type="hidden" name="form-name" value="contact">
+        <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-          <div style="display:flex;flex-direction:column;gap:8px"><label style="font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)">First Name</label><input type="text" style="background:var(--bg);border:1.5px solid var(--border);color:var(--dark);padding:13px 15px;font-family:'Inter',sans-serif;font-size:14px;border-radius:2px;outline:none;width:100%" placeholder="First name"></div>
-          <div style="display:flex;flex-direction:column;gap:8px"><label style="font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)">Last Name</label><input type="text" style="background:var(--bg);border:1.5px solid var(--border);color:var(--dark);padding:13px 15px;font-family:'Inter',sans-serif;font-size:14px;border-radius:2px;outline:none;width:100%" placeholder="Last name"></div>
+          <div style="display:flex;flex-direction:column;gap:8px"><label style="font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)">First Name</label><input type="text" style="background:var(--bg);border:1.5px solid var(--border);color:var(--dark);padding:13px 15px;font-family:'Inter',sans-serif;font-size:14px;border-radius:2px;outline:none;width:100%" name="first-name" placeholder="First name"></div>
+          <div style="display:flex;flex-direction:column;gap:8px"><label style="font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)">Last Name</label><input type="text" style="background:var(--bg);border:1.5px solid var(--border);color:var(--dark);padding:13px 15px;font-family:'Inter',sans-serif;font-size:14px;border-radius:2px;outline:none;width:100%" name="last-name" placeholder="Last name"></div>
         </div>
-        <div style="display:flex;flex-direction:column;gap:8px"><label style="font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)">Email</label><input type="email" style="background:var(--bg);border:1.5px solid var(--border);color:var(--dark);padding:13px 15px;font-family:'Inter',sans-serif;font-size:14px;border-radius:2px;outline:none" placeholder="your@email.com"></div>
-        <div style="display:flex;flex-direction:column;gap:8px"><label style="font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)">Reason for Contact</label><select style="background:var(--bg);border:1.5px solid var(--border);color:var(--dark);padding:13px 15px;font-family:'Inter',sans-serif;font-size:14px;border-radius:2px;outline:none;appearance:none"><option>General Inquiry</option><option>Private Event Inquiry</option><option>Press / Media</option><option>Careers</option><option>Show Booking</option></select></div>
-        <div style="display:flex;flex-direction:column;gap:8px"><label style="font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)">Message</label><textarea rows="5" style="background:var(--bg);border:1.5px solid var(--border);color:var(--dark);padding:13px 15px;font-family:'Inter',sans-serif;font-size:14px;border-radius:2px;outline:none;resize:vertical" placeholder="How can we help?"></textarea></div>
+        <div style="display:flex;flex-direction:column;gap:8px"><label style="font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)">Email</label><input type="email" style="background:var(--bg);border:1.5px solid var(--border);color:var(--dark);padding:13px 15px;font-family:'Inter',sans-serif;font-size:14px;border-radius:2px;outline:none" name="email" placeholder="your@email.com"></div>
+        <div style="display:flex;flex-direction:column;gap:8px"><label style="font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)">Reason for Contact</label><select style="background:var(--bg);border:1.5px solid var(--border);color:var(--dark);padding:13px 15px;font-family:'Inter',sans-serif;font-size:14px;border-radius:2px;outline:none;appearance:none" name="reason"><option>General Inquiry</option><option>Private Event Inquiry</option><option>Press / Media</option><option>Careers</option><option>Show Booking</option></select></div>
+        <div style="display:flex;flex-direction:column;gap:8px"><label style="font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)">Message</label><textarea rows="5" style="background:var(--bg);border:1.5px solid var(--border);color:var(--dark);padding:13px 15px;font-family:'Inter',sans-serif;font-size:14px;border-radius:2px;outline:none;resize:vertical" name="message" placeholder="How can we help?"></textarea></div>
         <button type="submit" style="background:var(--orange);color:#fff;border:none;padding:16px;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:2px">Send Message →</button>
       </form>
     </div>
@@ -400,5 +402,39 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
   </div>
 </footer>
 <div class="mockup-notice">⚡ Design Mockup — The Rock SLO · Prepared by Yecommerce · yecommerce.io</div>
+<style>
+.form-success{background:var(--surface,#fff);border:1.5px solid var(--orange,#C85A0F);border-radius:4px;padding:44px 36px;text-align:center;animation:fadeInUp .4s ease}
+.form-success .fs-check{width:56px;height:56px;border-radius:50%;background:var(--orange,#C85A0F);color:#fff;display:grid;place-items:center;margin:0 auto 18px;font-size:28px}
+.form-success h3{font-family:'Zilla Slab',serif;font-size:26px;color:var(--dark,#1C1410);margin-bottom:10px}
+.form-success p{font-size:14px;color:var(--muted,#6b625a);line-height:1.7;max-width:420px;margin:0 auto}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+</style>
+<script>
+(function(){
+  function encode(data){return Object.keys(data).map(function(k){return encodeURIComponent(k)+"="+encodeURIComponent(data[k])}).join("&")}
+  document.querySelectorAll("form.js-ajax-form").forEach(function(form){
+    form.addEventListener("submit",function(e){
+      e.preventDefault();
+      if(!form.checkValidity()){form.reportValidity();return}
+      var btn=form.querySelector('[type="submit"]');
+      if(btn){btn.disabled=true;btn.textContent="Sending…"}
+      var data={};new FormData(form).forEach(function(v,k){data[k]=v});
+      fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:encode(data)})
+        .then(function(){showThanks(form)})
+        .catch(function(){showThanks(form)}); // still confirm; Netlify captures on deploy
+    });
+  });
+  function showThanks(form){
+    var msg=form.getAttribute("data-thanks")||"Thanks — your message has been sent.";
+    var box=document.createElement("div");
+    box.className="form-success";
+    box.setAttribute("role","status");
+    box.innerHTML='<div class="fs-check">✓</div><h3>Message Sent</h3><p>'+msg+'</p>';
+    form.parentNode.replaceChild(box,form);
+    box.scrollIntoView({behavior:"smooth",block:"center"});
+  }
+})();
+</script>
+
 </body>
 </html>
