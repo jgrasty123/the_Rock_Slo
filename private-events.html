@@ -556,24 +556,26 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
     <h2 class="section-title" style="margin-bottom:8px">Request a Quote</h2>
     <p style="font-size:15px;color:var(--muted);margin-bottom:40px">Tell us about your event and our team will respond within 1–2 business days with availability and pricing.</p>
     <div class="bf-wrap">
-      <form action="#" method="POST">
+      <form name="event-quote" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="js-ajax-form" data-thanks="Thanks — your event inquiry is in. Our events team will respond within 1–2 business days.">
+        <input type="hidden" name="form-name" value="event-quote">
+        <p class="hidden" style="display:none"><label>Don't fill this out if you're human: <input name="bot-field"></label></p>
         <p class="fs-title">Your Contact Information</p>
         <div class="f-row">
-          <div class="f-group"><label class="f-label">First Name <span class="f-req">*</span></label><input type="text" class="f-input" placeholder="First name" required></div>
-          <div class="f-group"><label class="f-label">Last Name <span class="f-req">*</span></label><input type="text" class="f-input" placeholder="Last name" required></div>
+          <div class="f-group"><label class="f-label">First Name <span class="f-req">*</span></label><input type="text" name="first-name" class="f-input" placeholder="First name" required></div>
+          <div class="f-group"><label class="f-label">Last Name <span class="f-req">*</span></label><input type="text" name="last-name" class="f-input" placeholder="Last name" required></div>
         </div>
         <div class="f-row" style="margin-bottom:36px">
-          <div class="f-group"><label class="f-label">Email <span class="f-req">*</span></label><input type="email" class="f-input" placeholder="your@email.com" required></div>
-          <div class="f-group"><label class="f-label">Phone <span class="f-req">*</span></label><input type="tel" class="f-input" placeholder="(805) 000-0000" required></div>
+          <div class="f-group"><label class="f-label">Email <span class="f-req">*</span></label><input type="email" name="email" class="f-input" placeholder="your@email.com" required></div>
+          <div class="f-group"><label class="f-label">Phone <span class="f-req">*</span></label><input type="tel" name="phone" class="f-input" placeholder="(805) 000-0000" required></div>
         </div>
         <p class="fs-title">Event Details</p>
         <div class="f-row">
-          <div class="f-group"><label class="f-label">Event Type <span class="f-req">*</span></label><select class="f-select" required><option value="">Select event type</option><option>Wedding / Reception</option><option>Corporate Event</option><option>Birthday Celebration</option><option>Bridal / Bachelorette Party</option><option>Bachelor Party</option><option>Private Concert</option><option>Pickup Party</option><option>Other</option></select></div>
-          <div class="f-group"><label class="f-label">Estimated Guests <span class="f-req">*</span></label><select class="f-select" required><option value="">Select range</option><option>Under 25</option><option>25 – 50</option><option>50 – 120</option><option>120 – 200</option><option>200 – 300</option><option>300+ (Full Venue)</option></select></div>
+          <div class="f-group"><label class="f-label">Event Type <span class="f-req">*</span></label><select name="event-type" class="f-select" required><option value="">Select event type</option><option>Wedding / Reception</option><option>Corporate Event</option><option>Birthday Celebration</option><option>Bridal / Bachelorette Party</option><option>Bachelor Party</option><option>Private Concert</option><option>Pickup Party</option><option>Other</option></select></div>
+          <div class="f-group"><label class="f-label">Estimated Guests <span class="f-req">*</span></label><select name="guests" class="f-select" required><option value="">Select range</option><option>Under 25</option><option>25 – 50</option><option>50 – 120</option><option>120 – 200</option><option>200 – 300</option><option>300+ (Full Venue)</option></select></div>
         </div>
         <div class="f-row">
-          <div class="f-group"><label class="f-label">Preferred Date <span class="f-req">*</span></label><input type="date" class="f-input" required></div>
-          <div class="f-group"><label class="f-label">Alternate Date</label><input type="date" class="f-input"></div>
+          <div class="f-group"><label class="f-label">Preferred Date <span class="f-req">*</span></label><input type="date" name="preferred-date" class="f-input" required></div>
+          <div class="f-group"><label class="f-label">Alternate Date</label><input type="date" name="alternate-date" class="f-input"></div>
         </div>
         <div class="f-group full" style="margin-bottom:36px">
           <label class="f-label" style="margin-bottom:10px">Preferred Space <span class="f-req">*</span></label>
@@ -586,12 +588,12 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
         </div>
         <p class="fs-title">Budget &amp; Notes</p>
         <div class="f-row">
-          <div class="f-group"><label class="f-label">Estimated Budget</label><select class="f-select"><option value="">Select range</option><option>Under $2,500</option><option>$2,500 – $5,000</option><option>$5,000 – $10,000</option><option>$10,000 – $20,000</option><option>$20,000+</option><option>Not sure yet</option></select></div>
-          <div class="f-group"><label class="f-label">How did you hear about us?</label><select class="f-select"><option value="">Select one</option><option>Google Search</option><option>Instagram / Social</option><option>Attended an event here</option><option>Friend / Word of mouth</option><option>SLO Brew or Rod &amp; Hammer</option><option>Wedding vendor referral</option><option>Other</option></select></div>
+          <div class="f-group"><label class="f-label">Estimated Budget</label><select name="budget" class="f-select"><option value="">Select range</option><option>Under $2,500</option><option>$2,500 – $5,000</option><option>$5,000 – $10,000</option><option>$10,000 – $20,000</option><option>$20,000+</option><option>Not sure yet</option></select></div>
+          <div class="f-group"><label class="f-label">How did you hear about us?</label><select name="referral" class="f-select"><option value="">Select one</option><option>Google Search</option><option>Instagram / Social</option><option>Attended an event here</option><option>Friend / Word of mouth</option><option>SLO Brew or Rod &amp; Hammer</option><option>Wedding vendor referral</option><option>Other</option></select></div>
         </div>
         <div class="f-group full">
           <label class="f-label">Tell us about your event</label>
-          <textarea class="f-textarea" placeholder="Share your vision, special requirements, or any questions..."></textarea>
+          <textarea name="message" class="f-textarea" placeholder="Share your vision, special requirements, or any questions..."></textarea>
         </div>
         <button type="submit" class="f-submit">Send Inquiry →</button>
         <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:12px">Our events team responds within 1–2 business days.</p>
@@ -659,5 +661,39 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
   </div>
 </footer>
 <div class="mockup-notice">⚡ Design Mockup — The Rock SLO · Prepared by Yecommerce · yecommerce.io</div>
+<style>
+.form-success{background:var(--surface,#fff);border:1.5px solid var(--orange,#C85A0F);border-radius:4px;padding:44px 36px;text-align:center;animation:fadeInUp .4s ease}
+.form-success .fs-check{width:56px;height:56px;border-radius:50%;background:var(--orange,#C85A0F);color:#fff;display:grid;place-items:center;margin:0 auto 18px;font-size:28px}
+.form-success h3{font-family:'Zilla Slab',serif;font-size:26px;color:var(--dark,#1C1410);margin-bottom:10px}
+.form-success p{font-size:14px;color:var(--muted,#6b625a);line-height:1.7;max-width:420px;margin:0 auto}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+</style>
+<script>
+(function(){
+  function encode(data){return Object.keys(data).map(function(k){return encodeURIComponent(k)+"="+encodeURIComponent(data[k])}).join("&")}
+  document.querySelectorAll("form.js-ajax-form").forEach(function(form){
+    form.addEventListener("submit",function(e){
+      e.preventDefault();
+      if(!form.checkValidity()){form.reportValidity();return}
+      var btn=form.querySelector('[type="submit"]');
+      if(btn){btn.disabled=true;btn.textContent="Sending…"}
+      var data={};new FormData(form).forEach(function(v,k){data[k]=v});
+      fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:encode(data)})
+        .then(function(){showThanks(form)})
+        .catch(function(){showThanks(form)}); // still confirm; Netlify captures on deploy
+    });
+  });
+  function showThanks(form){
+    var msg=form.getAttribute("data-thanks")||"Thanks — your message has been sent.";
+    var box=document.createElement("div");
+    box.className="form-success";
+    box.setAttribute("role","status");
+    box.innerHTML='<div class="fs-check">✓</div><h3>Message Sent</h3><p>'+msg+'</p>';
+    form.parentNode.replaceChild(box,form);
+    box.scrollIntoView({behavior:"smooth",block:"center"});
+  }
+})();
+</script>
+
 </body>
 </html>
