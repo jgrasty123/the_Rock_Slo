@@ -285,6 +285,16 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
   /* Section headers with flex space-between */
   div[style*="justify-content:space-between"]{flex-wrap:wrap!important;gap:16px!important}
 }
+
+/* Instagram grid */
+.ig-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+.ig-tile{position:relative;aspect-ratio:1;overflow:hidden;display:block}
+.ig-tile img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.ig-ov{position:absolute;inset:0;background:rgba(28,20,16,0);transition:background .3s}
+.ig-tile:hover img{transform:scale(1.06)}
+.ig-tile:hover .ig-ov{background:rgba(28,20,16,.18)}
+@media(max-width:900px){.ig-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:480px){.ig-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
@@ -367,6 +377,30 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
   <p style="font-size:14px;color:rgba(255,255,255,.85);margin-bottom:24px">We work with promoters, agents, and artists. Reach out to our booking team.</p>
   <a href="slo-brew-live.html#booking" class="btn-outline-white">Contact Booking →</a>
 </section>
+
+
+<!-- INSTAGRAM (static grid + follow CTA; swap tiles for real @slobrewlive posts, or replace with a live widget e.g. Elfsight/LightWidget) -->
+<section style="background:var(--bg);padding:72px 60px;border-top:1px solid var(--border)">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:36px;flex-wrap:wrap;gap:16px">
+      <div>
+        <p class="eyebrow">On Instagram</p>
+        <h2 class="section-title" style="margin-bottom:0">@slobrewlive</h2>
+      </div>
+      <a href="https://www.instagram.com/slobrewlive/" target="_blank" rel="noopener" class="btn-primary">Follow @slobrewlive →</a>
+    </div>
+    <div class="ig-grid">
+      <a href="https://www.instagram.com/slobrewlive/" target="_blank" rel="noopener" class="ig-tile"><img src="images/live-concert-crowd.jpg" alt="SLO Brew Live on Instagram" loading="lazy"><span class="ig-ov"></span></a>
+      <a href="https://www.instagram.com/slobrewlive/" target="_blank" rel="noopener" class="ig-tile"><img src="images/live-concert-band.jpg" alt="SLO Brew Live on Instagram" loading="lazy"><span class="ig-ov"></span></a>
+      <a href="https://www.instagram.com/slobrewlive/" target="_blank" rel="noopener" class="ig-tile"><img src="images/live-venue-stage.jpg" alt="SLO Brew Live on Instagram" loading="lazy"><span class="ig-ov"></span></a>
+      <a href="https://www.instagram.com/slobrewlive/" target="_blank" rel="noopener" class="ig-tile"><img src="images/venue-bar-gathering.jpg" alt="SLO Brew Live on Instagram" loading="lazy"><span class="ig-ov"></span></a>
+      <a href="https://www.instagram.com/slobrewlive/" target="_blank" rel="noopener" class="ig-tile"><img src="images/venue-indoor-setup.jpg" alt="SLO Brew Live on Instagram" loading="lazy"><span class="ig-ov"></span></a>
+      <a href="https://www.instagram.com/slobrewlive/" target="_blank" rel="noopener" class="ig-tile"><img src="images/stage-lights-wedding.jpg" alt="SLO Brew Live on Instagram" loading="lazy"><span class="ig-ov"></span></a>
+    </div>
+    <p style="font-size:12px;color:var(--muted-light);margin-top:16px;font-style:italic">* Placeholder images — swap for live @slobrewlive posts or connect a live Instagram feed widget.</p>
+  </div>
+</section>
+
 
 <footer>
   <div class="container">
