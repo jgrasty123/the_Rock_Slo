@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu — The Rock SLO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Zilla+Slab:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F8F3EC;
+  --surface:#FFFFFF;
+  --card:#F2EBE0;
+  --card-dark:#EDE4D6;
+  --border:#DDD3C3;
+  --orange:#C85A0F;
+  --orange-hover:#A84A0A;
+  --amber:#E07820;
+  --dark:#1C1410;
+  --text:#3A2E26;
+  --muted:#7A6450;
+  --muted-light:#9E8870;
+  --white:#FFFFFF;
+  --dark-footer:#1A1008;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:0 52px;height:68px;background:rgba(248,243,236,.97);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);box-shadow:0 1px 12px rgba(28,20,8,.06)}
+.nav-brand{display:flex;flex-direction:column;line-height:1}
+.nav-brand-main{font-family:'Oswald',sans-serif;font-weight:700;font-size:20px;letter-spacing:3px;text-transform:uppercase;color:var(--dark)}
+.nav-brand-sub{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--orange);margin-top:2px}
+.nav-links{display:flex;align-items:center;gap:30px;list-style:none}
+.nav-links a{color:var(--muted);font-size:12px;font-weight:500;letter-spacing:1.8px;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--dark)}
+.nav-links a.active{border-bottom:2px solid var(--orange);padding-bottom:2px}
+.nav-dropdown{position:relative}
+.nav-dropdown-trigger{display:flex;align-items:center}
+.nav-dropdown-toggle{width:24px;height:24px;margin-left:2px;border:0;background:transparent;cursor:pointer;position:relative;color:var(--muted)}
+.nav-dropdown-toggle::after{content:"";display:block;width:6px;height:6px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .2s ease}
+.nav-dropdown:hover .nav-dropdown-toggle::after,.nav-dropdown:focus-within .nav-dropdown-toggle::after{transform:translateY(1px) rotate(225deg)}
+.nav-submenu{display:none;position:absolute;top:calc(100% + 18px);left:-18px;min-width:190px;padding:8px 0;list-style:none;background:var(--surface);border:1px solid var(--border);box-shadow:0 12px 28px rgba(28,20,8,.14)}
+.nav-submenu::before{content:"";position:absolute;left:0;right:0;top:-19px;height:19px}
+.nav-dropdown:hover .nav-submenu,.nav-dropdown:focus-within .nav-submenu{display:block}
+.nav-submenu li{width:100%}
+.nav-submenu a{display:block;padding:11px 18px;white-space:nowrap}
+.nav-submenu a:hover{background:var(--card);color:var(--orange)}
+.btn-nav{background:var(--orange)!important;color:#fff!important;padding:10px 24px;border-radius:2px;transition:background .2s!important}
+.btn-nav:hover{background:var(--orange-hover)!important}
+.btn-nav-outline{border:1.5px solid var(--border)!important;color:var(--dark)!important;padding:9px 22px;border-radius:2px;transition:all .2s!important}
+.btn-nav-outline:hover{border-color:var(--orange)!important;color:var(--orange)!important}
+
+/* ── HERO ── */
+.page-hero{position:relative;height:56vh;min-height:400px;display:flex;align-items:flex-end;overflow:hidden;padding:0 60px 56px;margin-top:68px}
+.page-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.72) saturate(.9)}
+.page-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,20,8,.82) 0%,rgba(28,20,8,.18) 55%,transparent 100%)}
+.page-hero-content{position:relative;z-index:2}
+.page-eyebrow{font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--amber);font-weight:500;margin-bottom:12px}
+.page-title{font-family:'Zilla Slab',serif;font-weight:700;font-size:clamp(52px,8vw,96px);text-transform:uppercase;color:#FFFFFF;line-height:.9;letter-spacing:-1px}
+
+/* ── SECTIONS ── */
+section{padding:80px 60px}
+.container{max-width:1300px;margin:0 auto}
+.eyebrow{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--orange);font-weight:600;margin-bottom:10px}
+.section-title{font-family:'Zilla Slab',serif;font-weight:700;font-size:clamp(34px,5vw,54px);text-transform:uppercase;color:var(--dark);line-height:.95;letter-spacing:-.5px}
+.section-body{font-size:15px;color:var(--muted);line-height:1.85;margin-top:16px;max-width:600px}
+.section-rule{width:48px;height:3px;background:var(--orange);margin:18px 0}
+
+/* ── BUTTONS ── */
+.btn-primary{display:inline-block;background:var(--orange);color:#fff;padding:15px 38px;font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;border-radius:2px;border:none;cursor:pointer;transition:background .2s;font-family:'Inter',sans-serif}
+.btn-primary:hover{background:var(--orange-hover)}
+.btn-outline{display:inline-block;background:transparent;color:var(--dark);border:1.5px solid var(--border);padding:14px 34px;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border-radius:2px;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.btn-outline:hover{border-color:var(--orange);color:var(--orange)}
+.btn-outline-white{display:inline-block;background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.5);padding:14px 34px;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border-radius:2px;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.btn-outline-white:hover{border-color:#fff;background:rgba(255,255,255,.1)}
+
+/* ── DIVIDER ── */
+.divider{height:1px;background:var(--border);margin:0}
+
+/* ── FOOTER ── */
+footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid var(--orange)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:52px;padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:28px}
+.footer-logo-main{font-family:'Oswald',sans-serif;font-weight:700;font-size:26px;letter-spacing:4px;text-transform:uppercase;color:#fff;line-height:1}
+.footer-logo-loc{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--amber);margin-top:4px;margin-bottom:20px}
+.footer-addr{font-size:13px;color:rgba(255,255,255,.45);line-height:2}
+.footer-socials{display:flex;gap:10px;margin-top:24px}
+.footer-social-btn{width:36px;height:36px;border:1px solid rgba(255,255,255,.15);display:grid;place-items:center;border-radius:2px;color:rgba(255,255,255,.4);font-size:11px;font-weight:700;transition:all .2s}
+.footer-social-btn:hover{border-color:var(--amber);color:var(--amber)}
+.footer-col-hd{font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:18px}
+.footer-nav{list-style:none}
+.footer-nav li{margin-bottom:11px}
+.footer-nav a{font-size:13px;color:rgba(255,255,255,.5);transition:color .2s}
+.footer-nav a:hover{color:#fff}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:rgba(255,255,255,.3);flex-wrap:wrap;gap:12px}
+.partner-links{display:flex;gap:24px}
+.partner-link{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.35);transition:color .2s}
+.partner-link:hover{color:var(--amber)}
+
+/* ── MOCKUP NOTICE ── */
+.mockup-notice{position:fixed;bottom:0;left:0;right:0;background:var(--orange);color:#fff;text-align:center;padding:9px 24px;font-size:11px;font-weight:600;letter-spacing:1px;z-index:300;box-shadow:0 -2px 8px rgba(0,0,0,.15)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1000px){
+  nav{padding:0 24px}
+  section{padding:60px 24px}
+  .page-hero{padding:0 24px 44px}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:640px){
+  .footer-grid{grid-template-columns:1fr}
+  nav{height:60px}
+  .page-hero{margin-top:60px}
+}
+.menu-cols{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.menu-col{background:var(--surface);border:1px solid var(--border);padding:36px 32px}
+.mc-title{font-family:'Oswald',sans-serif;font-weight:600;font-size:18px;text-transform:uppercase;color:var(--dark);letter-spacing:1px;padding-bottom:14px;border-bottom:2px solid var(--orange);margin-bottom:20px}
+.mi{display:flex;justify-content:space-between;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--border)}
+.mi:last-child{border-bottom:none}
+.mi-name{font-size:14px;font-weight:500;color:var(--dark);margin-bottom:3px}
+.mi-desc{font-size:12px;color:var(--muted);line-height:1.4}
+.mi-price{font-size:14px;color:var(--orange);font-weight:700;margin-left:16px;white-space:nowrap}
+.drinks-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.dc{background:var(--card);border:1px solid var(--border);padding:28px 24px}
+.dc-title{font-family:'Oswald',sans-serif;font-size:15px;text-transform:uppercase;letter-spacing:2px;color:var(--orange);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.di{padding:10px 0;border-bottom:1px solid rgba(221,211,195,.6);font-size:13px;color:var(--muted)}
+.di:last-child{border-bottom:none}
+.di strong{color:var(--dark);display:block;margin-bottom:2px}
+.food-img-mosaic{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:3px}
+@media(max-width:900px){.menu-cols,.drinks-cols,.food-img-mosaic{grid-template-columns:1fr}}
+/* ── HAMBURGER TOGGLE ── */
+.nav-toggle-input{display:none}
+.nav-hamburger{display:none;flex-direction:column;justify-content:space-between;width:26px;height:19px;cursor:pointer;flex-shrink:0;padding:2px 0}
+.nav-hamburger span{display:block;height:2px;width:100%;background:var(--dark);border-radius:2px;transition:all .3s ease}
+
+/* ── MOBILE BREAKPOINT ── */
+@media(max-width:860px){
+  html,body{overflow-x:hidden;max-width:100%}
+
+  /* Nav */
+  nav{padding:0 20px;height:60px;position:fixed}
+  .nav-brand-main{font-size:16px;letter-spacing:2px}
+  .nav-brand-sub{letter-spacing:3px;font-size:8px}
+  .nav-hamburger{display:flex}
+
+  .nav-links{
+    display:none;
+    position:fixed;
+    top:60px;left:0;right:0;
+    background:var(--bg);
+    flex-direction:column;
+    align-items:stretch;
+    padding:8px 0 24px;
+    gap:0;
+    border-top:3px solid var(--orange);
+    z-index:199;
+    box-shadow:0 8px 32px rgba(28,20,8,.15);
+    max-height:calc(100vh - 60px);
+    overflow-y:auto;
+    width:100%;
+  }
+  .nav-links li{border-bottom:1px solid var(--border);width:100%}
+  .nav-links a{
+    display:block;padding:15px 24px;
+    font-size:13px;letter-spacing:1.5px;
+    color:var(--dark)!important;
+    background:transparent!important;
+    border:none!important;border-radius:0!important;
+    transition:background .2s,color .2s;
+  }
+  .nav-links a:hover{background:var(--card)!important;color:var(--orange)!important}
+  .nav-dropdown-trigger{width:100%;position:relative}
+  .nav-dropdown-trigger>a{flex:1}
+  .nav-dropdown-toggle{width:54px;height:46px;margin:0;color:var(--dark)}
+  .nav-submenu,.nav-dropdown:hover .nav-submenu,.nav-dropdown:focus-within .nav-submenu{
+    display:block;position:static;min-width:0;padding:0;
+    background:var(--card);border:0;border-top:1px solid var(--border);box-shadow:none;
+  }
+  .nav-submenu::before{display:none}
+  .nav-submenu li{border:0}
+  .nav-submenu a{padding:12px 24px 12px 44px;font-size:11px;letter-spacing:1.4px}
+
+  /* Hamburger open state */
+  .nav-toggle-input:checked~.nav-links{display:flex}
+  .nav-toggle-input:checked~.nav-hamburger span:first-child{transform:translateY(8.5px) rotate(45deg)}
+  .nav-toggle-input:checked~.nav-hamburger span:nth-child(2){opacity:0;transform:scaleX(0)}
+  .nav-toggle-input:checked~.nav-hamburger span:last-child{transform:translateY(-8.5px) rotate(-45deg)}
+
+  /* Hero */
+  .page-hero{margin-top:60px;min-height:420px;padding:0 20px 40px;height:50vh}
+  .page-title{font-size:clamp(44px,12vw,72px)!important}
+
+  /* Homepage hero */
+  .home-hero{margin-top:60px!important;padding:0 20px 52px!important;min-height:560px!important}
+  .home-hero-title{font-size:clamp(72px,18vw,100px)!important;line-height:.88!important}
+  .home-hero-ctas{flex-direction:column!important;gap:12px!important;align-items:flex-start}
+  .home-hero-ctas a{text-align:center;min-width:240px}
+
+  /* Sections */
+  section{padding:52px 20px!important}
+
+  /* Pulse bar */
+  .pulse-bar{flex-wrap:wrap}
+  .pulse-item{flex:1 1 50%;border-right:none;border-bottom:1px solid rgba(255,255,255,.18)}
+
+  /* Event cards */
+  .events-row,.events-grid{grid-template-columns:1fr 1fr!important}
+
+  /* Split layouts */
+  .food-feature,.pe-feature,
+  div[style*="grid-template-columns:1fr 1fr"],
+  div[style*="grid-template-columns: 1fr 1fr"]{grid-template-columns:1fr!important}
+
+  /* Venue space grids */
+  .vs-grid,.photo-grid-2,.menu-cols,.drinks-cols,.corp-type-grid,
+  .av-grid,.stat-row{grid-template-columns:1fr!important}
+
+  /* Photo grids - keep 2-col on mobile */
+  .photo-grid-3,.photo-grid-4{grid-template-columns:1fr 1fr!important}
+
+  /* Gallery */
+  .gallery-grid{grid-template-columns:1fr 1fr!important}
+  .gi.tall,.gi.wide{grid-row:auto!important;grid-column:auto!important;aspect-ratio:1!important}
+
+  /* Footer */
+  footer{padding:48px 20px 80px}
+  .footer-grid{grid-template-columns:1fr!important;gap:36px}
+  .footer-bottom{flex-direction:column;gap:8px;text-align:center}
+
+  /* Feature strip */
+  .feature-strip{grid-template-columns:1fr 1fr!important}
+
+  /* Mockup notice */
+  .mockup-notice{padding:8px 16px;font-size:10px;line-height:1.5}
+
+  /* Img mosaic spans */
+  div[style*="grid-row:1/3"]{grid-row:auto!important}
+}
+
+@media(max-width:480px){
+  .events-row,.events-grid{grid-template-columns:1fr!important}
+  .photo-grid-3,.photo-grid-4{grid-template-columns:1fr!important}
+  .gallery-grid{grid-template-columns:1fr!important}
+  .feature-strip{grid-template-columns:1fr!important}
+  .home-hero-title{font-size:clamp(64px,16vw,88px)!important}
+}
+
+/* ── INLINE GRID MOBILE FIXES ── */
+@media(max-width:860px){
+  /* Flatten repeat(3) and repeat(4) inline grids to 2-column */
+  div[style*="repeat(3,1fr)"]{grid-template-columns:1fr 1fr!important}
+  div[style*="repeat(4,1fr)"]{grid-template-columns:1fr 1fr!important}
+
+  /* Flatten all row/column spans inside those grids */
+  div[style*="repeat(3,1fr)"] > div,
+  div[style*="repeat(4,1fr)"] > div{
+    grid-row:auto!important;
+    grid-column:auto!important;
+    min-height:160px!important;
+    aspect-ratio:1!important;
+  }
+
+  /* Last orphaned item (odd position) in inline grids → full width */
+  div[style*="repeat(3,1fr)"] > div:last-child:nth-child(odd){
+    grid-column:1/-1!important;
+    aspect-ratio:16/9!important;
+  }
+  div[style*="repeat(4,1fr)"] > div:last-child:nth-child(odd){
+    grid-column:1/-1!important;
+    aspect-ratio:16/9!important;
+  }
+
+  /* Stat rows and location grids */
+  div[style*="repeat(4,1fr)"].stat-row,
+  .stat-row{grid-template-columns:1fr 1fr!important}
+
+  /* Food feature mosaic */
+  .food-img-mosaic{grid-template-columns:1fr 1fr!important}
+  .food-img-mosaic > img:first-child{grid-row:auto!important;min-height:160px!important;aspect-ratio:1!important}
+
+  /* Section headers with flex space-between */
+  div[style*="justify-content:space-between"]{flex-wrap:wrap!important;gap:16px!important}
+}
+
+/* ── MENU PAGE ── */
+.menu-jump{position:sticky;top:64px;z-index:40;background:var(--dark);border-bottom:1px solid rgba(255,255,255,.08);padding:0}
+.menu-jump-inner{display:flex;gap:2px;overflow-x:auto;padding:12px 20px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.menu-jump a{flex:0 0 auto;font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.65);padding:8px 14px;border-radius:2px;white-space:nowrap;transition:all .2s}
+.menu-jump a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.menu-sec{padding:64px 60px;border-bottom:1px solid var(--border);scroll-margin-top:130px}
+.menu-sec:nth-child(even){background:var(--surface)}
+.menu-sec-inner{max-width:820px;margin:0 auto}
+.menu-sec-note{font-size:13px;color:var(--muted);font-style:italic;margin:8px 0 28px;line-height:1.6}
+.menu-item{display:grid;grid-template-columns:1fr auto;gap:8px 20px;padding:16px 0;border-bottom:1px dotted var(--border)}
+.menu-item:last-child{border-bottom:none}
+.menu-item-name{font-family:'Oswald',sans-serif;font-weight:600;font-size:17px;text-transform:uppercase;letter-spacing:.3px;color:var(--dark);display:flex;align-items:baseline;gap:8px}
+.menu-gf{font-size:9px;font-weight:700;letter-spacing:1px;color:var(--orange);border:1px solid var(--orange);border-radius:2px;padding:1px 4px}
+.menu-item-price{font-family:'Oswald',sans-serif;font-weight:600;font-size:16px;color:var(--orange);white-space:nowrap}
+.menu-item-desc{grid-column:1/2;font-size:13.5px;color:var(--muted);line-height:1.6;margin-top:2px}
+.menu-sides{margin-top:20px;font-size:13px;color:var(--muted);font-style:italic}
+.menu-subhd{font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:28px 0 4px}
+@media(max-width:600px){.menu-sec{padding:48px 22px}.menu-jump{top:60px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" style="text-decoration:none">
+    <div class="nav-brand">
+      <span class="nav-brand-main">The Rock</span>
+      <span class="nav-brand-sub">San Luis Obispo</span>
+    </div>
+  </a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input"><label for="nav-toggle" class="nav-hamburger" aria-label="Open navigation menu"><span></span><span></span><span></span></label>
+  <ul class="nav-links">
+    <li><a href="eat-drink.html">Eat &amp; Drink</a></li>
+    <li><a href="menu.html" class="active">Menu</a></li>
+    <li><a href="private-events.html">Private Events</a></li>
+    <li class="nav-dropdown">
+      <div class="nav-dropdown-trigger">
+        <a href="events.html" aria-haspopup="true">Live Music</a>
+        <button class="nav-dropdown-toggle" type="button" aria-label="Show Live Music submenu"></button>
+      </div>
+      <ul class="nav-submenu">
+        <li><a href="slo-brew-live.html">SLO Brew Live</a></li>
+      </ul>
+    </li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="events.html" class="btn-nav-outline">🎟 Tickets</a></li>
+    <li><a href="order.html" class="btn-nav">Order Food</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero" style="min-height:42vh">
+  <div class="page-hero-bg" style="background-image:url('images/food-flatbread.jpg')"></div>
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <p class="page-eyebrow">Kitchen &amp; Bar · 855 Aerovista Place</p>
+    <h1 class="page-title">Menu</h1>
+  </div>
+</div>
+
+<!-- JUMP NAV -->
+<nav class="menu-jump" aria-label="Menu sections">
+  <div class="menu-jump-inner">
+      <a href="#appetizers">For the Table</a>
+      <a href="#mains">Cali Classics</a>
+      <a href="#pizza">Rockin&#x27; Pizza</a>
+      <a href="#salads">Salads</a>
+      <a href="#gluten-free">Gluten-Free</a>
+      <a href="#kids">Kids Menu</a>
+      <a href="#dog">Dog Menu</a>
+      <a href="#desserts">Distiller Delights</a>
+      <a href="#cocktails">Cocktails</a>
+      <a href="#beers">Beers &amp; Flights</a>
+      <a href="#drinks">Non-Alcoholic</a>
+      <a href="#happy-hour">Happy Hour</a>
+  </div>
+</nav>
+
+<section style="background:var(--bg);padding:32px 60px;text-align:center;border-bottom:1px solid var(--border)">
+  <p style="font-size:13px;color:var(--muted);max-width:640px;margin:0 auto;line-height:1.7">Menus change seasonally as our chef sources fresh, local ingredients — items and prices may vary. A 3% operation charge is added to each guest check. Please inform your server of any allergies.</p>
+  <div style="margin-top:20px"><a href="order.html" class="btn-primary">Order for Pickup →</a></div>
+</section>
+
+<section class="menu-sec" id="appetizers">
+  <div class="menu-sec-inner">
+    <p class="eyebrow">The Rock Kitchen</p>
+    <h2 class="section-title" style="margin-bottom:6px">For the Table</h2>
+    <div class="section-rule"></div>
+    
+      <div class="menu-item">
+        <div class="menu-item-name">Sausage &amp; Fondue Board</div>
+        <div class="menu-item-price">25</div>
+        <div class="menu-item-desc">Reggae red cheese sauce, sausage, giant pretzel, garlicky broccolini, apple, radish.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">R&amp;H Jumbo Smoked Wings</div>
+        <div class="menu-item-price">20</div>
+        <div class="menu-item-desc">Buffalo, R&amp;H BBQ, or dry rub lemon pepper. Served w/ carrot, celery, fries, ranch &amp; blue cheese.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Jumbo Coconut Shrimp</div>
+        <div class="menu-item-price">19</div>
+        <div class="menu-item-desc">Served with sweet chili slaw.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Crispy Brussel Sprouts <span class="menu-gf">GF</span></div>
+        <div class="menu-item-price">16</div>
+        <div class="menu-item-desc">Tossed bourbon maple glaze, feta, almonds, balsamic reduction.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Basket of Rings</div>
+        <div class="menu-item-price">16</div>
+        <div class="menu-item-desc">Charred poblano ranch, R&amp;H whiskey BBQ, ketchup.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Basket of Fries</div>
+        <div class="menu-item-price">13</div>
+        <div class="menu-item-desc">Curry aioli, R&amp;H whiskey BBQ, ketchup.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Roasted Garlic Broccolini <span class="menu-gf">GF</span></div>
+        <div class="menu-item-price">12</div>
+        <div class="menu-item-desc">Make it spicy.</div>
+      </div>
+  </div>
+</section>
+<section class="menu-sec" id="mains">
+  <div class="menu-sec-inner">
+    <p class="eyebrow">The Rock Kitchen</p>
+    <h2 class="section-title" style="margin-bottom:6px">Cali Classics</h2>
+    <div class="section-rule"></div>
+    <p class="menu-sec-note">Add grilled chicken 4 · grilled shrimp 10 · 6oz beef patty 8 · Impossible™ patty 5</p>
+      <div class="menu-item">
+        <div class="menu-item-name">Hatch Burger</div>
+        <div class="menu-item-price">21</div>
+        <div class="menu-item-desc">6oz Niman Ranch patty, pepper jack, avocado, lettuce, tomatoes, red onion, bourbon pickles, hatch green chili and lime aioli, Martin&#x27;s bun w/ fries or salad. Add patty 8.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Smashie</div>
+        <div class="menu-item-price">21</div>
+        <div class="menu-item-desc">Double smash patties, double American, pickles, shaved onion, rock sauce w/ fries or salad. Add patty 5.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Cali Turkey Sando</div>
+        <div class="menu-item-price">21</div>
+        <div class="menu-item-desc">House smoked turkey breast, lettuce, Bautista tomatoes, avocado, bacon, gruyere, smokehouse aioli, local sourdough w/ fries or salad.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Smokey Chicken Sando</div>
+        <div class="menu-item-price">20</div>
+        <div class="menu-item-desc">Fig jam spread, chicken thigh, bacon, gruyere, arugula, red onion, smoked jalapenos on a French baguette w/ fries or salad.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Gold Coast Cubano</div>
+        <div class="menu-item-price">20</div>
+        <div class="menu-item-desc">Mojo smoked pork, black roast ham, gruyere cheese, pickles, and Carolina gold mustard on a pressed French baguette w/ fries or salad.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Baja Fish Tacos</div>
+        <div class="menu-item-price">19</div>
+        <div class="menu-item-desc">Two beer battered tacos, avocado coleslaw, pickled onions, cilantro, radish, lime, chipotle aioli, cilantro crema, chips &amp; black beans.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Pesto Grilled Cheese</div>
+        <div class="menu-item-price">18</div>
+        <div class="menu-item-desc">Smoked mozzarella, gruyere, pistachio pesto, Bautista tomatoes, arugula, caramelized onions on local sourdough w/ fries or salad.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Pub Mac N&#x27; Cheese</div>
+        <div class="menu-item-price">10</div>
+        <div class="menu-item-desc">House-made, crusted with herb bread crumbs. Small 10 / Large 16.</div>
+      </div>
+      <p class="menu-sides">Sides: Fries 4 · Side Salad 4 · Onion Rings 6</p>
+  </div>
+</section>
+<section class="menu-sec" id="pizza">
+  <div class="menu-sec-inner">
+    <p class="eyebrow">The Rock Kitchen</p>
+    <h2 class="section-title" style="margin-bottom:6px">Rockin&#x27; Pizza</h2>
+    <div class="section-rule"></div>
+    <p class="menu-sec-note">Add grilled chicken 4</p>
+      <div class="menu-item">
+        <div class="menu-item-name">BBQ Chicken</div>
+        <div class="menu-item-price">20</div>
+        <div class="menu-item-desc">R&amp;H BBQ, mozzarella, grilled chicken, bacon bits, smoked jalapeno, red onions, parm, cilantro.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Rock Pepperoni</div>
+        <div class="menu-item-price">19</div>
+        <div class="menu-item-desc">San Marzano, mozzarella, cup n&#x27; char pepperoni, peppadews, hot honey.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Fungie</div>
+        <div class="menu-item-price">18</div>
+        <div class="menu-item-desc">White sauce, herb ricotta cheese, mix wild mushrooms, caramelized onion, fresh arugula, parmesan cheese, balsamic reduction.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Jack&#x27;s Cheese</div>
+        <div class="menu-item-price">16</div>
+        <div class="menu-item-desc">San Marzano, fresh mozzarella, parmesan, fresh herbs.</div>
+      </div>
+  </div>
+</section>
+<section class="menu-sec" id="salads">
+  <div class="menu-sec-inner">
+    <p class="eyebrow">The Rock Kitchen</p>
+    <h2 class="section-title" style="margin-bottom:6px">Salads</h2>
+    <div class="section-rule"></div>
+    <p class="menu-sec-note">Enjoy any salad as a wrap 1 · Add grilled chicken 4, grilled shrimp 10, 6oz beef patty 8 · Impossible™ patty to any sandwich or salad 5</p>
+      <div class="menu-item">
+        <div class="menu-item-name">Southwestern Chicken Adobo</div>
+        <div class="menu-item-price">19</div>
+        <div class="menu-item-desc">Adobo chicken thigh, cabbage, pico de gallo, smoked corn, black beans, cheddar, cilantro, tortilla strips, tomatillo avocado dressing.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Complete Greens <span class="menu-gf">GF</span></div>
+        <div class="menu-item-price">17</div>
+        <div class="menu-item-desc">Bautista greens, frisee lettuce, quinoa, green apples, Marcona almonds, red onion, feta, champagne vinaigrette.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Slo-Cal Caesar</div>
+        <div class="menu-item-price">17</div>
+        <div class="menu-item-desc">Hearts of romaine, classic Caesar, avocado, red onion, parmesan, focaccia crouton.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Burrata &amp; Smoked Beets <span class="menu-gf">GF</span></div>
+        <div class="menu-item-price">16</div>
+        <div class="menu-item-desc">Bautista greens, burrata, smoked local beets, cherry tomatoes, bourbon pecans, sage gremolata, citrus vinaigrette.</div>
+      </div>
+  </div>
+</section>
+<section class="menu-sec" id="gluten-free">
+  <div class="menu-sec-inner">
+    <p class="eyebrow">The Rock Kitchen</p>
+    <h2 class="section-title" style="margin-bottom:6px">Gluten-Free</h2>
+    <div class="section-rule"></div>
+    <p class="menu-sec-note">Items on our menu marked GF. Please inform your server of any allergies.</p>
+      <div class="menu-item">
+        <div class="menu-item-name">Crispy Brussel Sprouts <span class="menu-gf">GF</span></div>
+        <div class="menu-item-price">16</div>
+        <div class="menu-item-desc">Tossed bourbon maple glaze, feta, almonds, balsamic reduction.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Roasted Garlic Broccolini <span class="menu-gf">GF</span></div>
+        <div class="menu-item-price">12</div>
+        <div class="menu-item-desc">Make it spicy.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Complete Greens <span class="menu-gf">GF</span></div>
+        <div class="menu-item-price">17</div>
+        <div class="menu-item-desc">Bautista greens, frisee lettuce, quinoa, green apples, Marcona almonds, red onion, feta, champagne vinaigrette.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Burrata &amp; Smoked Beets <span class="menu-gf">GF</span></div>
+        <div class="menu-item-price">16</div>
+        <div class="menu-item-desc">Bautista greens, burrata, smoked local beets, cherry tomatoes, bourbon pecans, sage gremolata, citrus vinaigrette.</div>
+      </div>
+  </div>
+</section>
+<section class="menu-sec" id="kids">
+  <div class="menu-sec-inner">
+    <p class="eyebrow">The Rock Kitchen</p>
+    <h2 class="section-title" style="margin-bottom:6px">Kids Menu</h2>
+    <div class="section-rule"></div>
+    <p class="menu-sec-note">12 and under.</p>
+      <div class="menu-item">
+        <div class="menu-item-name">Cheeseburger</div>
+        <div class="menu-item-price">12</div>
+        <div class="menu-item-desc">4oz Niman Ranch patty on Martin&#x27;s bun, American cheese, pickles &amp; fries.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Chicken Quesadilla</div>
+        <div class="menu-item-price">12</div>
+        <div class="menu-item-desc">Chicken &amp; cheddar cheese melted between flour tortillas, served with fries.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Cheese Pizza</div>
+        <div class="menu-item-price">10</div>
+        <div class="menu-item-desc">Red sauce, mozzarella.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Clucks n&#x27; Fries</div>
+        <div class="menu-item-price">10</div>
+        <div class="menu-item-desc">Breaded chicken strips served with fries.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Mac n&#x27; Cheese</div>
+        <div class="menu-item-price">10</div>
+        <div class="menu-item-desc">House made macaroni &amp; cheese.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Grilled Cheese</div>
+        <div class="menu-item-price">10</div>
+        <div class="menu-item-desc">American cheese, local sourdough &amp; fries.</div>
+      </div>
+  </div>
+</section>
+<section class="menu-sec" id="dog">
+  <div class="menu-sec-inner">
+    <p class="eyebrow">The Rock Kitchen</p>
+    <h2 class="section-title" style="margin-bottom:6px">Dog Menu — Bark Boards</h2>
+    <div class="section-rule"></div>
+    
+      <div class="menu-item">
+        <div class="menu-item-name">Barkuterie Board</div>
+        <div class="menu-item-price">8</div>
+        <div class="menu-item-desc">An array of meat treats, sliced apples, carrots, &amp; scoop of peanut butter.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Puppy Bowl</div>
+        <div class="menu-item-price">10</div>
+        <div class="menu-item-desc">Choice of beef or chicken served with rice &amp; mixed veggies.</div>
+      </div>
+  </div>
+</section>
+<section class="menu-sec" id="desserts">
+  <div class="menu-sec-inner">
+    <p class="eyebrow">The Rock Kitchen</p>
+    <h2 class="section-title" style="margin-bottom:6px">Distiller Delights</h2>
+    <div class="section-rule"></div>
+    
+      <div class="menu-item">
+        <div class="menu-item-name">Double Chocolate Brownie</div>
+        <div class="menu-item-price">10</div>
+        <div class="menu-item-desc">Topped with house-made chocolate sauce. Serves two. Vanilla a la mode 3.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Root Beer Float</div>
+        <div class="menu-item-price">10</div>
+        <div class="menu-item-desc">Vanilla bean ice cream floated with Barq&#x27;s root beer. Add shot 6.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Vanilla or Chocolate Milkshake</div>
+        <div class="menu-item-price">10</div>
+        <div class="menu-item-desc">Vanilla bean w/ sprinkles or chocolate ice cream, whipped topping. Add shot 6.</div>
+      </div>
+  </div>
+</section>
+<section class="menu-sec" id="cocktails">
+  <div class="menu-sec-inner">
+    <p class="eyebrow">The Rock Kitchen</p>
+    <h2 class="section-title" style="margin-bottom:6px">Cocktails</h2>
+    <div class="section-rule"></div>
+    <p class="menu-sec-note">All tabs left open at the end of the night will be closed out &amp; charged 20% gratuity.</p>
+      <div class="menu-item">
+        <div class="menu-item-name">Here Comes the Sun</div>
+        <div class="menu-item-price">14</div>
+        <div class="menu-item-desc">Peach whiskey, lemon juice, orgeat, pineapple juice, cranberry juice, grapefruit bitters (contains almond).</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Rod&#x27;s Margarita</div>
+        <div class="menu-item-price">14</div>
+        <div class="menu-item-desc">Straight rye, house sour mix, ginger syrup, jalapeño, tajin rim with lime wedge.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">855 Cask Smash</div>
+        <div class="menu-item-price">14</div>
+        <div class="menu-item-desc">Cask bourbon, berry syrup, lemon juice, mint garnish.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Lavender Lemonade</div>
+        <div class="menu-item-price">14</div>
+        <div class="menu-item-desc">Vodka, St. Germain elderflower liqueur, lavender syrup, lemon juice.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Peaches, Peaches, Peaches</div>
+        <div class="menu-item-price">14</div>
+        <div class="menu-item-desc">Peach whiskey, lemon juice, agave simple syrup, muddled mint and jalapeno, tajin rim.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Winter Spiced Punch</div>
+        <div class="menu-item-price">14</div>
+        <div class="menu-item-desc">Winter spiced whiskey, cranberry juice, lemon juice, honey ginger.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">The Apple Doesn&#x27;t Fall Far</div>
+        <div class="menu-item-price">14</div>
+        <div class="menu-item-desc">Straight bourbon, apple cider, honey ginger simple, lemon juice, splash ginger beer.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Barrel Aged Cherry Vanilla Manhattan</div>
+        <div class="menu-item-price">15</div>
+        <div class="menu-item-desc">Cask rye, sweet vermouth, cherry bitters, poured over a large stone, cherry garnish.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Barrel Aged Maple Old Fashioned</div>
+        <div class="menu-item-price">15</div>
+        <div class="menu-item-desc">Straight bourbon, maple orange syrup, bitters, poured over a large stone, cherry &amp; orange peel garnish.</div>
+      </div>
+      <p class="menu-subhd">Also on Draft</p>
+      <div class="menu-item">
+        <div class="menu-item-name">Signature Cocktails</div>
+        <div class="menu-item-price">14</div>
+        <div class="menu-item-desc">R&amp;H rotating signature cocktails. Barrel aged 15.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Draft Cocktails</div>
+        <div class="menu-item-price">10</div>
+        <div class="menu-item-desc">Whiskey Mule, Margarita, Mai Tai &amp; Paloma.</div>
+      </div>
+  </div>
+</section>
+<section class="menu-sec" id="beers">
+  <div class="menu-sec-inner">
+    <p class="eyebrow">The Rock Kitchen</p>
+    <h2 class="section-title" style="margin-bottom:6px">Beers &amp; Flights</h2>
+    <div class="section-rule"></div>
+    
+      <div class="menu-item">
+        <div class="menu-item-name">Draft Beer</div>
+        <div class="menu-item-price">7.50</div>
+        <div class="menu-item-desc">SLO Brew craft staples and limited release. Pitcher 27.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Whiskey Flight</div>
+        <div class="menu-item-price">20</div>
+        <div class="menu-item-desc">Distiller&#x27;s selection of R&amp;H whiskey.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Beer Flight</div>
+        <div class="menu-item-price">3 / ea</div>
+        <div class="menu-item-desc">Selection of 3oz tasters on draft.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Wine by the Glass</div>
+        <div class="menu-item-price">14</div>
+        <div class="menu-item-desc">Specialty wine by the bottle available for purchase.</div>
+      </div>
+  </div>
+</section>
+<section class="menu-sec" id="drinks">
+  <div class="menu-sec-inner">
+    <p class="eyebrow">The Rock Kitchen</p>
+    <h2 class="section-title" style="margin-bottom:6px">Non-Alcoholic</h2>
+    <div class="section-rule"></div>
+    
+      <div class="menu-item">
+        <div class="menu-item-name">Soft Drinks and More</div>
+        <div class="menu-item-price">2.50</div>
+        <div class="menu-item-desc">Coke, Coke Zero, Sprite, Root Beer, Lemonade, Iced Tea, Cranberry Juice.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Kids Apple Juice</div>
+        <div class="menu-item-price">2.50</div>
+        
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Ginger Beer</div>
+        <div class="menu-item-price">4</div>
+        
+      </div>
+  </div>
+</section>
+<section class="menu-sec" id="happy-hour">
+  <div class="menu-sec-inner">
+    <p class="eyebrow">The Rock Kitchen</p>
+    <h2 class="section-title" style="margin-bottom:6px">Happy Hour</h2>
+    <div class="section-rule"></div>
+    <p class="menu-sec-note">Tues–Fri · 3:00–6:00 PM  ·  Cocktails $9 · Beer Pints $5 · Wine by the Glass $8</p>
+      <div class="menu-item">
+        <div class="menu-item-name">Chips and Salsa</div>
+        <div class="menu-item-price">6</div>
+        <div class="menu-item-desc">Crispy tortilla chips and salsa.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Basket of Fries</div>
+        <div class="menu-item-price">10</div>
+        <div class="menu-item-desc">Curried aioli, R&amp;H whiskey BBQ, ketchup.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Basket of Rings</div>
+        <div class="menu-item-price">12</div>
+        <div class="menu-item-desc">Charred poblano ranch, R&amp;H whiskey BBQ, ketchup.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Rock Pepperoni</div>
+        <div class="menu-item-price">12</div>
+        <div class="menu-item-desc">Pepperoni, hot honey and pickled peppers.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Jack&#x27;s Cheese Pizza</div>
+        <div class="menu-item-price">12</div>
+        <div class="menu-item-desc">San Marzanos tomato sauce, fresh mozz and herbs.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">R&amp;H Whiskey Onion Dip</div>
+        <div class="menu-item-price">10</div>
+        <div class="menu-item-desc">Served with kettle chips.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Chef&#x27;s Seasonal Hummus</div>
+        <div class="menu-item-price">12</div>
+        <div class="menu-item-desc">Served with pita and veggies.</div>
+      </div>
+  </div>
+</section>
+
+<section style="background:var(--dark);padding:56px 60px;text-align:center">
+  <p class="eyebrow" style="text-align:center;color:var(--orange)">Come Hungry</p>
+  <h2 class="section-title" style="color:#fff;margin-bottom:20px">See You at The Rock</h2>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <a href="order.html" class="btn-primary">Order for Pickup</a>
+    <a href="https://www.instagram.com/rodandhammerrock" target="_blank" rel="noopener" class="btn-outline" style="color:#fff;border-color:rgba(255,255,255,.4)">Follow for Daily Specials</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo-main">The Rock</div>
+        <div class="footer-logo-loc">San Luis Obispo</div>
+        <div class="footer-addr">855 Aerovista Place<br>San Luis Obispo, CA 93401<br><br>Mon–Thu: 4pm – 10pm<br>Fri–Sat: 11am – Midnight<br>Sun: 11am – 10pm</div>
+        <div class="footer-socials">
+          <a href="https://www.instagram.com/rodandhammerrock" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="https://www.facebook.com/slobrewlive" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a href="https://www.tiktok.com/@rodandhammerrock" target="_blank" rel="noopener" class="footer-social-btn" aria-label="TikTok"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V9.15a8.28 8.28 0 0 0 4.84 1.55V7.26a4.84 4.84 0 0 1-1.07-.57z"/></svg></a>
+          <a href="https://www.youtube.com/@slobrew" target="_blank" rel="noopener" class="footer-social-btn" aria-label="YouTube"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-hd">Explore</p>
+        <ul class="footer-nav">
+          <li><a href="events.html">Events Calendar</a></li>
+          <li><a href="slo-brew-live.html">SLO Brew Live</a></li>
+          <li><a href="eat-drink.html">Food Menu</a></li>
+          <li><a href="order.html">Order Online</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="about.html">About The Rock</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-hd">Private Events</p>
+        <ul class="footer-nav">
+          <li><a href="private-events.html">Request a Quote</a></li>
+          <li><a href="weddings.html">Weddings</a></li>
+          <li><a href="corporate-events.html">Corporate Events</a></li>
+          <li><a href="social-events.html">Social Events</a></li>
+          <li><a href="private-events.html#faq">Event FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-hd">Info</p>
+        <ul class="footer-nav">
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="team.html">Meet the Team</a></li>
+          <li><a href="about.html#press">Press &amp; Media</a></li>
+          <li><a href="about.html#careers">Careers</a></li>
+          <li><a href="#">Gift Cards</a></li>
+          <li><a href="index.html#newsletter">Newsletter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 The Rock SLO — SLo5Rock LLC. All rights reserved.</span>
+      <div class="partner-links">
+        <a href="https://slobrew.com" target="_blank" class="partner-link">SLO Brew ↗</a>
+        <a href="https://rodandhammer.com" target="_blank" class="partner-link">Rod &amp; Hammer Whiskey ↗</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<div class="mockup-notice">⚡ Design Mockup — The Rock SLO · Prepared by Yecommerce · yecommerce.io</div>
+</body>
+</html>
