@@ -328,16 +328,17 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
   /* Section headers with flex space-between */
   div[style*="justify-content:space-between"]{flex-wrap:wrap!important;gap:16px!important}
 }
+
+.nav-logo{height:38px;width:auto;display:block}
+.footer-logo-img{height:56px;width:auto;display:block;margin-bottom:20px}
+@media(max-width:600px){.nav-logo{height:30px}}
 </style>
 </head>
 <body>
 
 <nav>
   <a href="index.html" style="text-decoration:none">
-    <div class="nav-brand">
-      <span class="nav-brand-main">The Rock</span>
-      <span class="nav-brand-sub">San Luis Obispo</span>
-    </div>
+    <img src="images/the-rock-logo-dark.png" alt="The Rock — San Luis Obispo, CA" class="nav-logo">
   </a>
   <input type="checkbox" id="nav-toggle" class="nav-toggle-input"><label for="nav-toggle" class="nav-hamburger" aria-label="Open navigation menu"><span></span><span></span><span></span></label>
   <ul class="nav-links">
@@ -614,8 +615,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
   <div class="container">
     <div class="footer-grid">
       <div>
-        <div class="footer-logo-main">The Rock</div>
-        <div class="footer-logo-loc">San Luis Obispo</div>
+        <img src="images/the-rock-logo.png" alt="The Rock — San Luis Obispo, CA" class="footer-logo-img">
         <div class="footer-addr">855 Aerovista Place<br>San Luis Obispo, CA 93401<br><br>Mon–Thu: 4pm – 10pm<br>Fri–Sat: 11am – Midnight<br>Sun: 11am – 10pm</div>
         <div class="footer-socials">
           <a href="https://www.instagram.com/rodandhammerrock" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
