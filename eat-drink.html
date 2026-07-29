@@ -139,6 +139,13 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
 .di strong{color:var(--dark);display:block;margin-bottom:2px}
 .food-img-mosaic{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:3px}
 @media(max-width:900px){.menu-cols,.drinks-cols,.food-img-mosaic{grid-template-columns:1fr}}
+.cater-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.cater-imgs{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+@media(max-width:900px){
+  .cater-grid{grid-template-columns:1fr;gap:40px}
+  .cater-imgs > img:first-child{grid-row:auto;min-height:0;aspect-ratio:16/9}
+}
+@media(max-width:480px){.cater-imgs{grid-template-columns:1fr}}
 /* ── HAMBURGER TOGGLE ── */
 .nav-toggle-input{display:none}
 .nav-hamburger{display:none;flex-direction:column;justify-content:space-between;width:26px;height:19px;cursor:pointer;flex-shrink:0;padding:2px 0}
@@ -338,6 +345,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
     <div style="display:flex;gap:12px;flex-wrap:wrap">
       <a href="menu.html" class="btn-primary">View Menu</a>
       <a href="order.html" class="btn-outline">Order for Pickup</a>
+      <a href="https://www.toasttab.com/invoice/lead?rx=407f2bfd-ef8a-44a7-9d2a-de48ff7b031c&amp;ot=f2c0f244-7507-4d5a-bdaf-ce775667aee9" target="_blank" rel="noopener" class="btn-outline">Catering Inquiry</a>
       <a href="https://www.instagram.com/rodandhammerrock" target="_blank" rel="noopener" class="btn-outline">Follow for Daily Specials</a>
     </div>
   </div>
@@ -356,7 +364,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
         <img src="images/food-bbq-spread.jpg" alt="BBQ Plates" style="width:100%;aspect-ratio:1;object-fit:cover">
         <div style="background:var(--orange);padding:24px;display:flex;flex-direction:column;justify-content:center">
           <p style="font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;text-transform:uppercase;color:#fff;line-height:1.1">Order for Pickup</p>
-          <p style="font-size:12px;color:rgba(255,255,255,.8);margin-top:6px;margin-bottom:16px">Toast ordering coming soon</p>
+          <p style="font-size:12px;color:rgba(255,255,255,.8);margin-top:6px;margin-bottom:16px">Order online with Toast</p>
           <a href="order.html" style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;border-bottom:1px solid rgba(255,255,255,.5);padding-bottom:3px;align-self:flex-start">Order Now →</a>
         </div>
       </div>
@@ -405,6 +413,28 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
       <div class="dc"><div class="dc-title">🍸 Cocktails</div><div class="di"><strong>Here Comes the Sun</strong>Peach whiskey, lemon, orgeat, pineapple</div><div class="di"><strong>Rod's Margarita</strong>Straight rye, house sour, ginger, jalapeño</div><div class="di"><strong>855 Cask Smash</strong>Cask bourbon, berry syrup, lemon, mint</div><div class="di"><strong>Lavender Lemonade</strong>Vodka, elderflower, lavender syrup</div></div>
       <div class="dc"><div class="dc-title">🍺 On Tap</div><div class="di"><strong>Draft Beer</strong>Craft staples and limited release · pitchers available</div><div class="di"><strong>Beer Flight</strong>Selection of 3oz tasters on draft</div><div class="di"><strong>Wine by the Glass</strong>Specialty bottles available for purchase</div><div class="di"><strong>Ginger Beer</strong>Non-alcoholic</div></div>
       <div class="dc"><div class="dc-title">🥃 Whiskey &amp; Spirits</div><div class="di"><strong>Whiskey Flight</strong>Distiller's selection</div><div class="di"><strong>Winter Spiced Punch</strong>Winter spiced whiskey, cranberry, lemon, honey</div><div class="di"><strong>Peaches, Peaches, Peaches</strong>Peach whiskey, lemon, agave, muddled peach</div><div class="di"><strong>Soft Drinks and More</strong>Coke, Sprite, Root Beer, Lemonade, Iced Tea</div></div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg);padding:72px 60px;border-top:1px solid var(--border)">
+  <div class="container">
+    <div class="cater-grid">
+      <div>
+        <p class="eyebrow">Catering</p>
+        <h2 class="section-title">Bring The Rock<br>To You</h2>
+        <div class="section-rule"></div>
+        <p class="section-body">Our kitchen caters off-site as well as on. Tell us the date, the headcount, and the kind of spread you have in mind, and our team will put together a quote and walk you through the menu options.</p>
+        <div style="display:flex;gap:12px;margin-top:28px;flex-wrap:wrap">
+          <a href="https://www.toasttab.com/invoice/lead?rx=407f2bfd-ef8a-44a7-9d2a-de48ff7b031c&amp;ot=f2c0f244-7507-4d5a-bdaf-ce775667aee9" target="_blank" rel="noopener" class="btn-primary">Request a Catering Quote →</a>
+          <a href="private-events.html" class="btn-outline">Private Events</a>
+        </div>
+      </div>
+      <div class="cater-imgs">
+        <img src="images/catering-shrimp.jpg" alt="Catered shrimp appetizer from The Rock's kitchen" loading="lazy" style="grid-row:1/3;width:100%;height:100%;object-fit:cover;min-height:380px">
+        <img src="images/catering-arancini.jpg" alt="Arancini passed appetizers" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:cover">
+        <img src="images/catering-scallops.jpg" alt="Catered scallops plated" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:cover">
+      </div>
     </div>
   </div>
 </section>

@@ -174,6 +174,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
 .f-submit:hover{background:var(--orange-hover)}
 .ts-note{background:rgba(200,90,15,.06);border:1px dashed rgba(200,90,15,.3);padding:14px 18px;border-radius:2px;margin-top:18px;font-size:12px;color:var(--muted);text-align:center}
 @media(max-width:900px){.vs-grid,.et-grid,.am-grid,.f-row{grid-template-columns:1fr}}
+@media(max-width:560px){.cap-row{gap:18px;flex-wrap:wrap}.cap-num{font-size:30px}}
 @media(max-width:600px){.bf-wrap{padding:28px 20px}}
 /* ── HAMBURGER TOGGLE ── */
 .nav-toggle-input{display:none}
@@ -376,7 +377,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
     <p class="section-body" style="max-width:100%">More than a venue, The Rock SLO is where unforgettable moments come to life.</p>
     <p class="section-body" style="max-width:100%">Nestled in the heart of California's Central Coast, The Rock SLO offers a collection of distinctive indoor and outdoor event spaces designed for celebrations of every style and size. From elegant weddings and corporate gatherings to milestone celebrations and unforgettable social events, our experienced team brings every detail together with seamless planning, exceptional cuisine, and genuine hospitality.</p>
     <p class="section-body" style="max-width:100%">With multiple venue options, award-worthy catering, full-service bar programs, professional event staff, in-house rentals, and state-of-the-art audio visual capabilities, everything you need is in one place — allowing you to focus on making memories while we take care of the rest.</p>
-    <p class="section-body" style="max-width:100%">Whether you're planning for 20 guests or 300, The Rock SLO is where extraordinary events begin.</p>
+    <p class="section-body" style="max-width:100%">Whether you're planning for 20 guests or 600, The Rock SLO is where extraordinary events begin.</p>
   </div>
 </section>
 
@@ -390,12 +391,12 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
         <div class="vs-content">
           <p style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--amber);margin-bottom:8px">Space 01</p>
           <div class="vs-name">The Rock Room</div>
-          <div class="cap-row"><div><div class="cap-num">300+</div><div class="cap-lbl">Standing</div></div><div><div class="cap-num">180</div><div class="cap-lbl">Seated</div></div></div>
+          <div class="cap-row"><div><div class="cap-num">600</div><div class="cap-lbl">Standing</div></div><div><div class="cap-num">225</div><div class="cap-lbl">Theater Seated</div></div><div><div class="cap-num">180</div><div class="cap-lbl">Seated, Rounds</div></div></div>
+          <p style="font-size:11px;color:rgba(255,255,255,.72);margin-top:-6px">500 standing with the stage in place</p>
         </div>
       </div>
-      <!-- ASSET NEEDED (team feedback 2026-07-29, item 3): real Beer Garden photo. Current beer-garden.jpg is the aerial shot, also used as the homepage hero. -->
       <div class="vs-card">
-        <div class="vs-bg" style="background-image:url('images/beer-garden.jpg')"></div>
+        <div class="vs-bg" style="background-image:url('images/beer-garden-actual.jpg')"></div>
         <div class="vs-ov"></div>
         <div class="vs-content">
           <p style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--amber);margin-bottom:8px">Space 02</p>
@@ -422,9 +423,8 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
           <div class="cap-row"><div><div class="cap-num">90</div><div class="cap-lbl">Standing</div></div><div><div class="cap-num">60</div><div class="cap-lbl">Seated</div></div></div>
         </div>
       </div>
-      <!-- ASSET NEEDED (team feedback 2026-07-29, item 1): real Tap Room photo. This image was moved up to The Rock Room card per item 2 and is temporarily duplicated here until the real shot arrives. -->
       <div class="vs-card">
-        <div class="vs-bg" style="background-color:#2A1E12;background-image:url('images/venue-bar-gathering.jpg')"></div>
+        <div class="vs-bg" style="background-image:url('images/tap-room-actual.jpg')"></div>
         <div class="vs-ov"></div>
         <div class="vs-content">
           <p style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--amber);margin-bottom:8px">Space 05</p>
@@ -588,7 +588,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
         </div>
         <div class="f-group full" style="margin-bottom:36px">
           <label class="f-label" style="margin-bottom:10px">Preferred Space <span class="f-req">*</span></label>
-          <label class="radio-option"><input type="radio" name="space" value="rockroom" required> &nbsp; The Rock Room — 300+ standing / 180 seated (indoor event space)</label>
+          <label class="radio-option"><input type="radio" name="space" value="rockroom" required> &nbsp; The Rock Room — 600 standing (500 with stage) / 225 theater-style / 180 at round tables</label>
           <label class="radio-option"><input type="radio" name="space" value="garden"> &nbsp; Beer Garden — 150 standing / 120 seated (outdoor + fire pits)</label>
           <label class="radio-option"><input type="radio" name="space" value="barrel"> &nbsp; Barrel Room — 30 standing / 20 seated</label>
           <label class="radio-option"><input type="radio" name="space" value="terrace"> &nbsp; Terrace Patio — 90 standing / 60 seated</label>
