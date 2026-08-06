@@ -82,17 +82,83 @@
     );
   }
 
+  function cardFull(ev) {
+    var href = esc(ev.url || TICKETS_FALLBACK);
+    var meta = [ev.date.weekday, ev.date.timeLabel, ev.ageLabel].filter(Boolean).join(' · ');
+    return (
+      '<div class="show-card">' +
+        '<div class="show-media">' +
+          (ev.image
+            ? '<img class="show-img" src="' + esc(ev.image) + '" alt="' + esc(ev.name) + '" loading="lazy">'
+            : '<div class="show-img" style="background:var(--dark)"></div>') +
+          '<div class="show-date">' +
+            '<span class="show-date-day">' + esc(ev.date.dayLabel) + '</span>' +
+            '<span class="show-date-mon">' + esc(ev.date.monthLabel) + '</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="show-body">' +
+          '<p class="show-meta">' + esc(meta) + '</p>' +
+          '<p class="show-name">' + esc(ev.name) + '</p>' +
+          (ev.support ? '<p class="show-support">' + esc(ev.support) + '</p>' : '') +
+          (ev.description ? '<p class="show-desc">' + esc(ev.description) + '</p>' : '') +
+        '</div>' +
+        '<div class="show-foot">' +
+          '<span>' + esc(ev.venue || 'SLO Brew Live') + '</span>' +
+          '<span class="show-price">' + esc(ev.priceDisplay) + '</span>' +
+        '</div>' +
+        '<a href="' + href + '" class="show-btn" target="_blank" rel="noopener" ' +
+          'aria-label="Get tickets for ' + esc(ev.name) + '">Get Tickets</a>' +
+      '</div>'
+    );
+  }
+
+  /**
+   * Full calendar: every show, grouped under a month heading. The headings are
+   * real structure — they're how someone scanning a long list finds "what's on
+   * in October" — not decoration.
+   */
+  function renderFull(container, events) {
+    var html = '';
+    var currentMonth = '';
+    events.forEach(function (ev, i) {
+      if (ev.date.monthYear !== currentMonth) {
+        currentMonth = ev.date.monthYear;
+        var count = events.filter(function (e) {
+          return e.date.monthYear === currentMonth;
+        }).length;
+        html +=
+          '<div class="show-month">' +
+            '<span class="show-month-name">' + esc(currentMonth) + '</span>' +
+            '<span class="show-month-count">' + count + (count === 1 ? ' show' : ' shows') + '</span>' +
+          '</div>';
+      }
+      html += cardFull(ev);
+    });
+    container.innerHTML = html;
+  }
+
   function render(container, events) {
     var limit = parseInt(container.getAttribute('data-limit'), 10);
     var list = limit > 0 ? events.slice(0, limit) : events;
     var variant = container.getAttribute('data-variant') || 'lg';
     var cta = container.getAttribute('data-cta') || '';
 
-    container.innerHTML = list
-      .map(function (ev) {
-        return variant === 'sm' ? cardSmall(ev, cta) : cardLarge(ev);
-      })
-      .join('');
+    if (variant === 'full') {
+      renderFull(container, list);
+    } else {
+      container.innerHTML = list
+        .map(function (ev) {
+          return variant === 'sm' ? cardSmall(ev, cta) : cardLarge(ev);
+        })
+        .join('');
+    }
+
+    // Let the page show a live count if it has somewhere to put one.
+    var counter = document.querySelector('[data-events-count]');
+    if (counter) {
+      counter.textContent =
+        list.length + (list.length === 1 ? ' upcoming show' : ' upcoming shows');
+    }
     container.removeAttribute('data-loading');
   }
 

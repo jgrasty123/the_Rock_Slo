@@ -10,7 +10,16 @@
  *
  * Environment variables (set in Netlify → Site settings → Environment variables):
  *   TICKETWEB_API_KEY  — required for the full event list
- *   TICKETWEB_ORG_ID   — defaults to 214563 (The Rock / SLO Brew Live)
+ *   TICKETWEB_VENUE_ID — defaults to 428495 (SLO Brew Rock / SLO Brew Live)
+ *   TICKETWEB_ORG_ID   — 214563. Only used if no venue ID is set.
+ *
+ * WHY VENUE ID RATHER THAN ORG ID:
+ *   orgid=214563 returns only shows The Rock books itself (15 at time of build).
+ *   venueid=428495 returns everything happening in the room, including shows
+ *   booked by outside promoters (21 at time of build — Soulfly, Anberlin, The
+ *   Frights and others come in this way). The venue query is the real calendar.
+ *   Switch back by clearing TICKETWEB_VENUE_ID if the team ever wants to list
+ *   only their own promotions.
  *
  * SWAPPING TICKET PLATFORMS (my805tix):
  *   Only two things below are TicketWeb-specific: fetchTicketWeb() and
@@ -21,6 +30,7 @@
  */
 
 const TW_ENDPOINT = 'https://api.ticketweb.com/api/events';
+const VENUE_ID = process.env.TICKETWEB_VENUE_ID || '428495';
 const ORG_ID = process.env.TICKETWEB_ORG_ID || '214563';
 const API_KEY = process.env.TICKETWEB_API_KEY || '';
 
@@ -30,12 +40,14 @@ const USER_AGENT =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' +
   '(KHTML, like Gecko) Chrome/126.0 Safari/537.36';
 
-const MAX_EVENTS = 100;
+const MAX_EVENTS = 200;
 const CACHE_SECONDS = 900; // 15 min — new shows are announced, not minute-to-minute
 
 /* ---------------------------------------------------------------- helpers */
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const FULL_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
 /**
  * TicketWeb's record for the venue still reads "SLO Brew Rock"; the site brands
@@ -73,8 +85,14 @@ function parseTwDate(raw) {
     timeLabel = `${hour12}:${String(minute).padStart(2, '0')} ${suffix}`;
   }
 
+  // Zeller-free weekday: safe because we build the date in UTC and only read
+  // the weekday, never the local hour.
+  const weekday = DAYS[new Date(Date.UTC(year, month - 1, day)).getUTCDay()];
+
   return {
     sortKey: raw,
+    weekday,
+    monthYear: `${FULL_MONTHS[month - 1]} ${year}`,
     iso: `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`,
     dateLabel: `${MONTHS[month - 1]} ${day}`,
     dayLabel: String(day),
@@ -100,19 +118,53 @@ function splitBilling(eventName) {
   };
 }
 
+const ENTITIES = {
+  amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ',
+  rsquo: '\u2019', lsquo: '\u2018', rdquo: '\u201D', ldquo: '\u201C',
+  mdash: '\u2014', ndash: '\u2013', hellip: '\u2026', eacute: '\u00E9'
+};
+
+/**
+ * Event descriptions come back as HTML with entities double-encoded in places
+ * (&amp;quot;). Strip tags, then decode repeatedly until stable, so the front
+ * end receives plain text and its own escaping is the only escaping applied.
+ */
+function decodeEntities(str) {
+  var prev;
+  var out = str;
+  for (var pass = 0; pass < 3; pass++) {
+    prev = out;
+    out = out
+      .replace(/&#(\d+);/g, function (_, n) { return String.fromCharCode(+n); })
+      .replace(/&#x([0-9a-f]+);/gi, function (_, n) { return String.fromCharCode(parseInt(n, 16)); })
+      .replace(/&([a-z]+);/gi, function (m, name) {
+        var key = name.toLowerCase();
+        return Object.prototype.hasOwnProperty.call(ENTITIES, key) ? ENTITIES[key] : m;
+      });
+    if (out === prev) break;
+  }
+  return out;
+}
+
 function stripTags(html) {
   if (!html) return '';
-  return html.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
+  return decodeEntities(String(html).replace(/<[^>]*>/g, ' '))
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 /* ------------------------------------------------------- provider: ticketweb */
 
 async function fetchTicketWeb() {
   const params = new URLSearchParams({
-    orgid: ORG_ID,
     method: 'json',
     resultsPerPage: String(MAX_EVENTS)
   });
+
+  // Venue query returns every show in the room; org query only our own bookings.
+  if (VENUE_ID) params.set('venueid', VENUE_ID);
+  else params.set('orgid', ORG_ID);
+
   if (API_KEY) params.set('key', API_KEY);
 
   const res = await fetch(`${TW_ENDPOINT}?${params}`, {
@@ -138,13 +190,13 @@ function normalizeTicketWeb(raw) {
   const when = parseTwDate(dates.startdate);
   if (!when) return null;
 
-  const { name, support } = splitBilling(raw.eventname);
+  const { name, support } = splitBilling(decodeEntities(String(raw.eventname || '')));
 
   return {
     id: raw.eventid || '',
     name,
     support,
-    artist: (act.artist || '').trim(),
+    artist: decodeEntities(String(act.artist || '')).trim(),
     genre: act.genre || '',
     subgenre: act.subgenre || '',
     url: raw.eventurl || '',
@@ -155,7 +207,7 @@ function normalizeTicketWeb(raw) {
     ageLabel: raw.agerestrictionmessage || '',
     venue: venueLabel(venue.name),
     status: raw.status || '',
-    description: stripTags(raw.description).slice(0, 300)
+    description: stripTags(raw.description).slice(0, 400)
   };
 }
 
