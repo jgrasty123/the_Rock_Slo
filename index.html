@@ -473,30 +473,11 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
       </div>
       <a href="events.html" style="font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--orange);border-bottom:1px solid var(--orange);padding-bottom:2px">Full Calendar →</a>
     </div>
-    <div class="events-row">
-      <div class="event-card">
-        <img class="ec-img" src="https://images.unsplash.com/photo-1598387993441-a364f854c3e1?w=500&q=80" alt="">
-        <div class="ec-body"><p class="ec-date">Aug 29 · 7:00 PM · All Ages</p><p class="ec-name">The Charities</p><p class="ec-support">w/ Nydia Gonzalez</p></div>
-        <div class="ec-foot"><span>SLO Brew Live</span><span class="ec-price">from $29</span></div>
-        <a href="events.html" class="ec-btn">Get Tickets</a>
-      </div>
-      <div class="event-card">
-        <img class="ec-img" src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=500&q=80" alt="">
-        <div class="ec-body"><p class="ec-date">Sep 2 · 7:00 PM · All Ages</p><p class="ec-name">Rehash</p><p class="ec-support">w/ Makeout Reef</p></div>
-        <div class="ec-foot"><span>SLO Brew Live</span><span class="ec-price">from $32</span></div>
-        <a href="events.html" class="ec-btn">Get Tickets</a>
-      </div>
-      <div class="event-card">
-        <img class="ec-img" src="https://images.unsplash.com/photo-1571816119607-8c69b1e29e5d?w=500&q=80" alt="">
-        <div class="ec-body"><p class="ec-date">Aug 26 · 7:00 PM · All Ages</p><p class="ec-name">W.I.T.C.H.</p><p class="ec-support">&nbsp;</p></div>
-        <div class="ec-foot"><span>SLO Brew Live</span><span class="ec-price">from $34</span></div>
-        <a href="events.html" class="ec-btn">Get Tickets</a>
-      </div>
-      <div class="event-card">
-        <img class="ec-img" src="https://images.unsplash.com/photo-1471478331149-c72f17e33c73?w=500&q=80" alt="">
-        <div class="ec-body"><p class="ec-date">Nov 14 · 7:00 PM · All Ages</p><p class="ec-name">Bombargo</p><p class="ec-support">&nbsp;</p></div>
-        <div class="ec-foot"><span>SLO Brew Live</span><span class="ec-price">$27–$117</span></div>
-        <a href="events.html" class="ec-btn">Get Tickets</a>
+    <!-- Live feed from TicketWeb (js/events.js). Markup below is the fallback. -->
+    <div class="events-row" data-events data-variant="sm" data-limit="4">
+      <div style="grid-column:1/-1;background:var(--surface);border:1px solid var(--border);padding:48px 32px;text-align:center">
+        <p style="font-family:'Oswald',sans-serif;font-size:20px;text-transform:uppercase;color:var(--dark);margin-bottom:8px">Loading Upcoming Shows</p>
+        <a href="events.html" style="font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--orange);border-bottom:1px solid var(--orange);padding-bottom:2px">Full Calendar →</a>
       </div>
     </div>
   </div>
@@ -645,5 +626,6 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
 })();
 </script>
 
+<script src="js/events.js"></script>
 </body>
 </html>

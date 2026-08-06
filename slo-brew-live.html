@@ -417,12 +417,12 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
       <div><p class="eyebrow">Coming Up</p><h2 class="section-title">Upcoming Shows</h2></div>
       <a href="events.html" style="font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--orange);border-bottom:1px solid var(--orange);padding-bottom:2px">Full Calendar →</a>
     </div>
-    <div class="widget-box">
-      <div style="font-size:44px;margin-bottom:16px">🎟</div>
-      <p style="font-family:'Oswald',sans-serif;font-size:24px;text-transform:uppercase;color:var(--dark);margin-bottom:8px">Show Calendar</p>
-      <p style="font-size:14px;color:var(--muted);max-width:480px;margin:0 auto 28px;line-height:1.7">The full SLO Brew Live calendar and ticket links will appear here once the ticketing integration is live. <!-- PENDING: 805 Tix / SLO Brew Live links - Ryan, awaiting logo assets --></p>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-        <a href="events.html" class="btn-primary">See All Shows</a>
+    <!-- Live feed from TicketWeb (js/events.js). Markup below is the fallback. -->
+    <div class="events-grid" data-events data-variant="lg" data-limit="8">
+      <div class="widget-box" style="grid-column:1/-1">
+        <p style="font-family:'Oswald',sans-serif;font-size:22px;text-transform:uppercase;color:var(--dark);margin-bottom:8px">Loading Show Calendar</p>
+        <p style="font-size:14px;color:var(--muted);max-width:480px;margin:0 auto 24px;line-height:1.7">If shows don't appear, the full calendar is always available on TicketWeb.</p>
+        <a href="https://www.ticketweb.com/venue/slo-brew-rock-san-luis-obispo-ca/428495" target="_blank" rel="noopener" class="btn-primary">View All Shows ↗</a>
       </div>
     </div>
   </div>
@@ -593,5 +593,6 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
 })();
 </script>
 
+<script src="js/events.js"></script>
 </body>
 </html>
