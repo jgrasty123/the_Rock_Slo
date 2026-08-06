@@ -137,6 +137,33 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
 .ecl-btn:hover{background:var(--orange)}
 .events-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
 .widget-box{background:var(--surface);border:2px dashed var(--border);padding:56px 40px;text-align:center;border-radius:2px}
+/* Full show calendar — 2-up desktop, 1-up mobile */
+.show-list{display:grid;grid-template-columns:repeat(2,1fr);gap:2px}
+.show-month{grid-column:1/-1;display:flex;align-items:baseline;gap:16px;padding:34px 0 14px;border-bottom:1px solid var(--border);margin-bottom:2px}
+.show-month:first-child{padding-top:0}
+.show-month-name{font-family:'Oswald',sans-serif;font-weight:700;font-size:clamp(22px,3vw,30px);text-transform:uppercase;color:var(--dark);letter-spacing:-.5px;line-height:1}
+.show-month-count{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted-light);font-weight:600}
+.show-card{background:var(--surface);border:1px solid var(--border);overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .25s,transform .25s}
+.show-card:hover{box-shadow:0 10px 32px rgba(28,20,8,.12);transform:translateY(-3px)}
+.show-card:hover .show-img{filter:brightness(.9)}
+.show-media{position:relative}
+.show-img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;filter:brightness(.8);transition:filter .3s}
+.show-date{position:absolute;left:0;bottom:0;background:var(--orange);color:#fff;padding:10px 16px 8px;text-align:center;min-width:74px}
+.show-date-day{font-family:'Oswald',sans-serif;font-weight:700;font-size:30px;line-height:1;display:block}
+.show-date-mon{font-size:10px;letter-spacing:3px;text-transform:uppercase;font-weight:600;display:block;margin-top:3px;opacity:.9}
+.show-body{padding:22px 24px 8px;border-top:3px solid var(--orange);flex:1}
+.show-meta{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--orange);font-weight:600;margin-bottom:8px}
+.show-name{font-family:'Oswald',sans-serif;font-weight:600;font-size:clamp(19px,2.2vw,25px);text-transform:uppercase;color:var(--dark);line-height:1.08;margin-bottom:6px}
+.show-support{font-size:13px;color:var(--muted);font-style:italic;margin-bottom:10px}
+.show-desc{font-size:13.5px;color:var(--muted);line-height:1.75;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.show-foot{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;font-size:11px;color:var(--muted-light);gap:12px}
+.show-price{color:var(--orange);font-weight:700;font-size:15px;white-space:nowrap}
+.show-btn{display:block;background:var(--dark);color:#fff;text-align:center;padding:16px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:background .2s}
+.show-btn:hover{background:var(--orange)}
+.show-btn:focus-visible,.show-card a:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+@media(max-width:760px){.show-list{grid-template-columns:1fr}.show-body{padding:20px 20px 8px}.show-foot{padding:12px 20px}}
+@media(prefers-reduced-motion:reduce){.show-card{transition:none}.show-card:hover{transform:none}}
+
 @media(max-width:1000px){.events-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.events-grid{grid-template-columns:1fr}}
 /* ── HAMBURGER TOGGLE ── */
@@ -345,7 +372,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
 <section style="background:var(--surface);padding:56px 60px 40px;border-bottom:1px solid var(--border)">
   <div class="container" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px">
     <div><p class="eyebrow">Live Music</p><h2 class="section-title">All Shows</h2></div>
-    <p style="font-size:14px;color:var(--muted);max-width:400px;text-align:right">New shows added weekly. All ticketed SLO Brew Live events at The Rock, 855 Aerovista Place.</p>
+    <p style="font-size:14px;color:var(--muted);max-width:400px;text-align:right"><span data-events-count style="color:var(--orange);font-weight:700"></span> · New shows added weekly. All ticketed events at The Rock, 855 Aerovista Place.</p>
   </div>
 </section>
 
@@ -366,7 +393,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
     <!-- Live feed from TicketWeb via /.netlify/functions/events.
          The markup below is the fallback shown if the feed is unavailable; js/events.js
          replaces it with real cards on load. -->
-    <div class="events-grid" data-events data-variant="lg">
+    <div class="show-list" data-events data-variant="full">
       <div class="widget-box" style="grid-column:1/-1">
         <p style="font-family:'Oswald',sans-serif;font-size:22px;text-transform:uppercase;color:var(--dark);margin-bottom:8px">Loading Upcoming Shows</p>
         <p style="font-size:14px;color:var(--muted);max-width:460px;margin:0 auto 24px;line-height:1.7">If shows don't appear, the full calendar is always available on TicketWeb.</p>
