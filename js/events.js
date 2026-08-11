@@ -38,7 +38,7 @@
   }
 
   function cardLarge(ev) {
-    var href = esc(ev.url || TICKETS_FALLBACK);
+    var cta = ticketCta(ev);
     return (
       '<div class="event-card-lg">' +
         (ev.image
@@ -53,14 +53,16 @@
           '<span>' + esc(ev.venue || 'SLO Brew Live') + '</span>' +
           '<span class="ecl-price">' + esc(ev.priceDisplay) + '</span>' +
         '</div>' +
-        '<a href="' + href + '" class="ecl-btn" target="_blank" rel="noopener">Get Tickets</a>' +
+        '<a href="' + esc(cta.href) + '" class="ecl-btn"' +
+          (cta.external ? ' target="_blank" rel="noopener"' : '') + '>' + cta.label + '</a>' +
       '</div>'
     );
   }
 
   function cardSmall(ev, ctaHref) {
-    var href = esc(ctaHref || ev.url || TICKETS_FALLBACK);
-    var external = !ctaHref;
+    var base = ticketCta(ev);
+    var href = ctaHref || base.href;
+    var external = ctaHref ? false : base.external;
     return (
       '<div class="event-card">' +
         (ev.image
@@ -75,15 +77,27 @@
           '<span>' + esc(ev.venue || 'SLO Brew Live') + '</span>' +
           '<span class="ec-price">' + esc(ev.priceDisplay) + '</span>' +
         '</div>' +
-        '<a href="' + href + '" class="ec-btn"' +
+        '<a href="' + esc(href) + '" class="ec-btn"' +
           (external ? ' target="_blank" rel="noopener"' : '') +
-        '>Get Tickets</a>' +
+        '>' + (ctaHref ? 'Get Tickets' : base.label) + '</a>' +
       '</div>'
     );
   }
 
+  /**
+   * Manually-added shows may not have a ticket link yet (they aren't sold
+   * through TicketWeb). Sending those to the TicketWeb venue page would be a
+   * dead end, so they get a "More Info" button pointing at the contact page
+   * instead of a "Get Tickets" button that lies.
+   */
+  function ticketCta(ev) {
+    if (ev.url) return { href: ev.url, label: 'Get Tickets', external: true };
+    if (ev.status === 'manual') return { href: 'contact.html', label: 'More Info', external: false };
+    return { href: TICKETS_FALLBACK, label: 'Get Tickets', external: true };
+  }
+
   function cardFull(ev) {
-    var href = esc(ev.url || TICKETS_FALLBACK);
+    var cta = ticketCta(ev);
     var meta = [ev.date.weekday, ev.date.timeLabel, ev.ageLabel].filter(Boolean).join(' · ');
     return (
       '<div class="show-card">' +
@@ -106,8 +120,9 @@
           '<span>' + esc(ev.venue || 'SLO Brew Live') + '</span>' +
           '<span class="show-price">' + esc(ev.priceDisplay) + '</span>' +
         '</div>' +
-        '<a href="' + href + '" class="show-btn" target="_blank" rel="noopener" ' +
-          'aria-label="Get tickets for ' + esc(ev.name) + '">Get Tickets</a>' +
+        '<a href="' + esc(cta.href) + '" class="show-btn"' +
+          (cta.external ? ' target="_blank" rel="noopener"' : '') +
+          ' aria-label="' + esc(cta.label) + ' for ' + esc(ev.name) + '">' + cta.label + '</a>' +
       '</div>'
     );
   }
