@@ -216,7 +216,10 @@ function normalizeTicketWeb(raw) {
     ageLabel: raw.agerestrictionmessage || '',
     venue: venueLabel(venue.name),
     status: raw.status || '',
-    description: stripTags(raw.description).slice(0, 400)
+    description: stripTags(raw.description).slice(0, 400),
+    // TicketWeb shows sell through TicketWeb. When a show moves to My805Tix it
+    // gets added to the sheet with a slug, which takes precedence downstream.
+    ticketSlug: ''
   };
 }
 
@@ -321,7 +324,12 @@ async function fetchManualSheet() {
     url: col('ticket link'),
     image: col('image url'),
     age: col('age'),
-    publish: col('publish')
+    publish: col('publish'),
+    // Accept a few spellings so the team doesn't have to match one exactly.
+    ticketSlug: [
+      'my805tix', 'my805tix slug', '805tix', '805tix slug',
+      'modal slug', 'event slug'
+    ].map(col).find((i) => i >= 0)
   };
 
   return rows.slice(1).map((r) => {
@@ -335,9 +343,31 @@ async function fetchManualSheet() {
       url: get('url'),
       image: get('image'),
       age: get('age'),
-      publish: get('publish')
+      publish: get('publish'),
+      ticketSlug: get('ticketSlug')
     };
   });
+}
+
+/**
+ * My805Tix slug. The sheet may carry a bare slug ("hellbent-oct-4") or a pasted
+ * event URL — accept either, since whoever announces a show will paste whatever
+ * is on their clipboard. Returns '' if there's nothing usable.
+ */
+function normalizeTicketSlug(raw) {
+  const val = String(raw == null ? '' : raw).trim();
+  if (!val) return '';
+
+  // Full URL: pull the segment after /e/
+  const m = val.match(/my805tix\.com\/e\/([^/?#]+)/i);
+  if (m) return m[1];
+
+  // Anything else that looks like a URL is not a My805Tix event link — ignore
+  // it rather than building a broken modal URL out of it.
+  if (/^https?:\/\//i.test(val)) return '';
+
+  // Bare slug
+  return /^[A-Za-z0-9._-]+$/.test(val) ? val : '';
 }
 
 function normalizeManual(row) {
@@ -367,7 +397,8 @@ function normalizeManual(row) {
     ageLabel: row.age || '',
     venue: 'SLO Brew Live',
     status: 'manual',
-    description: ''
+    description: '',
+    ticketSlug: normalizeTicketSlug(row.ticketSlug)
   };
 }
 

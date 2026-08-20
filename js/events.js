@@ -21,6 +21,19 @@
 
   var ENDPOINT = '/.netlify/functions/events';
   var TICKETS_FALLBACK = 'https://www.ticketweb.com/venue/slo-brew-rock-san-luis-obispo-ca/428495';
+  var MY805_EVENT = 'https://www.my805tix.com/e/';
+
+  /* Unique per-button ids. ts_modal.js binds by element id, so every button on
+     the page needs its own. */
+  var modalSeq = 0;
+  function nextModalId() {
+    modalSeq += 1;
+    return 'ts-tickets-' + modalSeq;
+  }
+
+  function my805Url(slug) {
+    return MY805_EVENT + encodeURIComponent(slug) + '/tickets';
+  }
 
   function esc(str) {
     return String(str == null ? '' : str)
@@ -53,8 +66,7 @@
           '<span>' + esc(ev.venue || 'SLO Brew Live') + '</span>' +
           '<span class="ecl-price">' + esc(ev.priceDisplay) + '</span>' +
         '</div>' +
-        '<a href="' + esc(cta.href) + '" class="ecl-btn"' +
-          (cta.external ? ' target="_blank" rel="noopener"' : '') + '>' + cta.label + '</a>' +
+        ticketControl(cta, 'ecl-btn', cta.label + ' for ' + ev.name) +
       '</div>'
     );
   }
@@ -77,9 +89,11 @@
           '<span>' + esc(ev.venue || 'SLO Brew Live') + '</span>' +
           '<span class="ec-price">' + esc(ev.priceDisplay) + '</span>' +
         '</div>' +
-        '<a href="' + esc(href) + '" class="ec-btn"' +
-          (external ? ' target="_blank" rel="noopener"' : '') +
-        '>' + (ctaHref ? 'Get Tickets' : base.label) + '</a>' +
+        ticketControl(
+          ctaHref ? { href: href, label: 'Get Tickets', external: false } : base,
+          'ec-btn',
+          (ctaHref ? 'Get Tickets' : base.label) + ' for ' + ev.name
+        ) +
       '</div>'
     );
   }
@@ -91,9 +105,50 @@
    * instead of a "Get Tickets" button that lies.
    */
   function ticketCta(ev) {
+    // A My805Tix slug wins: it's the only source that can sell in a modal
+    // without leaving the site.
+    if (ev.ticketSlug) {
+      return { modal: true, slug: ev.ticketSlug, href: my805Url(ev.ticketSlug), label: 'Get Tickets' };
+    }
     if (ev.url) return { href: ev.url, label: 'Get Tickets', external: true };
     if (ev.status === 'manual') return { href: 'contact.html', label: 'More Info', external: false };
     return { href: TICKETS_FALLBACK, label: 'Get Tickets', external: true };
+  }
+
+  /**
+   * The ticket control. Modal shows render a <button> rather than an <a>:
+   * ts_modal.js attaches a document-level click listener and does NOT call
+   * preventDefault, so an anchor would open the modal AND navigate away.
+   * The real destination is kept in data-ts-url so the button still works if
+   * the script never loads.
+   */
+  function ticketControl(cta, cls, ariaLabel) {
+    var aria = ariaLabel ? ' aria-label="' + esc(ariaLabel) + '"' : '';
+    if (cta.modal) {
+      return '<button type="button" id="' + nextModalId() + '" class="' + cls + ' is-modal"' +
+        ' data-ts-url="' + esc(cta.href) + '"' + aria + '>' + cta.label + '</button>';
+    }
+    return '<a href="' + esc(cta.href) + '" class="' + cls + '"' +
+      (cta.external ? ' target="_blank" rel="noopener"' : '') + aria + '>' + cta.label + '</a>';
+  }
+
+  /**
+   * Bind after the cards are in the DOM — ts_modal.js only retries once on
+   * DOMContentLoaded, which has already fired by the time our fetch resolves.
+   */
+  function bindTicketModals(container) {
+    var btns = container.querySelectorAll('button[data-ts-url]');
+    Array.prototype.forEach.call(btns, function (btn) {
+      var url = btn.getAttribute('data-ts-url');
+      if (window.TSModals && typeof window.TSModals.buildModal === 'function') {
+        window.TSModals.buildModal({ url: url, modalTriggerElementId: btn.id });
+      } else {
+        // Script blocked or failed: degrade to opening the ticket page.
+        btn.addEventListener('click', function () {
+          window.open(url, '_blank', 'noopener');
+        });
+      }
+    });
   }
 
   function cardFull(ev) {
@@ -120,9 +175,7 @@
           '<span>' + esc(ev.venue || 'SLO Brew Live') + '</span>' +
           '<span class="show-price">' + esc(ev.priceDisplay) + '</span>' +
         '</div>' +
-        '<a href="' + esc(cta.href) + '" class="show-btn"' +
-          (cta.external ? ' target="_blank" rel="noopener"' : '') +
-          ' aria-label="' + esc(cta.label) + ' for ' + esc(ev.name) + '">' + cta.label + '</a>' +
+        ticketControl(cta, 'show-btn', cta.label + ' for ' + ev.name) +
       '</div>'
     );
   }
@@ -167,6 +220,8 @@
         })
         .join('');
     }
+
+    bindTicketModals(container);
 
     // Let the page show a live count if it has somewhere to put one.
     var counter = document.querySelector('[data-events-count]');
