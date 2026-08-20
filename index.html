@@ -168,7 +168,36 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
    are visually identical to the anchor buttons above. */
 .show-btn::after,.ecl-btn::after,.ec-btn::after{content:" \2192";display:inline-block;margin-left:6px;transition:transform .2s}
 .show-btn:hover::after,.ecl-btn:hover::after,.ec-btn:hover::after{transform:translateX(3px)}
-.show-btn.is-modal,.ecl-btn.is-modal,.ec-btn.is-modal{width:100%;border:none;font-family:inherit;line-height:inherit;cursor:pointer;-webkit-appearance:none;appearance:none}
+
+/* ---- Ticket CTA: raised, inset button so it reads as a control, not a bar.
+   Full-bleed + card overflow:hidden clipped any drop shadow, so the button is
+   inset with margin and carries its own solid edge + shadow. Hovering anywhere
+   on the card lights the CTA. ---- */
+.show-btn,.ecl-btn,.ec-btn{
+  margin:0 16px 16px;border-radius:3px;
+  box-shadow:0 3px 0 #7C3308,0 6px 14px rgba(28,20,8,.30);
+  transition:background .2s,box-shadow .2s,transform .2s;
+}
+.show-card:hover .show-btn,.event-card-lg:hover .ecl-btn,.event-card:hover .ec-btn,
+.show-btn:hover,.ecl-btn:hover,.ec-btn:hover{
+  background:#9E4008;
+  box-shadow:0 2px 0 #6B2C07,0 4px 10px rgba(28,20,8,.34);
+  transform:translateY(1px);
+}
+.show-btn:active,.ecl-btn:active,.ec-btn:active{
+  box-shadow:0 1px 0 #6B2C07,0 2px 5px rgba(28,20,8,.3);transform:translateY(2px);
+}
+/* Poster zoom on card hover — the Ventura-style motion cue */
+.show-media,.event-card-lg,.event-card{overflow:hidden}
+.show-img,.ecl-img,.ec-img{transition:filter .3s,transform .5s ease}
+.show-card:hover .show-img,.event-card-lg:hover .ecl-img,.event-card:hover .ec-img{transform:scale(1.045)}
+@media(prefers-reduced-motion:reduce){
+  .show-btn,.ecl-btn,.ec-btn,.show-img,.ecl-img,.ec-img{transition:none}
+  .show-card:hover .show-img,.event-card-lg:hover .ecl-img,.event-card:hover .ec-img{transform:none}
+  .show-btn:hover,.ecl-btn:hover,.ec-btn:hover,
+  .show-card:hover .show-btn,.event-card-lg:hover .ecl-btn,.event-card:hover .ec-btn{transform:none}
+}
+.show-btn.is-modal,.ecl-btn.is-modal,.ec-btn.is-modal{width:calc(100% - 32px);border:none;font-family:inherit;line-height:inherit;cursor:pointer;-webkit-appearance:none;appearance:none}
 
 /* Private events feature */
 .pe-feature{display:grid;grid-template-columns:1fr 1fr;gap:0}
