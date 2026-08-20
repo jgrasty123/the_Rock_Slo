@@ -163,6 +163,10 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
 .ec-price{color:var(--orange);font-weight:700;font-size:13px}
 .ec-btn{display:block;background:var(--dark);color:#fff;text-align:center;padding:13px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:background .2s}
 .ec-btn:hover{background:var(--orange)}
+/* My805Tix modal triggers are <button> elements so the modal script can bind
+   without the browser also following a link. Reset UA button styling so they
+   are visually identical to the anchor buttons above. */
+.show-btn.is-modal,.ecl-btn.is-modal,.ec-btn.is-modal{width:100%;border:none;font-family:inherit;line-height:inherit;cursor:pointer;-webkit-appearance:none;appearance:none}
 
 /* Private events feature */
 .pe-feature{display:grid;grid-template-columns:1fr 1fr;gap:0}
@@ -626,6 +630,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
 })();
 </script>
 
+<script src="https://www.my805tix.com/ts_modal.js"></script>
 <script src="js/events.js"></script>
 </body>
 </html>
