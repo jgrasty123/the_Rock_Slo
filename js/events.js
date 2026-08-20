@@ -133,6 +133,41 @@
   }
 
   /**
+   * Brand the parts of the My805Tix modal that live in OUR document.
+   *
+   * The checkout itself is a cross-origin iframe on my805tix.com — its
+   * layout, colours and the quantity control are theirs and cannot be
+   * touched from here. What we do own: the backdrop behind the iframe
+   * (their page is transparent, so ours shows through), the loading
+   * spinner, and the button labels they accept as URL params.
+   */
+  var modalBranded = false;
+  function brandTicketModal() {
+    if (modalBranded) return;
+    modalBranded = true;
+
+    // Warm near-black instead of flat rgba(0,0,0,.8) — matches --dark.
+    window.tsOverlayBackground = 'rgba(28, 20, 16, 0.92)';
+
+    // Their spinner is hardcoded #3397E1 via an @keyframes block appended to
+    // <body> at build time. Redefining the same keyframes later in the
+    // document wins, so this style tag has to be appended after theirs.
+    var s = document.createElement('style');
+    s.textContent =
+      '@keyframes animate2{' +
+        '0%{box-shadow:inset #E07820 0 0 0 17px;transform:rotate(-140deg)}' +
+        '50%{box-shadow:inset #E07820 0 0 0 2px}' +
+        '100%{box-shadow:inset #E07820 0 0 0 17px;transform:rotate(140deg)}' +
+      '}' +
+      '#ts-modal-overlay{backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}';
+    document.body.appendChild(s);
+  }
+
+  /* Note: the modal's button label params (c/cm/n/nm/b/bm) ADD a button
+     rather than relabelling the existing one — passing them leaves two
+     near-identical CTAs side by side. Left alone deliberately. */
+
+  /**
    * Bind after the cards are in the DOM — ts_modal.js only retries once on
    * DOMContentLoaded, which has already fired by the time our fetch resolves.
    */
@@ -142,6 +177,7 @@
       var url = btn.getAttribute('data-ts-url');
       if (window.TSModals && typeof window.TSModals.buildModal === 'function') {
         window.TSModals.buildModal({ url: url, modalTriggerElementId: btn.id });
+        brandTicketModal();
       } else {
         // Script blocked or failed: degrade to opening the ticket page.
         btn.addEventListener('click', function () {
