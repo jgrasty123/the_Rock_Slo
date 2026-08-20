@@ -133,8 +133,8 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
 .ecl-support{font-size:11px;color:var(--muted);margin-bottom:4px;font-style:italic}
 .ecl-foot{display:flex;justify-content:space-between;padding:10px 20px 14px;font-size:11px;color:var(--muted-light)}
 .ecl-price{color:var(--orange);font-weight:700;font-size:13px}
-.ecl-btn{display:block;background:var(--dark);color:#fff;text-align:center;padding:14px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:background .2s}
-.ecl-btn:hover{background:var(--orange)}
+.ecl-btn{display:block;background:#B84E0C;color:#fff;text-align:center;padding:16px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:background .2s}
+.ecl-btn:hover{background:#9E4008}
 .events-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
 .widget-box{background:var(--surface);border:2px dashed var(--border);padding:56px 40px;text-align:center;border-radius:2px}
 /* Full show calendar — 2-up desktop, 1-up mobile */
@@ -158,11 +158,13 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
 .show-desc{font-size:13.5px;color:var(--muted);line-height:1.75;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .show-foot{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;font-size:11px;color:var(--muted-light);gap:12px}
 .show-price{color:var(--orange);font-weight:700;font-size:15px;white-space:nowrap}
-.show-btn{display:block;background:var(--dark);color:#fff;text-align:center;padding:16px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:background .2s}
-.show-btn:hover{background:var(--orange)}
+.show-btn{display:block;background:#B84E0C;color:#fff;text-align:center;padding:18px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:background .2s}
+.show-btn:hover{background:#9E4008}
 /* My805Tix modal triggers are <button> elements so the modal script can bind
    without the browser also following a link. Reset UA button styling so they
    are visually identical to the anchor buttons above. */
+.show-btn::after,.ecl-btn::after,.ec-btn::after{content:" \2192";display:inline-block;margin-left:6px;transition:transform .2s}
+.show-btn:hover::after,.ecl-btn:hover::after,.ec-btn:hover::after{transform:translateX(3px)}
 .show-btn.is-modal,.ecl-btn.is-modal,.ec-btn.is-modal{width:100%;border:none;font-family:inherit;line-height:inherit;cursor:pointer;-webkit-appearance:none;appearance:none}
 .show-btn:focus-visible,.show-card a:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
 @media(max-width:760px){.show-list{grid-template-columns:1fr}.show-body{padding:20px 20px 8px}.show-foot{padding:12px 20px}}
