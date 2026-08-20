@@ -308,8 +308,32 @@ async function fetchManualSheet() {
   const res = await fetch(SHEET_CSV_URL, { headers: { 'User-Agent': USER_AGENT } });
   if (!res.ok) throw new Error(`Sheet responded ${res.status}`);
 
-  const rows = parseCsv(await res.text());
+  const text = await res.text();
+
+  // A "Publish to web" URL ending in /pubhtml returns the HTML page, not CSV.
+  // parseCsv happily shreds that into nonsense rows instead of throwing, so the
+  // sheet silently yields zero shows while still reporting healthy. Fail loudly
+  // instead — the status in the response is the only diagnostic there is.
+  const ctype = res.headers.get('content-type') || '';
+  if (/text\/html/i.test(ctype) || /^\s*<!doctype html/i.test(text)) {
+    throw new Error(
+      'Sheet URL returned HTML, not CSV. MANUAL_SHEET_CSV must be the ' +
+      'Publish-to-web CSV link ending in /pub?output=csv (not /pubhtml).'
+    );
+  }
+
+  const rows = parseCsv(text);
   if (rows.length < 2) return [];
+
+  // Guard against a published-but-wrong tab, or renamed columns.
+  const head = rows[0].map((h) => String(h || '').trim().toLowerCase());
+  const missing = ['date', 'show name', 'publish'].filter((h) => !head.includes(h));
+  if (missing.length) {
+    throw new Error(
+      'Sheet is missing required column(s): ' + missing.join(', ') +
+      '. Found: ' + (head.join(', ').slice(0, 120) || '(none)')
+    );
+  }
 
   // Match columns by header name so the team can reorder or add columns in the
   // sheet without breaking anything.
