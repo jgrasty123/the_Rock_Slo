@@ -35,6 +35,12 @@
     return MY805_EVENT + encodeURIComponent(slug) + '/tickets';
   }
 
+  /* The event page renders without My805Tix's site chrome when asked for the
+     modal view — without it the frame drags in their whole nav bar. */
+  function my805InfoUrl(slug) {
+    return MY805_EVENT + encodeURIComponent(slug);
+  }
+
   function esc(str) {
     return String(str == null ? '' : str)
       .replace(/&/g, '&amp;')
@@ -120,8 +126,16 @@
     return { href: TICKETS_FALLBACK, label: 'Get Tickets', external: true };
   }
 
-  /** Secondary button — the full event page on My805Tix. */
+  /**
+   * Secondary button — the full event details. When the show lives on
+   * My805Tix its page opens in the same modal as the checkout, so nobody
+   * leaves the site. Listing-only events have no My805Tix page worth
+   * framing, so those fall back to a plain link.
+   */
   function infoCta(ev) {
+    if (ev.ticketSlug) {
+      return { modal: true, href: my805InfoUrl(ev.ticketSlug), label: 'More Info' };
+    }
     if (!ev.url) return null;
     return { href: ev.url, label: 'More Info', external: true };
   }
@@ -190,9 +204,12 @@
     var info = infoCta(ev);
     var primary = ticketControl(cta, cls, cta.label + ' for ' + ev.name);
     if (!info) return primary;
-    var secondary = '<a href="' + esc(info.href) + '" class="' + infoCls + '"' +
-      ' target="_blank" rel="noopener" aria-label="More info about ' + esc(ev.name) + '">' +
-      info.label + '</a>';
+    var aria = ' aria-label="More info about ' + esc(ev.name) + '"';
+    var secondary = info.modal
+      ? '<button type="button" id="' + nextModalId() + '" class="' + infoCls + ' is-modal"' +
+          ' data-ts-url="' + esc(info.href) + '"' + aria + '>' + info.label + '</button>'
+      : '<a href="' + esc(info.href) + '" class="' + infoCls + '"' +
+          ' target="_blank" rel="noopener"' + aria + '>' + info.label + '</a>';
     return '<div class="cta-row">' + primary + secondary + '</div>';
   }
 
