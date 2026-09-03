@@ -25,6 +25,9 @@
 
   /* Unique per-button ids. ts_modal.js binds by element id, so every button on
      the page needs its own. */
+  /* Rendered events, so an info button can find its event and the ticket
+     trigger that's already bound to the checkout modal. */
+  var registry = [];
   var modalSeq = 0;
   function nextModalId() {
     modalSeq += 1;
@@ -133,8 +136,12 @@
    * framing, so those fall back to a plain link.
    */
   function infoCta(ev) {
-    if (ev.ticketSlug) {
-      return { modal: true, href: my805InfoUrl(ev.ticketSlug), label: 'More Info' };
+    // Their ?modal=true view clips long descriptions — .ts-modal-content is
+    // overflow:hidden and event copy runs well past its height, with no way to
+    // scroll and no way for us to fix it inside a cross-origin frame. The feed
+    // already carries the description, so render it ourselves instead.
+    if (ev.descriptionHtml || ev.description) {
+      return { own: true, label: 'More Info' };
     }
     if (!ev.url) return null;
     return { href: ev.url, label: 'More Info', external: true };
@@ -147,17 +154,135 @@
    * The real destination is kept in data-ts-url so the button still works if
    * the script never loads.
    */
-  function ticketControl(cta, cls, ariaLabel) {
+  function ticketControl(cta, cls, ariaLabel, forcedId) {
     var aria = ariaLabel ? ' aria-label="' + esc(ariaLabel) + '"' : '';
     if (cta.soldOut) {
       return '<span class="' + cls + ' is-soldout" aria-disabled="true">' + cta.label + '</span>';
     }
     if (cta.modal) {
-      return '<button type="button" id="' + nextModalId() + '" class="' + cls + ' is-modal"' +
+      return '<button type="button" id="' + (forcedId || nextModalId()) + '" class="' + cls + ' is-modal"' +
         ' data-ts-url="' + esc(cta.href) + '"' + aria + '>' + cta.label + '</button>';
     }
     return '<a href="' + esc(cta.href) + '" class="' + cls + '"' +
       (cta.external ? ' target="_blank" rel="noopener"' : '') + aria + '>' + cta.label + '</a>';
+  }
+
+
+  /* ------------------------------------------------ event details modal ---
+     Ours, not theirs: their framed view can't scroll long descriptions. This
+     one owns its scroll, matches the site, traps focus and restores it. */
+
+  var infoEl = null;
+  var lastFocus = null;
+
+  function buildInfoModal() {
+    if (infoEl) return infoEl;
+    infoEl = document.createElement('div');
+    infoEl.className = 'ev-modal';
+    infoEl.setAttribute('hidden', '');
+    infoEl.innerHTML =
+      '<div class="ev-modal-backdrop" data-close></div>' +
+      '<div class="ev-modal-panel" role="dialog" aria-modal="true" aria-labelledby="ev-modal-title">' +
+        '<button type="button" class="ev-modal-close" data-close aria-label="Close">&times;</button>' +
+        '<div class="ev-modal-scroll">' +
+          '<div class="ev-modal-head">' +
+            '<p class="ev-modal-meta"></p>' +
+            '<h2 class="ev-modal-title" id="ev-modal-title"></h2>' +
+            '<p class="ev-modal-support"></p>' +
+          '</div>' +
+          '<div class="ev-modal-body"></div>' +
+        '</div>' +
+        '<div class="ev-modal-foot"></div>' +
+      '</div>';
+    document.body.appendChild(infoEl);
+
+    infoEl.addEventListener('click', function (e) {
+      if (e.target.hasAttribute && e.target.hasAttribute('data-close')) closeInfoModal();
+    });
+    return infoEl;
+  }
+
+  function closeInfoModal() {
+    if (!infoEl || infoEl.hasAttribute('hidden')) return;
+    infoEl.setAttribute('hidden', '');
+    document.body.style.overflow = '';
+    document.removeEventListener('keydown', onInfoKey);
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+    lastFocus = null;
+  }
+
+  function onInfoKey(e) {
+    if (e.key === 'Escape') { closeInfoModal(); return; }
+    if (e.key !== 'Tab' || !infoEl) return;
+    var f = infoEl.querySelectorAll('button, [href], .ev-modal-scroll');
+    if (!f.length) return;
+    var first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+
+  function openInfoModal(entry) {
+    var ev = entry.ev;
+    var el = buildInfoModal();
+    lastFocus = document.activeElement;
+
+    var bits = [ev.date.weekday + ' · ' + ev.date.dateLabel + ', ' + ev.date.yearLabel];
+    if (ev.date.timeLabel) bits.push(ev.date.timeLabel);
+    if (ev.venue) bits.push(ev.venue);
+    if (ev.ageLabel) bits.push(ev.ageLabel);
+
+    el.querySelector('.ev-modal-meta').textContent = bits.join(' · ');
+    el.querySelector('.ev-modal-title').textContent = ev.name;
+
+    var sup = el.querySelector('.ev-modal-support');
+    sup.textContent = ev.support || '';
+    sup.style.display = ev.support ? '' : 'none';
+
+    // Sanitized server-side; falls back to plain text if it's ever empty.
+    var body = el.querySelector('.ev-modal-body');
+    if (ev.descriptionHtml) body.innerHTML = ev.descriptionHtml;
+    else body.textContent = ev.description || '';
+
+    // Reuse the card's own ticket trigger so the checkout binding still holds.
+    var foot = el.querySelector('.ev-modal-foot');
+    foot.innerHTML = '';
+    if (ev.priceDisplay) {
+      var price = document.createElement('span');
+      price.className = 'ev-modal-price';
+      price.textContent = ev.priceDisplay;
+      foot.appendChild(price);
+    }
+    if (ev.soldOut) {
+      var so = document.createElement('span');
+      so.className = 'show-btn is-soldout';
+      so.textContent = 'Sold Out';
+      foot.appendChild(so);
+    } else if (entry.ticketId && document.getElementById(entry.ticketId)) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'show-btn is-modal';
+      btn.textContent = 'Get Tickets';
+      btn.addEventListener('click', function () {
+        var trigger = document.getElementById(entry.ticketId);
+        closeInfoModal();
+        if (trigger) trigger.click();
+      });
+      foot.appendChild(btn);
+    } else if (ev.externalTicketUrl || ev.url) {
+      var a = document.createElement('a');
+      a.className = 'show-btn';
+      a.href = ev.externalTicketUrl || ev.url;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = 'Get Tickets';
+      foot.appendChild(a);
+    }
+
+    el.querySelector('.ev-modal-scroll').scrollTop = 0;
+    el.removeAttribute('hidden');
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', onInfoKey);
+    el.querySelector('.ev-modal-close').focus();
   }
 
   /**
@@ -202,14 +327,20 @@
   function ctaRow(ev, cls, infoCls) {
     var cta = ticketCta(ev);
     var info = infoCta(ev);
-    var primary = ticketControl(cta, cls, cta.label + ' for ' + ev.name);
+    var ticketId = cta.modal ? nextModalId() : '';
+    var primary = ticketControl(cta, cls, cta.label + ' for ' + ev.name, ticketId);
     if (!info) return primary;
+
     var aria = ' aria-label="More info about ' + esc(ev.name) + '"';
-    var secondary = info.modal
-      ? '<button type="button" id="' + nextModalId() + '" class="' + infoCls + ' is-modal"' +
-          ' data-ts-url="' + esc(info.href) + '"' + aria + '>' + info.label + '</button>'
-      : '<a href="' + esc(info.href) + '" class="' + infoCls + '"' +
-          ' target="_blank" rel="noopener"' + aria + '>' + info.label + '</a>';
+    var secondary;
+    if (info.own) {
+      var idx = registry.push({ ev: ev, ticketId: ticketId }) - 1;
+      secondary = '<button type="button" class="' + infoCls + ' is-modal"' +
+        ' data-info-index="' + idx + '"' + aria + '>' + info.label + '</button>';
+    } else {
+      secondary = '<a href="' + esc(info.href) + '" class="' + infoCls + '"' +
+        ' target="_blank" rel="noopener"' + aria + '>' + info.label + '</a>';
+    }
     return '<div class="cta-row">' + primary + secondary + '</div>';
   }
 
@@ -218,6 +349,15 @@
    * DOMContentLoaded, which has already fired by the time our fetch resolves.
    */
   function bindTicketModals(container) {
+    // Our own details modal.
+    var infoBtns = container.querySelectorAll('button[data-info-index]');
+    Array.prototype.forEach.call(infoBtns, function (btn) {
+      btn.addEventListener('click', function () {
+        var entry = registry[+btn.getAttribute('data-info-index')];
+        if (entry) openInfoModal(entry);
+      });
+    });
+
     var btns = container.querySelectorAll('button[data-ts-url]');
     Array.prototype.forEach.call(btns, function (btn) {
       var url = btn.getAttribute('data-ts-url');

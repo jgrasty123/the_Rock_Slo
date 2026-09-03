@@ -140,6 +140,47 @@ function stripTags(html) {
     .trim();
 }
 
+/**
+ * Event descriptions are author-written HTML from the My805Tix editor. They're
+ * rendered into our own details modal, so everything outside a small allowlist
+ * is stripped: no scripts, no styles, no event handlers, no javascript: URLs.
+ * Live summaries only use p/br/span/strong/em/img/hr.
+ */
+const ALLOWED_TAGS = new Set(['p', 'br', 'strong', 'b', 'em', 'i', 'u', 'hr', 'ul', 'ol', 'li', 'h3', 'h4', 'img', 'a']);
+
+function sanitizeHtml(input) {
+  if (!input) return '';
+
+  let out = String(input)
+    // Drop whole dangerous elements including their contents.
+    .replace(/<\s*(script|style|iframe|object|embed|form|input|svg)[\s\S]*?<\s*\/\s*\1\s*>/gi, '')
+    .replace(/<\s*(script|style|iframe|object|embed|form|input|svg)\b[^>]*\/?>/gi, '')
+    .replace(/<!--[\s\S]*?-->/g, '');
+
+  out = out.replace(/<\s*(\/?)\s*([a-zA-Z0-9]+)([^>]*)>/g, (match, close, tagRaw, attrs) => {
+    const tag = tagRaw.toLowerCase();
+    if (!ALLOWED_TAGS.has(tag)) return '';
+    if (close) return `</${tag}>`;
+
+    // Rebuild from scratch — only these attributes survive, and only https.
+    let kept = '';
+    if (tag === 'img') {
+      const src = /\bsrc\s*=\s*["']([^"']+)["']/i.exec(attrs);
+      if (!src || !/^https:\/\//i.test(src[1])) return '';
+      const alt = /\balt\s*=\s*["']([^"']*)["']/i.exec(attrs);
+      kept = ` src="${src[1].replace(/"/g, '&quot;')}" alt="${(alt ? alt[1] : '').replace(/"/g, '&quot;')}" loading="lazy"`;
+    } else if (tag === 'a') {
+      const href = /\bhref\s*=\s*["']([^"']+)["']/i.exec(attrs);
+      if (!href || !/^https?:\/\//i.test(href[1])) return '';
+      kept = ` href="${href[1].replace(/"/g, '&quot;')}" target="_blank" rel="noopener nofollow"`;
+    }
+    return `<${tag}${kept}>`;
+  });
+
+  // Collapse the runs of empty paragraphs the editor leaves behind.
+  return out.replace(/(?:\s*<p>\s*(?:&nbsp;|\s)*<\/p>\s*){2,}/gi, '<p></p>').trim();
+}
+
 function money(n) {
   return Number.isInteger(n) ? `$${n}` : `$${n.toFixed(2)}`;
 }
@@ -278,6 +319,8 @@ function normalizeMy805(entry) {
     venue: venueLabel(E.location),
     status: '',
     description: stripTags(E.summary).slice(0, 400),
+    // Full description for the details modal, sanitized above.
+    descriptionHtml: sanitizeHtml(E.summary),
     // Password-protected events can't sell through the modal, so they get a
     // plain link to the event page instead.
     ticketSlug: (E.password_protected || external) ? '' : slug
