@@ -219,6 +219,14 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
 }
 .cta-row > .is-soldout::after{display:none}
 @media(max-width:480px){.cta-row{flex-direction:column}.cta-row > *{flex:1 1 auto}}
+
+/* Secondary button as a modal trigger: strip UA button styling, and let flex
+   size it rather than the standalone .is-modal width rule. */
+.show-btn-alt.is-modal,.ecl-btn-alt.is-modal,.ec-btn-alt.is-modal{
+  border:1px solid var(--border);font-family:'Oswald',sans-serif;cursor:pointer;
+  -webkit-appearance:none;appearance:none;
+}
+.cta-row > .is-modal{width:auto}
 .show-btn.is-modal,.ecl-btn.is-modal,.ec-btn.is-modal{width:calc(100% - 32px);border:none;font-family:inherit;line-height:inherit;cursor:pointer;-webkit-appearance:none;appearance:none}
 
 /* Private events feature */
