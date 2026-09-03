@@ -240,8 +240,17 @@
 
     // Sanitized server-side; falls back to plain text if it's ever empty.
     var body = el.querySelector('.ev-modal-body');
-    if (ev.descriptionHtml) body.innerHTML = ev.descriptionHtml;
-    else body.textContent = ev.description || '';
+    if (ev.descriptionHtml) {
+      body.innerHTML = ev.descriptionHtml;
+      // CSS can't read an attribute directly, so mirror the authored width
+      // into a custom property and let max-width cap it.
+      Array.prototype.forEach.call(body.querySelectorAll('img[width]'), function (img) {
+        var w = parseInt(img.getAttribute('width'), 10);
+        if (w > 0) img.style.setProperty('--imgw', w + 'px');
+      });
+    } else {
+      body.textContent = ev.description || '';
+    }
 
     // Reuse the card's own ticket trigger so the checkout binding still holds.
     var foot = el.querySelector('.ev-modal-foot');

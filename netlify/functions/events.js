@@ -146,7 +146,41 @@ function stripTags(html) {
  * is stripped: no scripts, no styles, no event handlers, no javascript: URLs.
  * Live summaries only use p/br/span/strong/em/img/hr.
  */
-const ALLOWED_TAGS = new Set(['p', 'br', 'strong', 'b', 'em', 'i', 'u', 'hr', 'ul', 'ol', 'li', 'h3', 'h4', 'img', 'a']);
+const ALLOWED_TAGS = new Set(['p', 'br', 'strong', 'b', 'em', 'i', 'u', 'hr', 'ul', 'ol', 'li', 'h3', 'h4', 'img', 'a', 'span']);
+
+/**
+ * The editor carries its layout in inline styles — font-size in points,
+ * text-align, and width/height on images. Passing raw style through would
+ * hand authors arbitrary CSS in our page, but dropping it flattens the
+ * hierarchy: a 36pt band name renders at body size and a 300px logo blows up
+ * to full width. So the intent is translated into a fixed set of classes we
+ * define, and nothing else survives.
+ */
+function sizeClass(style) {
+  const m = /font-size\s*:\s*([\d.]+)\s*(pt|px|em|rem)/i.exec(style || '');
+  if (!m) return '';
+  let pt = parseFloat(m[1]);
+  const unit = m[2].toLowerCase();
+  if (unit === 'px') pt = pt * 0.75;
+  else if (unit === 'em' || unit === 'rem') pt = pt * 12;
+  if (pt >= 30) return 'ev-fs-xl';
+  if (pt >= 22) return 'ev-fs-lg';
+  if (pt >= 16) return 'ev-fs-md';
+  if (pt > 0 && pt <= 10) return 'ev-fs-sm';
+  return '';
+}
+
+function alignClass(style) {
+  const m = /text-align\s*:\s*(center|right|left)/i.exec(style || '');
+  if (!m) return '';
+  const v = m[1].toLowerCase();
+  return v === 'left' ? '' : 'ev-ta-' + v;
+}
+
+function classAttr(list) {
+  const c = list.filter(Boolean).join(' ');
+  return c ? ` class="${c}"` : '';
+}
 
 function sanitizeHtml(input) {
   if (!input) return '';
@@ -163,18 +197,31 @@ function sanitizeHtml(input) {
     if (close) return `</${tag}>`;
 
     // Rebuild from scratch — only these attributes survive, and only https.
+    const styleMatch = /\bstyle\s*=\s*["']([^"']*)["']/i.exec(attrs);
+    const style = styleMatch ? styleMatch[1] : '';
+    const cls = classAttr([sizeClass(style), alignClass(style)]);
+
     let kept = '';
     if (tag === 'img') {
       const src = /\bsrc\s*=\s*["']([^"']+)["']/i.exec(attrs);
       if (!src || !/^https:\/\//i.test(src[1])) return '';
       const alt = /\balt\s*=\s*["']([^"']*)["']/i.exec(attrs);
+      // Authored dimensions decide how big a logo should be; CSS caps them so
+      // a 2048px promo still fits. Numeric only.
+      const w = /\bwidth\s*=\s*["']?(\d{1,5})/i.exec(attrs);
+      const h = /\bheight\s*=\s*["']?(\d{1,5})/i.exec(attrs);
       kept = ` src="${src[1].replace(/"/g, '&quot;')}" alt="${(alt ? alt[1] : '').replace(/"/g, '&quot;')}" loading="lazy"`;
+      if (w) kept += ` width="${w[1]}"`;
+      if (h) kept += ` height="${h[1]}"`;
+      return `<img${kept}${cls}>`;
     } else if (tag === 'a') {
       const href = /\bhref\s*=\s*["']([^"']+)["']/i.exec(attrs);
       if (!href || !/^https?:\/\//i.test(href[1])) return '';
       kept = ` href="${href[1].replace(/"/g, '&quot;')}" target="_blank" rel="noopener nofollow"`;
     }
-    return `<${tag}${kept}>`;
+    // A span carrying no size or alignment adds nothing — drop the wrapper.
+    if (tag === 'span' && !cls) return '';
+    return `<${tag}${kept}${cls}>`;
   });
 
   // Collapse the runs of empty paragraphs the editor leaves behind.
