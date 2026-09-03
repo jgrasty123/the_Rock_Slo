@@ -194,6 +194,28 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
   .show-btn:hover,.ecl-btn:hover,.ec-btn:hover,
   .show-card:hover .show-btn,.event-card-lg:hover .ecl-btn,.event-card:hover .ec-btn{transform:none}
 }
+
+/* ---- Ticket + More Info pair. The primary keeps its weight; the secondary
+   is an outline so it reads as an alternative, not a competing CTA. ---- */
+.cta-row{display:flex;gap:8px;margin:0 16px 16px}
+.cta-row > .show-btn,.cta-row > .ecl-btn,.cta-row > .ec-btn{flex:1 1 62%;margin:0}
+.show-btn-alt,.ecl-btn-alt,.ec-btn-alt{
+  flex:1 1 38%;display:flex;align-items:center;justify-content:center;text-align:center;
+  padding:18px 10px;font-family:'Oswald',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;border-radius:3px;
+  background:transparent;color:var(--dark);border:1px solid var(--border);
+  transition:background .2s,border-color .2s,color .2s;
+}
+.show-btn-alt:hover,.ecl-btn-alt:hover,.ec-btn-alt:hover{
+  background:var(--dark);border-color:var(--dark);color:#fff;
+}
+.ec-btn-alt{padding:15px 10px}
+/* Sold out: same footprint, visibly inert. */
+.show-btn.is-soldout,.ecl-btn.is-soldout,.ec-btn.is-soldout{
+  background:#6E6157;box-shadow:none;cursor:default;
+}
+.cta-row > .is-soldout::after{display:none}
+@media(max-width:480px){.cta-row{flex-direction:column}.cta-row > *{flex:1 1 auto}}
 .show-btn.is-modal,.ecl-btn.is-modal,.ec-btn.is-modal{width:calc(100% - 32px);border:none;font-family:inherit;line-height:inherit;cursor:pointer;-webkit-appearance:none;appearance:none}
 .show-btn:focus-visible,.show-card a:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
 @media(max-width:760px){.show-list{grid-template-columns:1fr}.show-body{padding:20px 20px 8px}.show-foot{padding:12px 20px}}
