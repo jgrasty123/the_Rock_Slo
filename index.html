@@ -246,7 +246,19 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
 .ev-modal-support{font-style:italic;color:rgba(255,255,255,.62);margin-top:8px}
 .ev-modal-body{font-size:15px;line-height:1.75;color:rgba(255,255,255,.86)}
 .ev-modal-body p{margin:0 0 14px}
-.ev-modal-body img{max-width:100%;height:auto;display:block;margin:18px auto;border-radius:2px}
+.ev-modal-body img{max-width:100%;height:auto;margin:18px auto;border-radius:2px;display:block}
+/* Authored width is respected as an upper bound so a 300px logo stays a logo
+   instead of filling the panel; wide promo art still scales down to fit. */
+.ev-modal-body img[width]{width:auto;max-width:min(100%,var(--imgw,100%))}
+.ev-modal-body p{text-align:inherit}
+/* Translated from the editor's inline styles — see sanitizeHtml(). */
+.ev-modal-body .ev-ta-center{text-align:center}
+.ev-modal-body .ev-ta-right{text-align:right}
+.ev-modal-body .ev-fs-xl{font-size:30px;line-height:1.15;display:inline-block;font-family:'Zilla Slab',Georgia,serif;color:#fff}
+.ev-modal-body .ev-fs-lg{font-size:22px;line-height:1.25;color:#fff}
+.ev-modal-body .ev-fs-md{font-size:17px;line-height:1.5}
+.ev-modal-body .ev-fs-sm{font-size:13px;color:rgba(255,255,255,.66)}
+.ev-modal-body .ev-fs-xl strong,.ev-modal-body .ev-fs-lg strong{font-weight:700}
 .ev-modal-body hr{border:none;border-top:1px solid rgba(255,255,255,.14);margin:22px 0}
 .ev-modal-body a{color:var(--amber)}
 .ev-modal-body strong{color:#fff}
