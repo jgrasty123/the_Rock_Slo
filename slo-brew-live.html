@@ -226,6 +226,41 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
   -webkit-appearance:none;appearance:none;
 }
 .cta-row > .is-modal{width:auto}
+
+/* ---- Event details modal (ours). Their framed view can't scroll long
+   descriptions, so this one owns its scrolling and matches the site. ---- */
+.ev-modal{position:fixed;inset:0;z-index:9998;display:flex;align-items:center;justify-content:center;padding:32px}
+.ev-modal[hidden]{display:none}
+.ev-modal-backdrop{position:absolute;inset:0;background:rgba(28,20,16,.92);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.ev-modal-panel{position:relative;display:flex;flex-direction:column;width:100%;max-width:760px;max-height:88vh;
+  background:#141010;border:1px solid rgba(255,255,255,.10);border-radius:3px;box-shadow:0 24px 60px rgba(0,0,0,.45);overflow:hidden}
+.ev-modal-close{position:absolute;top:10px;right:12px;z-index:2;width:38px;height:38px;line-height:1;
+  font-size:26px;background:transparent;border:none;color:var(--muted);cursor:pointer;border-radius:2px}
+.ev-modal-close{color:rgba(255,255,255,.65)}
+.ev-modal-close:hover{background:rgba(255,255,255,.12);color:#fff}
+.ev-modal-scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:34px 40px 26px}
+.ev-modal-head{margin-bottom:20px;padding-right:40px}
+.ev-modal-meta{font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:10px}
+.ev-modal-title{font-size:30px;line-height:1.1;margin:0;color:#fff}
+.ev-modal-support{font-style:italic;color:rgba(255,255,255,.62);margin-top:8px}
+.ev-modal-body{font-size:15px;line-height:1.75;color:rgba(255,255,255,.86)}
+.ev-modal-body p{margin:0 0 14px}
+.ev-modal-body img{max-width:100%;height:auto;display:block;margin:18px auto;border-radius:2px}
+.ev-modal-body hr{border:none;border-top:1px solid rgba(255,255,255,.14);margin:22px 0}
+.ev-modal-body a{color:var(--amber)}
+.ev-modal-body strong{color:#fff}
+.ev-modal-foot{display:flex;align-items:center;gap:16px;justify-content:flex-end;
+  padding:16px 40px;border-top:1px solid rgba(255,255,255,.12);background:#0F0C0C}
+.ev-modal-price{font-family:'Oswald',sans-serif;font-size:18px;font-weight:700;color:var(--amber);margin-right:auto}
+.ev-modal-foot .show-btn{margin:0;flex:0 0 auto;padding:14px 30px}
+@media(max-width:640px){
+  .ev-modal{padding:0}
+  .ev-modal-panel{max-width:none;max-height:100vh;height:100vh;border:none;border-radius:0}
+  .ev-modal-scroll{padding:26px 22px 20px}
+  .ev-modal-title{font-size:24px}
+  .ev-modal-foot{padding:14px 22px}
+}
+@media(prefers-reduced-motion:reduce){.ev-modal-backdrop{backdrop-filter:none;-webkit-backdrop-filter:none}}
 .show-btn.is-modal,.ecl-btn.is-modal,.ec-btn.is-modal{width:calc(100% - 32px);border:none;font-family:inherit;line-height:inherit;cursor:pointer;-webkit-appearance:none;appearance:none}
 .show-btn:focus-visible,.show-card a:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
 @media(max-width:760px){.show-list{grid-template-columns:1fr}.show-body{padding:20px 20px 8px}.show-foot{padding:12px 20px}}
