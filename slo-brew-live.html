@@ -497,7 +497,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
     <li><a href="private-events.html">Private Events</a></li>
     <li class="nav-dropdown">
       <div class="nav-dropdown-trigger">
-        <a href="events.html" class="active" aria-haspopup="true">Live Music</a>
+        <a href="slo-brew-live.html" class="active" aria-haspopup="true">Live Music</a>
         <button class="nav-dropdown-toggle" type="button" aria-label="Show Live Music submenu"></button>
       </div>
       <ul class="nav-submenu">
@@ -505,7 +505,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
       </ul>
     </li>
     <li><a href="about.html">About</a></li>
-    <li><a href="events.html" class="btn-nav-outline">🎟 Tickets</a></li>
+    <li><a href="slo-brew-live.html" class="btn-nav-outline">🎟 Tickets</a></li>
     <li><a href="order.html" class="btn-nav">Order Food</a></li>
   </ul>
 </nav>
@@ -553,17 +553,26 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
 <section style="background:var(--surface);padding:72px 60px;border-top:1px solid var(--border)">
   <div class="container">
     <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;flex-wrap:wrap;gap:16px">
-      <div><p class="eyebrow">Coming Up</p><h2 class="section-title">Upcoming Shows</h2></div>
-      <a href="events.html" style="font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--orange);border-bottom:1px solid var(--orange);padding-bottom:2px">Full Calendar →</a>
+      <div><p class="eyebrow">Coming Up</p><h2 class="section-title">All Shows</h2></div>
+      <p style="font-size:14px;color:var(--muted);max-width:400px;text-align:right"><span data-events-count style="color:var(--orange);font-weight:700"></span> upcoming shows. Tickets and full details on every listing below.</p>
     </div>
-    <!-- Live feed from TicketWeb (js/events.js). Markup below is the fallback. -->
-    <div class="show-list" data-events data-variant="full" data-limit="6">
+    <!-- Live feed from My805Tix (js/events.js). Markup below is the fallback. -->
+    <div class="show-list" data-events data-variant="full">
       <div class="widget-box" style="grid-column:1/-1">
         <p style="font-family:'Oswald',sans-serif;font-size:22px;text-transform:uppercase;color:var(--dark);margin-bottom:8px">Loading Show Calendar</p>
-        <p style="font-size:14px;color:var(--muted);max-width:480px;margin:0 auto 24px;line-height:1.7">If shows don't appear, the full calendar is always available on TicketWeb.</p>
-        <a href="https://www.ticketweb.com/venue/slo-brew-rock-san-luis-obispo-ca/428495" target="_blank" rel="noopener" class="btn-primary">View All Shows ↗</a>
+        <p style="font-size:14px;color:var(--muted);max-width:480px;margin:0 auto 24px;line-height:1.7">If shows don't appear, the full calendar is always available on My805Tix.</p>
+        <a href="https://www.my805tix.com/?org=6a567026-1b68-4240-af2a-1dcb0a1e60fd" target="_blank" rel="noopener" class="btn-primary">View All Shows ↗</a>
       </div>
     </div>
+  </div>
+</section>
+
+<section style="background:var(--orange);padding:48px 60px;text-align:center">
+  <p style="font-family:'Oswald',sans-serif;font-size:26px;font-weight:700;text-transform:uppercase;color:#fff;margin-bottom:8px">Questions About a Show?</p>
+  <p style="font-size:14px;color:rgba(255,255,255,.85);margin-bottom:24px;max-width:560px;margin-left:auto;margin-right:auto">Ticketing, age limits, set times, accessibility — our team is happy to help. Booking a show is a separate conversation, and that's below.</p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <a href="contact.html" class="btn-outline-white">Contact About a Show →</a>
+    <a href="#booking" class="btn-outline-white">Contact About Booking →</a>
   </div>
 </section>
 
@@ -657,7 +666,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
       <div>
         <p class="footer-col-hd">Explore</p>
         <ul class="footer-nav">
-          <li><a href="events.html">Events Calendar</a></li>
+          <li><a href="slo-brew-live.html">Events Calendar</a></li>
           <li><a href="slo-brew-live.html">SLO Brew Live</a></li>
           <li><a href="eat-drink.html">Food Menu</a></li>
           <li><a href="menu.html">Full Menu</a></li>
