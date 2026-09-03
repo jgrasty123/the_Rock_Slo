@@ -4,3 +4,17 @@
 
 [functions]
   node_bundler = "esbuild"
+
+# The events calendar was merged into the SLO Brew Live page. Kept as a 301 so
+# existing links, prints and search results still land somewhere useful.
+[[redirects]]
+  from = "/events"
+  to = "/slo-brew-live"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/events.html"
+  to = "/slo-brew-live.html"
+  status = 301
+  force = true
