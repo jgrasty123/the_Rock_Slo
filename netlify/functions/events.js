@@ -1,56 +1,36 @@
 /**
- * The Rock SLO — live events feed
+ * Upcoming shows feed for The Rock SLO.
  *
- * Proxies the TicketWeb Event Discovery API and returns a normalized event list.
+ *   1. Events come from My805Tix, the venue's ticketing platform.
+ *   2. Responses are cached at the CDN, so traffic spikes don't hit them.
+ *   3. One failing enrichment never removes a show from the calendar.
  *
- * Why this runs server-side instead of calling TicketWeb from the browser:
- *   1. The API key stays out of client JS.
- *   2. Responses are cached at the CDN, so traffic spikes don't hit TicketWeb.
- *   3. TicketWeb 502s any request without a browser-like User-Agent (see UA below).
+ * Two calls per refresh path:
  *
- * Environment variables (set in Netlify → Site settings → Environment variables):
- *   TICKETWEB_API_KEY  — required for the full event list
- *   TICKETWEB_VENUE_ID — defaults to 428495 (SLO Brew Rock / SLO Brew Live)
- *   TICKETWEB_ORG_ID   — 214563. Only used if no venue ID is set.
- *   MANUAL_SHEET_CSV   — published-to-web CSV URL of the manual shows sheet.
- *                        Optional; without it only TicketWeb shows appear.
+ *   list   /events/events_by_organization/{pid}/{oid}/...  → every event for
+ *          the organisation, with slug, date, venue and artwork. No pricing.
+ *   detail /e/{slug}/tickets                               → schema.org
+ *          JSON-LD with the ticket offers, which is where price and
+ *          availability live.
  *
- * TWO SOURCES:
- *   1. TicketWeb — everything ticketed through them, automatic.
- *   2. A Google Sheet — shows the team adds by hand (not sold via TicketWeb).
- *   Both are normalized to the same shape and merged. If either source fails,
- *   the other still renders; the page never goes blank because one is down.
- *
- * WHY VENUE ID RATHER THAN ORG ID:
- *   orgid=214563 returns only shows The Rock books itself (15 at time of build).
- *   venueid=428495 returns everything happening in the room, including shows
- *   booked by outside promoters (21 at time of build — Soulfly, Anberlin, The
- *   Frights and others come in this way). The venue query is the real calendar.
- *   Switch back by clearing TICKETWEB_VENUE_ID if the team ever wants to list
- *   only their own promotions.
- *
- * SWAPPING TICKET PLATFORMS (my805tix):
- *   Only two things below are TicketWeb-specific: fetchTicketWeb() and
- *   normalizeTicketWeb(). Write the equivalent pair for the new provider and
- *   point the handler at them. The shape returned by normalize() is the
- *   contract the front end depends on — keep it identical and no page markup
- *   or rendering code needs to change.
+ * Neither endpoint is formally documented — the list URL was read out of
+ * My805Tix's own events widget. It needs no key and is the same call their
+ * embeddable calendar makes, but if they change it this feed is what breaks.
+ * The `sources` field in the response says which half failed.
  */
 
-const TW_ENDPOINT = 'https://api.ticketweb.com/api/events';
-const VENUE_ID = process.env.TICKETWEB_VENUE_ID || '428495';
-const ORG_ID = process.env.TICKETWEB_ORG_ID || '214563';
-const API_KEY = process.env.TICKETWEB_API_KEY || '';
-const SHEET_CSV_URL = process.env.MANUAL_SHEET_CSV || '';
+const MY805_HOST = 'https://www.my805tix.com';
+const MY805_PID = process.env.MY805TIX_PID || '5f8de510-7f70-4c3f-ab9c-2f830ad1e040';
+const MY805_OID = process.env.MY805TIX_ORG_ID || '6a567026-1b68-4240-af2a-1dcb0a1e60fd';
 
-// TicketWeb returns a 502 error page for requests without a browser-like
-// User-Agent. This is not optional — a bare fetch() fails.
 const USER_AGENT =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' +
   '(KHTML, like Gecko) Chrome/126.0 Safari/537.36';
 
 const MAX_EVENTS = 200;
-const CACHE_SECONDS = 900; // 15 min — new shows are announced, not minute-to-minute
+const CACHE_SECONDS = 900; // 15 min — shows are announced, not minute-to-minute
+const DETAIL_CONCURRENCY = 6;
+const DETAIL_TIMEOUT_MS = 6000;
 
 /* ---------------------------------------------------------------- helpers */
 
@@ -59,12 +39,13 @@ const FULL_MONTHS = ['January','February','March','April','May','June','July','A
 const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
 /**
- * TicketWeb's record for the venue still reads "SLO Brew Rock"; the site brands
- * it "SLO Brew Live". Confirmed with the team that these are the same room, so
- * display the site's name rather than surfacing two names to visitors. Any
- * other venue passes through untouched.
+ * My805Tix records the room as "The Rock" or "Rod & Hammer Rock"; the site
+ * brands the music room "SLO Brew Live". Same room — show the site's name
+ * rather than surfacing three names to visitors.
  */
 const VENUE_LABELS = {
+  'the rock': 'SLO Brew Live',
+  'rod & hammer rock': 'SLO Brew Live',
   'slo brew rock': 'SLO Brew Live'
 };
 
@@ -74,35 +55,37 @@ function venueLabel(name) {
 }
 
 /**
- * TicketWeb dates arrive as "YYYYMMDDHHMMSS" in the venue's local time.
+ * My805Tix returns "2026-09-11 19:00:00" already in the venue's local time.
  * Parse the components directly — passing this through new Date() would
- * reinterpret it in the server's timezone and shift evening shows to the
- * wrong day.
+ * reinterpret it in the server's timezone and shift evening shows a day.
  */
-function parseTwDate(raw) {
-  if (!raw || raw.length < 8) return null;
-  const year = +raw.slice(0, 4);
-  const month = +raw.slice(4, 6);
-  const day = +raw.slice(6, 8);
-  const hour = raw.length >= 10 ? +raw.slice(8, 10) : 0;
-  const minute = raw.length >= 12 ? +raw.slice(10, 12) : 0;
+function parseM8Date(raw) {
+  if (!raw) return null;
+  const m = String(raw).match(/^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/);
+  if (!m) return null;
+
+  const year = +m[1], month = +m[2], day = +m[3];
+  const hour = m[4] == null ? null : +m[4];
+  const minute = m[5] == null ? 0 : +m[5];
 
   let timeLabel = '';
-  if (raw.length >= 12) {
+  if (hour != null) {
     const suffix = hour >= 12 ? 'PM' : 'AM';
     const hour12 = hour % 12 === 0 ? 12 : hour % 12;
     timeLabel = `${hour12}:${String(minute).padStart(2, '0')} ${suffix}`;
   }
 
-  // Zeller-free weekday: safe because we build the date in UTC and only read
-  // the weekday, never the local hour.
+  const pad = (n) => String(n).padStart(2, '0');
+  const sortKey =
+    `${year}${pad(month)}${pad(day)}${pad(hour == null ? 0 : hour)}${pad(minute)}00`;
+
   const weekday = DAYS[new Date(Date.UTC(year, month - 1, day)).getUTCDay()];
 
   return {
-    sortKey: raw,
+    sortKey,
     weekday,
     monthYear: `${FULL_MONTHS[month - 1]} ${year}`,
-    iso: `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`,
+    iso: `${year}-${pad(month)}-${pad(day)}`,
     dateLabel: `${MONTHS[month - 1]} ${day}`,
     dayLabel: String(day),
     monthLabel: MONTHS[month - 1],
@@ -112,10 +95,10 @@ function parseTwDate(raw) {
 }
 
 /**
- * TicketWeb has no separate support-act field — openers live inside the event
- * title ("REHASH w/ special guest Makeout Reef"). Split on that pattern so the
- * headliner and support render on their own lines. If there's no match, the
- * support line stays empty rather than being padded with filler.
+ * My805Tix has no separate support-act field — openers live inside the event
+ * title ("THE BENDS w/ special guest Margot Sinclair"). Split on that pattern
+ * so the headliner and support render on their own lines. No match leaves the
+ * support line empty rather than padding it with filler.
  */
 function splitBilling(eventName) {
   const name = (eventName || '').trim();
@@ -133,14 +116,9 @@ const ENTITIES = {
   mdash: '\u2014', ndash: '\u2013', hellip: '\u2026', eacute: '\u00E9'
 };
 
-/**
- * Event descriptions come back as HTML with entities double-encoded in places
- * (&amp;quot;). Strip tags, then decode repeatedly until stable, so the front
- * end receives plain text and its own escaping is the only escaping applied.
- */
 function decodeEntities(str) {
   var prev;
-  var out = str;
+  var out = String(str == null ? '' : str);
   for (var pass = 0; pass < 3; pass++) {
     prev = out;
     out = out
@@ -162,271 +140,151 @@ function stripTags(html) {
     .trim();
 }
 
-/* ------------------------------------------------------- provider: ticketweb */
+function money(n) {
+  return Number.isInteger(n) ? `$${n}` : `$${n.toFixed(2)}`;
+}
 
-async function fetchTicketWeb() {
-  const params = new URLSearchParams({
-    method: 'json',
-    resultsPerPage: String(MAX_EVENTS)
-  });
+/* --------------------------------------------------- provider: My805Tix */
 
-  // Venue query returns every show in the room; org query only our own bookings.
-  if (VENUE_ID) params.set('venueid', VENUE_ID);
-  else params.set('orgid', ORG_ID);
+async function fetchMy805Events() {
+  // Trailing args: oid / start / end / topic / inclcal / incltopic /
+  // incldateless / inclThumbnail — mirroring their widget's own call.
+  const url =
+    `${MY805_HOST}/events/events_by_organization/${MY805_PID}/${MY805_OID}` +
+    '/0/0/0/true/true/true/true';
 
-  if (API_KEY) params.set('key', API_KEY);
-
-  const res = await fetch(`${TW_ENDPOINT}?${params}`, {
-    headers: { 'User-Agent': USER_AGENT, Accept: 'application/json' }
-  });
-
-  if (!res.ok) throw new Error(`TicketWeb responded ${res.status}`);
+  const res = await fetch(url, { headers: { 'User-Agent': USER_AGENT } });
+  if (!res.ok) throw new Error(`My805Tix list ${res.status}`);
 
   const body = await res.json();
-  if (!body || !Array.isArray(body.events)) {
-    throw new Error('TicketWeb response missing events array');
-  }
-  return body.events;
+  if (body.status !== 'success') throw new Error(`My805Tix list status: ${body.status}`);
+
+  // `data` is keyed by event id rather than being an array.
+  const raw = body.data;
+  const list = Array.isArray(raw) ? raw : Object.values(raw || {});
+  return list.slice(0, MAX_EVENTS);
 }
 
-function normalizeTicketWeb(raw) {
-  const dates = raw.dates || {};
-  const prices = raw.prices || {};
-  const images = raw.eventimages || {};
-  const venue = raw.venue || {};
-  const act = (raw.attractionList || [])[0] || {};
+/**
+ * Price and availability aren't in the list response. Each event page carries
+ * schema.org JSON-LD with an `offers` array, which is the cheapest reliable
+ * source for both. Returns null on any failure so the show still renders.
+ */
+async function fetchOffers(slug) {
+  const ctl = new AbortController();
+  const timer = setTimeout(() => ctl.abort(), DETAIL_TIMEOUT_MS);
+  try {
+    const res = await fetch(`${MY805_HOST}/e/${encodeURIComponent(slug)}/tickets`, {
+      headers: { 'User-Agent': USER_AGENT },
+      signal: ctl.signal
+    });
+    if (!res.ok) return null;
 
-  const when = parseTwDate(dates.startdate);
-  if (!when) return null;
+    const html = await res.text();
 
-  const { name, support } = splitBilling(decodeEntities(String(raw.eventname || '')));
+    // Pages carry more than one JSON-LD block, and the shape varies: some are
+    // a flat Event, others wrap nodes in @graph. Scan every block for offers
+    // rather than assuming the first one is the event.
+    const blocks = [...html.matchAll(
+      /<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi
+    )];
+
+    let offers = null;
+    for (const b of blocks) {
+      let data;
+      try { data = JSON.parse(b[1].trim()); } catch { continue; }
+      const nodes = []
+        .concat(data)
+        .concat(Array.isArray(data['@graph']) ? data['@graph'] : []);
+      for (const n of nodes) {
+        if (n && n.offers) { offers = n.offers; break; }
+      }
+      if (offers) break;
+    }
+    if (!offers) return null;
+    if (!Array.isArray(offers)) offers = [offers];
+
+    const priced = offers
+      .map((o) => ({
+        price: parseFloat(o.price),
+        inStock: !/soldout|outofstock/i.test(String(o.availability || ''))
+      }))
+      .filter((o) => Number.isFinite(o.price));
+
+    if (!priced.length) return null;
+
+    const values = priced.map((o) => o.price);
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+
+    return {
+      priceDisplay: min === max ? money(min) : `${money(min)} – ${money(max)}`,
+      soldOut: priced.every((o) => !o.inStock)
+    };
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/** Small pool so a busy calendar doesn't fire 20 requests at once. */
+async function mapPool(items, limit, fn) {
+  const out = new Array(items.length);
+  let i = 0;
+  const workers = Array.from({ length: Math.min(limit, items.length) }, async () => {
+    while (i < items.length) {
+      const idx = i++;
+      out[idx] = await fn(items[idx], idx);
+    }
+  });
+  await Promise.all(workers);
+  return out;
+}
+
+function normalizeMy805(entry) {
+  const E = (entry && entry.Event) || {};
+  const when = parseM8Date(E.start);
+
+  // Dateless and unticketed records exist on the platform (standing offers,
+  // drafts). They aren't shows and must not reach the calendar.
+  if (!when || !E.name || E.tickets_active === false) return null;
+
+  const { name, support } = splitBilling(decodeEntities(E.name));
+  const slug = String(E.slug || '').trim();
+
+  // Some records are listings only — the sale happens on TicketWeb, a
+  // promoter's site, etc. Those can't open in the modal (there is no
+  // My805Tix checkout behind them), so they get a plain outbound link.
+  const external = String(E.tickets_url || '').trim();
 
   return {
-    id: raw.eventid || '',
+    id: E.id || slug,
     name,
     support,
-    artist: decodeEntities(String(act.artist || '')).trim(),
-    genre: act.genre || '',
-    subgenre: act.subgenre || '',
-    url: raw.eventurl || '',
-    image: images.large || images.small || '',
-    imageSmall: images.small || images.large || '',
-    date: when,
-    priceDisplay: prices.pricedisplay || '',
-    ageLabel: raw.agerestrictionmessage || '',
-    venue: venueLabel(venue.name),
-    status: raw.status || '',
-    description: stripTags(raw.description).slice(0, 400),
-    // TicketWeb shows sell through TicketWeb. When a show moves to My805Tix it
-    // gets added to the sheet with a slug, which takes precedence downstream.
-    ticketSlug: ''
-  };
-}
-
-/* ------------------------------------------------- provider: google sheet */
-
-/**
- * Minimal CSV parser. Google Sheets quotes any field containing a comma and
- * escapes embedded quotes by doubling them, so a naive split(',') mangles
- * things like "Smith, Jones & Co". This handles both.
- */
-function parseCsv(text) {
-  const rows = [];
-  let row = [];
-  let field = '';
-  let inQuotes = false;
-
-  for (let i = 0; i < text.length; i++) {
-    const ch = text[i];
-    if (inQuotes) {
-      if (ch === '"') {
-        if (text[i + 1] === '"') { field += '"'; i++; }
-        else inQuotes = false;
-      } else field += ch;
-    } else if (ch === '"') {
-      inQuotes = true;
-    } else if (ch === ',') {
-      row.push(field); field = '';
-    } else if (ch === '\n') {
-      row.push(field); field = '';
-      rows.push(row); row = [];
-    } else if (ch !== '\r') {
-      field += ch;
-    }
-  }
-  row.push(field);
-  if (row.length > 1 || row[0] !== '') rows.push(row);
-  return rows;
-}
-
-/**
- * Turn "7:00 PM", "7pm", "19:00" or "1900" into HHMMSS for the shared date
- * parser. Returns '190000' (a 7pm default) if the cell is blank, since almost
- * every show here starts at 7.
- */
-function normalizeTime(raw) {
-  const val = String(raw || '').trim().toLowerCase();
-  if (!val) return '190000';
-
-  const m = val.match(/^(\d{1,2})\s*[:.]?\s*(\d{2})?\s*(am|pm)?$/);
-  if (!m) return '190000';
-
-  let hour = parseInt(m[1], 10);
-  const minute = m[2] ? parseInt(m[2], 10) : 0;
-  const meridiem = m[3];
-
-  if (meridiem === 'pm' && hour < 12) hour += 12;
-  if (meridiem === 'am' && hour === 12) hour = 0;
-  // No am/pm and an hour that reads like an evening show — assume PM.
-  if (!meridiem && hour < 12 && hour >= 1 && hour <= 11) hour += 12;
-
-  return String(hour).padStart(2, '0') + String(minute).padStart(2, '0') + '00';
-}
-
-/** Accepts 2026-09-14, 9/14/2026, or 09-14-26 and returns YYYYMMDD. */
-function normalizeDate(raw) {
-  const val = String(raw || '').trim();
-  if (!val) return '';
-
-  let iso = val.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})$/);
-  if (iso) {
-    return iso[1] + String(+iso[2]).padStart(2, '0') + String(+iso[3]).padStart(2, '0');
-  }
-
-  const us = val.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{2,4})$/);
-  if (us) {
-    let year = +us[3];
-    if (year < 100) year += 2000;
-    return String(year) + String(+us[1]).padStart(2, '0') + String(+us[2]).padStart(2, '0');
-  }
-  return '';
-}
-
-async function fetchManualSheet() {
-  if (!SHEET_CSV_URL) return [];
-
-  const res = await fetch(SHEET_CSV_URL, { headers: { 'User-Agent': USER_AGENT } });
-  if (!res.ok) throw new Error(`Sheet responded ${res.status}`);
-
-  const text = await res.text();
-
-  // A "Publish to web" URL ending in /pubhtml returns the HTML page, not CSV.
-  // parseCsv happily shreds that into nonsense rows instead of throwing, so the
-  // sheet silently yields zero shows while still reporting healthy. Fail loudly
-  // instead — the status in the response is the only diagnostic there is.
-  const ctype = res.headers.get('content-type') || '';
-  if (/text\/html/i.test(ctype) || /^\s*<!doctype html/i.test(text)) {
-    throw new Error(
-      'Sheet URL returned HTML, not CSV. MANUAL_SHEET_CSV must be the ' +
-      'Publish-to-web CSV link ending in /pub?output=csv (not /pubhtml).'
-    );
-  }
-
-  const rows = parseCsv(text);
-  if (rows.length < 2) return [];
-
-  // Guard against a published-but-wrong tab, or renamed columns.
-  const head = rows[0].map((h) => String(h || '').trim().toLowerCase());
-  const missing = ['date', 'show name', 'publish'].filter((h) => !head.includes(h));
-  if (missing.length) {
-    throw new Error(
-      'Sheet is missing required column(s): ' + missing.join(', ') +
-      '. Found: ' + (head.join(', ').slice(0, 120) || '(none)')
-    );
-  }
-
-  // Match columns by header name so the team can reorder or add columns in the
-  // sheet without breaking anything.
-  const headers = rows[0].map((h) => h.trim().toLowerCase());
-  const col = (name) => headers.indexOf(name);
-  const idx = {
-    date: col('date'),
-    time: col('time'),
-    name: col('show name'),
-    support: col('support'),
-    price: col('price'),
-    url: col('ticket link'),
-    image: col('image url'),
-    age: col('age'),
-    publish: col('publish'),
-    // Accept a few spellings so the team doesn't have to match one exactly.
-    ticketSlug: [
-      'my805tix', 'my805tix slug', '805tix', '805tix slug',
-      'modal slug', 'event slug'
-    ].map(col).find((i) => i >= 0)
-  };
-
-  return rows.slice(1).map((r) => {
-    const get = (k) => (idx[k] >= 0 && r[idx[k]] != null ? String(r[idx[k]]).trim() : '');
-    return {
-      date: get('date'),
-      time: get('time'),
-      name: get('name'),
-      support: get('support'),
-      price: get('price'),
-      url: get('url'),
-      image: get('image'),
-      age: get('age'),
-      publish: get('publish'),
-      ticketSlug: get('ticketSlug')
-    };
-  });
-}
-
-/**
- * My805Tix slug. The sheet may carry a bare slug ("hellbent-oct-4") or a pasted
- * event URL — accept either, since whoever announces a show will paste whatever
- * is on their clipboard. Returns '' if there's nothing usable.
- */
-function normalizeTicketSlug(raw) {
-  const val = String(raw == null ? '' : raw).trim();
-  if (!val) return '';
-
-  // Full URL: pull the segment after /e/
-  const m = val.match(/my805tix\.com\/e\/([^/?#]+)/i);
-  if (m) return m[1];
-
-  // Anything else that looks like a URL is not a My805Tix event link — ignore
-  // it rather than building a broken modal URL out of it.
-  if (/^https?:\/\//i.test(val)) return '';
-
-  // Bare slug
-  return /^[A-Za-z0-9._-]+$/.test(val) ? val : '';
-}
-
-function normalizeManual(row) {
-  // "Publish" must be an explicit yes — so a half-finished row sitting in the
-  // sheet never appears on the site.
-  if (!/^(y|yes|true|1|live)$/i.test(row.publish || '')) return null;
-  if (!row.name) return null;
-
-  const day = normalizeDate(row.date);
-  if (!day) return null;
-
-  const when = parseTwDate(day + normalizeTime(row.time));
-  if (!when) return null;
-
-  return {
-    id: 'manual-' + day + '-' + row.name.slice(0, 20).replace(/\W+/g, '-').toLowerCase(),
-    name: row.name,
-    support: row.support,
     artist: '',
-    genre: '',
+    genre: (entry.EventTopic && entry.EventTopic.name) || '',
     subgenre: '',
-    url: row.url || '',
-    image: row.image || '',
-    imageSmall: row.image || '',
+    // Where "More Info" goes: the My805Tix event page.
+    url: slug ? `${MY805_HOST}/e/${slug}` : '',
+    // Set only when the sale lives on another site.
+    externalTicketUrl: external,
+    image: (entry.Logo && entry.Logo.url) || (entry.Masthead && entry.Masthead.url) || '',
+    imageSmall: (entry.Logo && entry.Logo.url) || '',
     date: when,
-    priceDisplay: row.price || '',
-    ageLabel: row.age || '',
-    venue: 'SLO Brew Live',
-    status: 'manual',
-    description: '',
-    ticketSlug: normalizeTicketSlug(row.ticketSlug)
+    priceDisplay: '',
+    soldOut: false,
+    ageLabel: '',
+    venue: venueLabel(E.location),
+    status: '',
+    description: stripTags(E.summary).slice(0, 400),
+    // Password-protected events can't sell through the modal, so they get a
+    // plain link to the event page instead.
+    ticketSlug: (E.password_protected || external) ? '' : slug
   };
 }
 
-/* ------------------------------------------------------------------ handler */
+/* --------------------------------------------------------------- handler */
 
 export const handler = async () => {
   const headers = {
@@ -434,53 +292,61 @@ export const handler = async () => {
     'Access-Control-Allow-Origin': '*'
   };
 
-  // Pull both sources independently. One failing must not take out the other.
-  const [twResult, sheetResult] = await Promise.allSettled([
-    fetchTicketWeb(),
-    fetchManualSheet()
-  ]);
+  let events = [];
+  let listStatus = 'ok';
+  let detailStatus = 'ok';
 
-  const sources = {
-    ticketweb: twResult.status === 'fulfilled' ? 'ok' : String(twResult.reason && twResult.reason.message),
-    sheet: SHEET_CSV_URL
-      ? (sheetResult.status === 'fulfilled' ? 'ok' : String(sheetResult.reason && sheetResult.reason.message))
-      : 'not configured'
-  };
+  try {
+    const raw = await fetchMy805Events();
+    events = raw.map(normalizeMy805).filter(Boolean);
 
-  const fromTw = twResult.status === 'fulfilled'
-    ? twResult.value.map(normalizeTicketWeb).filter(Boolean)
-    : [];
-  const fromSheet = sheetResult.status === 'fulfilled'
-    ? sheetResult.value.map(normalizeManual).filter(Boolean)
-    : [];
+    const todayKey = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    events = events
+      .filter((e) => e.date.sortKey.slice(0, 8) >= todayKey)
+      .sort((a, b) => a.date.sortKey.localeCompare(b.date.sortKey));
 
-  // If a show was added by hand and later appears in TicketWeb, TicketWeb wins
-  // — it has the live ticket link and real artwork. Matched on date + a
-  // loosened title so small wording differences still collapse.
-  const key = (e) =>
-    e.date.sortKey.slice(0, 8) + '|' + e.name.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 18);
-  const seen = new Set(fromTw.map(key));
-  const merged = fromTw.concat(fromSheet.filter((e) => !seen.has(key(e))));
+    // Same show occasionally exists twice (e.g. re-created under a new org).
+    // Collapse on date + loosened title, first occurrence wins.
+    const seen = new Set();
+    events = events.filter((e) => {
+      const k = e.date.sortKey.slice(0, 8) + '|' +
+        e.name.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 14);
+      if (seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    });
 
-  const todayKey = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-  const events = merged
-    .filter((e) => e.date.sortKey.slice(0, 8) >= todayKey)
-    .sort((a, b) => a.date.sortKey.localeCompare(b.date.sortKey));
+    // Enrich with pricing. Failures here degrade the card, never drop it.
+    // Only events that actually sell on My805Tix have offers to look up.
+    const withSlug = events.filter((e) => e.ticketSlug);
+    const offers = await mapPool(withSlug, DETAIL_CONCURRENCY, (e) => fetchOffers(e.ticketSlug));
+    offers.forEach((o, idx) => {
+      if (!o) return;
+      withSlug[idx].priceDisplay = o.priceDisplay;
+      withSlug[idx].soldOut = o.soldOut;
+    });
 
-  const anySource = twResult.status === 'fulfilled' || sheetResult.status === 'fulfilled';
+    const missed = offers.filter((o) => !o).length;
+    if (missed) detailStatus = `${missed} of ${withSlug.length} events missing pricing`;
+  } catch (err) {
+    listStatus = String((err && err.message) || err);
+    detailStatus = 'skipped';
+  }
+
+  const ok = listStatus === 'ok';
 
   return {
     statusCode: 200,
     headers: {
       ...headers,
-      'Cache-Control': anySource
+      'Cache-Control': ok
         ? `public, max-age=${CACHE_SECONDS}, stale-while-revalidate=3600`
         : 'no-store'
     },
     body: JSON.stringify({
-      ok: events.length > 0 || anySource,
+      ok,
       count: events.length,
-      sources,
+      sources: { my805tix: listStatus, pricing: detailStatus },
       events
     })
   };

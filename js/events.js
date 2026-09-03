@@ -66,7 +66,7 @@
           '<span>' + esc(ev.venue || 'SLO Brew Live') + '</span>' +
           '<span class="ecl-price">' + esc(ev.priceDisplay) + '</span>' +
         '</div>' +
-        ticketControl(cta, 'ecl-btn', cta.label + ' for ' + ev.name) +
+        ctaRow(ev, 'ecl-btn', 'ecl-btn-alt') +
       '</div>'
     );
   }
@@ -89,11 +89,10 @@
           '<span>' + esc(ev.venue || 'SLO Brew Live') + '</span>' +
           '<span class="ec-price">' + esc(ev.priceDisplay) + '</span>' +
         '</div>' +
-        ticketControl(
-          ctaHref ? { href: href, label: 'Get Tickets', external: false } : base,
-          'ec-btn',
-          (ctaHref ? 'Get Tickets' : base.label) + ' for ' + ev.name
-        ) +
+        (ctaHref
+          ? ticketControl({ href: href, label: 'Get Tickets', external: false },
+              'ec-btn', 'Get Tickets for ' + ev.name)
+          : ctaRow(ev, 'ec-btn', 'ec-btn-alt')) +
       '</div>'
     );
   }
@@ -105,14 +104,26 @@
    * instead of a "Get Tickets" button that lies.
    */
   function ticketCta(ev) {
-    // A My805Tix slug wins: it's the only source that can sell in a modal
-    // without leaving the site.
+    if (ev.soldOut) {
+      return { soldOut: true, label: 'Sold Out' };
+    }
+    // A slug means the show sells on My805Tix, which is the only case the
+    // modal can handle without leaving the site.
     if (ev.ticketSlug) {
       return { modal: true, slug: ev.ticketSlug, href: my805Url(ev.ticketSlug), label: 'Get Tickets' };
     }
+    // Listing-only events sell somewhere else (TicketWeb, a promoter's site).
+    if (ev.externalTicketUrl) {
+      return { href: ev.externalTicketUrl, label: 'Get Tickets', external: true };
+    }
     if (ev.url) return { href: ev.url, label: 'Get Tickets', external: true };
-    if (ev.status === 'manual') return { href: 'contact.html', label: 'More Info', external: false };
     return { href: TICKETS_FALLBACK, label: 'Get Tickets', external: true };
+  }
+
+  /** Secondary button — the full event page on My805Tix. */
+  function infoCta(ev) {
+    if (!ev.url) return null;
+    return { href: ev.url, label: 'More Info', external: true };
   }
 
   /**
@@ -124,6 +135,9 @@
    */
   function ticketControl(cta, cls, ariaLabel) {
     var aria = ariaLabel ? ' aria-label="' + esc(ariaLabel) + '"' : '';
+    if (cta.soldOut) {
+      return '<span class="' + cls + ' is-soldout" aria-disabled="true">' + cta.label + '</span>';
+    }
     if (cta.modal) {
       return '<button type="button" id="' + nextModalId() + '" class="' + cls + ' is-modal"' +
         ' data-ts-url="' + esc(cta.href) + '"' + aria + '>' + cta.label + '</button>';
@@ -166,6 +180,21 @@
   /* Note: the modal's button label params (c/cm/n/nm/b/bm) ADD a button
      rather than relabelling the existing one — passing them leaves two
      near-identical CTAs side by side. Left alone deliberately. */
+
+  /**
+   * Ticket + info buttons as one row. "More Info" is dropped when there's no
+   * event page to point at, so the primary button spans the row on its own.
+   */
+  function ctaRow(ev, cls, infoCls) {
+    var cta = ticketCta(ev);
+    var info = infoCta(ev);
+    var primary = ticketControl(cta, cls, cta.label + ' for ' + ev.name);
+    if (!info) return primary;
+    var secondary = '<a href="' + esc(info.href) + '" class="' + infoCls + '"' +
+      ' target="_blank" rel="noopener" aria-label="More info about ' + esc(ev.name) + '">' +
+      info.label + '</a>';
+    return '<div class="cta-row">' + primary + secondary + '</div>';
+  }
 
   /**
    * Bind after the cards are in the DOM — ts_modal.js only retries once on
@@ -211,7 +240,7 @@
           '<span>' + esc(ev.venue || 'SLO Brew Live') + '</span>' +
           '<span class="show-price">' + esc(ev.priceDisplay) + '</span>' +
         '</div>' +
-        ticketControl(cta, 'show-btn', cta.label + ' for ' + ev.name) +
+        ctaRow(ev, 'show-btn', 'show-btn-alt') +
       '</div>'
     );
   }
