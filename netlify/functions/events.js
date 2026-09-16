@@ -113,7 +113,12 @@ function splitBilling(eventName) {
 const ENTITIES = {
   amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ',
   rsquo: '\u2019', lsquo: '\u2018', rdquo: '\u201D', ldquo: '\u201C',
-  mdash: '\u2014', ndash: '\u2013', hellip: '\u2026', eacute: '\u00E9'
+  mdash: '\u2014', ndash: '\u2013', hellip: '\u2026', eacute: '\u00E9',
+  bull: '\u2022', middot: '\u00B7', trade: '\u2122', reg: '\u00AE', copy: '\u00A9',
+  deg: '\u00B0', sect: '\u00A7', para: '\u00B6', dagger: '\u2020', Dagger: '\u2021',
+  laquo: '\u00AB', raquo: '\u00BB', times: '\u00D7', divide: '\u00F7', plusmn: '\u00B1',
+  frac12: '\u00BD', frac14: '\u00BC', frac34: '\u00BE',
+  euro: '\u20AC', pound: '\u00A3', cent: '\u00A2', yen: '\u00A5'
 };
 
 function decodeEntities(str) {
