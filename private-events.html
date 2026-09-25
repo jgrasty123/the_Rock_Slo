@@ -171,7 +171,9 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
 .radio-option input{accent-color:var(--orange)}
 .f-submit{width:100%;background:var(--orange);color:#fff;border:none;padding:18px;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:background .2s;margin-top:8px}
 .f-submit:hover{background:var(--orange-hover)}
-.ts-note{background:rgba(200,90,15,.06);border:1px dashed rgba(200,90,15,.3);padding:14px 18px;border-radius:2px;margin-top:18px;font-size:12px;color:var(--muted);text-align:center}
+.consent-option{display:flex;gap:10px;align-items:flex-start;margin:4px 0 22px;font-size:13px;line-height:1.55;color:var(--muted);cursor:pointer}
+.consent-option input{margin-top:3px;flex-shrink:0;width:16px;height:16px;accent-color:var(--orange)}
+.consent-option a{color:var(--orange);text-decoration:underline}
 @media(max-width:900px){.vs-grid,.et-grid,.am-grid,.f-row{grid-template-columns:1fr}}
 @media(max-width:560px){.cap-row{gap:18px;flex-wrap:wrap}.cap-num{font-size:30px}}
 @media(max-width:600px){.bf-wrap{padding:28px 20px}}
@@ -609,9 +611,12 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
           <label class="f-label">Tell us about your event</label>
           <textarea name="message" class="f-textarea" placeholder="Share your vision, special requirements, or any questions..."></textarea>
         </div>
+        <label class="consent-option">
+          <input type="checkbox" name="gdpr-consent" value="yes" required>
+          <span>I agree to share my information with The Rock SLO and its event booking platform, Tripleseat, and accept <a href="https://www.tripleseat.com/privacy-policy/" target="_blank" rel="noopener">Tripleseat's privacy policy</a>. <span class="f-req">*</span></span>
+        </label>
         <button type="submit" class="f-submit">Send Inquiry →</button>
         <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:12px">Our events team responds within 1–2 business days.</p>
-        <div class="ts-note">🔗 This form will be powered by <strong>TripleSeat</strong> once the integration is live.</div>
       </form>
     </div>
   </div>
