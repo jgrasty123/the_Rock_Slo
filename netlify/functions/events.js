@@ -351,6 +351,13 @@ function normalizeMy805(entry) {
   // My805Tix checkout behind them), so they get a plain outbound link.
   const external = String(E.tickets_url || '').trim();
 
+  // My805Tix has two description boxes: the top "summary" and a second
+  // "details" section further down the event page. Promoters split copy
+  // between them inconsistently (bio often goes in details), so render both.
+  const fullDescription = [E.summary, E.details]
+    .filter((h) => h && stripTags(h).trim())
+    .join('\n');
+
   return {
     id: E.id || slug,
     name,
@@ -370,9 +377,9 @@ function normalizeMy805(entry) {
     ageLabel: '',
     venue: venueLabel(E.location),
     status: '',
-    description: stripTags(E.summary).slice(0, 400),
+    description: stripTags(fullDescription).slice(0, 400),
     // Full description for the details modal, sanitized above.
-    descriptionHtml: sanitizeHtml(E.summary),
+    descriptionHtml: sanitizeHtml(fullDescription),
     // Password-protected events can't sell through the modal, so they get a
     // plain link to the event page instead.
     ticketSlug: (E.password_protected || external) ? '' : slug
