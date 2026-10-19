@@ -303,6 +303,7 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
 .menu-item{display:grid;grid-template-columns:1fr auto;gap:8px 20px;padding:16px 0;border-bottom:1px dotted var(--border)}
 .menu-item:last-child{border-bottom:none}
 .menu-item-name{font-family:'Oswald',sans-serif;font-weight:600;font-size:17px;text-transform:uppercase;letter-spacing:.3px;color:var(--dark);display:flex;align-items:baseline;gap:8px}
+.menu-star{font-size:12px;color:var(--orange)}
 .menu-gf{font-size:9px;font-weight:700;letter-spacing:1px;color:var(--orange);border:1px solid var(--orange);border-radius:2px;padding:1px 4px}
 .menu-item-price{font-family:'Oswald',sans-serif;font-weight:600;font-size:16px;color:var(--orange);white-space:nowrap}
 .menu-item-desc{grid-column:1/2;font-size:13.5px;color:var(--muted);line-height:1.6;margin-top:2px}
@@ -345,14 +346,16 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
 <!-- JUMP NAV -->
 <nav class="menu-jump" aria-label="Menu sections">
   <div class="menu-jump-inner">
-      <a href="#appetizers">For the Table</a>
-      <a href="#mains">Cali Classics</a>
-      <a href="#pizza">Rockin&#x27; Pizza</a>
-      <a href="#salads">Salads</a>
-      <a href="#gluten-free">Gluten-Free</a>
-      <a href="#kids">Kids Menu</a>
+      <a href="#appetizers">Opening Acts</a>
+      <a href="#wings">Wings</a>
+      <a href="#pizza">Coastal Pies</a>
+      <a href="#burgers">Smash Hits</a>
+      <a href="#mains">Legends</a>
+      <a href="#tacos">Tacos</a>
+      <a href="#salads">From the Farm</a>
+      <a href="#kids">Little Locals</a>
       <a href="#dog">Dog Menu</a>
-      <a href="#desserts">Distiller Delights</a>
+      <a href="#desserts">Encore</a>
       <a href="#cocktails">Cocktails</a>
       <a href="#beers">Beers &amp; Flights</a>
       <a href="#drinks">Non-Alcoholic</a>
@@ -368,214 +371,238 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
 <section class="menu-sec" id="appetizers">
   <div class="menu-sec-inner">
     <p class="eyebrow">The Rock Kitchen</p>
-    <h2 class="section-title" style="margin-bottom:6px">For the Table</h2>
+    <h2 class="section-title" style="margin-bottom:6px">Opening Acts</h2>
     <div class="section-rule"></div>
-    
+    <p class="menu-sec-note">Built for the table. Sharing is optional.</p>
       <div class="menu-item">
-        <div class="menu-item-name">Sausage &amp; Fondue Board</div>
-        <div class="menu-item-price">25</div>
-        <div class="menu-item-desc">Reggae red cheese sauce, sausage, giant pretzel, garlicky broccolini, apple, radish.</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item-name">R&amp;H Jumbo Smoked Wings</div>
+        <div class="menu-item-name">Rock Pastrami Fries <span class="menu-star" title="Chef favorite">★</span></div>
         <div class="menu-item-price">20</div>
-        <div class="menu-item-desc">Buffalo, R&amp;H BBQ, or dry rub lemon pepper. Served w/ carrot, celery, fries, ranch &amp; blue cheese.</div>
+        <div class="menu-item-desc">Beer-battered French fries, cheddar cheese, smoked pastrami, chopped applewood bacon, cilantro, pepperoncini aioli &amp; pickled peppers.</div>
       </div>
       <div class="menu-item">
-        <div class="menu-item-name">Jumbo Coconut Shrimp</div>
-        <div class="menu-item-price">19</div>
-        <div class="menu-item-desc">Served with sweet chili slaw.</div>
+        <div class="menu-item-name">Loaded Fondue Board</div>
+        <div class="menu-item-price">25</div>
+        <div class="menu-item-desc">Seared kielbasa coins, jumbo pretzel, house cheese sauce, green apples, radishes, celery, carrots, cherry tomatoes &amp; hot honey.</div>
       </div>
       <div class="menu-item">
-        <div class="menu-item-name">Crispy Brussel Sprouts <span class="menu-gf">GF</span></div>
+        <div class="menu-item-name">SLO Southern Fried Pickles</div>
+        <div class="menu-item-price">17 / 12</div>
+        <div class="menu-item-desc">House-breaded crispy pickle spears served with our signature Alabama White Sauce, Carolina Gold mustard &amp; ranch. Large 17 / Small 12.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Crispy Brussels Sprouts</div>
         <div class="menu-item-price">16</div>
-        <div class="menu-item-desc">Tossed bourbon maple glaze, feta, almonds, balsamic reduction.</div>
+        <div class="menu-item-desc">Maple-bourbon glaze, roasted almonds, feta &amp; balsamic reduction.</div>
       </div>
       <div class="menu-item">
         <div class="menu-item-name">Basket of Rings</div>
         <div class="menu-item-price">16</div>
-        <div class="menu-item-desc">Charred poblano ranch, R&amp;H whiskey BBQ, ketchup.</div>
+        <div class="menu-item-desc">Crispy onion rings served with ketchup, BBQ sauce &amp; Carolina Gold.</div>
       </div>
       <div class="menu-item">
         <div class="menu-item-name">Basket of Fries</div>
         <div class="menu-item-price">13</div>
-        <div class="menu-item-desc">Curry aioli, R&amp;H whiskey BBQ, ketchup.</div>
+        <div class="menu-item-desc">Crispy French fries served with ketchup, BBQ sauce &amp; Alabama White Sauce.</div>
       </div>
       <div class="menu-item">
-        <div class="menu-item-name">Roasted Garlic Broccolini <span class="menu-gf">GF</span></div>
-        <div class="menu-item-price">12</div>
-        <div class="menu-item-desc">Make it spicy.</div>
+        <div class="menu-item-name">Sweet Potato Fries</div>
+        <div class="menu-item-price">16</div>
+        <div class="menu-item-desc">Served with spicy maple aioli &amp; BBQ sauce.</div>
+      </div>
+  </div>
+</section>
+<section class="menu-sec" id="wings">
+  <div class="menu-sec-inner">
+    <p class="eyebrow">The Rock Kitchen</p>
+    <h2 class="section-title" style="margin-bottom:6px">SLO&#x27;s Best Wings</h2>
+    <div class="section-rule"></div>
+      <div class="menu-item">
+        <div class="menu-item-name">10 Jumbo Wings</div>
+        <div class="menu-item-price">20</div>
+        <div class="menu-item-desc">Served with fries, fresh veggies &amp; ranch. All sauces made in-house.</div>
+      </div>
+    <p class="menu-subhd">Choose Your Sauce</p>
+      <div class="menu-item"><div class="menu-item-name">Dragon</div><div class="menu-item-price"></div><div class="menu-item-desc">Sweet chili sauce with Sriracha drizzle, scallions &amp; seasoning.</div></div>
+      <div class="menu-item"><div class="menu-item-name">Fire &amp; Ice</div><div class="menu-item-price"></div><div class="menu-item-desc">Alabama White Sauce with a Buffalo drizzle.</div></div>
+      <p class="menu-sides">Also: Apple Bourbon BBQ · Buffalo · Lemon Pepper</p>
+  </div>
+</section>
+<section class="menu-sec" id="pizza">
+  <div class="menu-sec-inner">
+    <p class="eyebrow">The Rock Kitchen</p>
+    <h2 class="section-title" style="margin-bottom:6px">Coastal Pies</h2>
+    <div class="section-rule"></div>
+    <p class="menu-sec-note">All pizza is served with our house-made dough and marinara sauce.</p>
+      <div class="menu-item">
+        <div class="menu-item-name">BBQ Chicken Pizza</div>
+        <div class="menu-item-price">20</div>
+        <div class="menu-item-desc">BBQ chicken, red onions, applewood bacon, BBQ sauce, cilantro, shaved jalapeños &amp; Parmesan.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Rock Pepperoni Pizza</div>
+        <div class="menu-item-price">19</div>
+        <div class="menu-item-desc">Fresh-sliced pepperoni, Peppadews, Parmesan, herbs &amp; hot honey.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">The Pismo Pig <span class="menu-star" title="Chef favorite">★</span></div>
+        <div class="menu-item-price">22</div>
+        <div class="menu-item-desc">Smoked ham, pineapple, applewood bacon, fresh mozzarella, Parmesan &amp; herbs.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">The Italian Job</div>
+        <div class="menu-item-price">19</div>
+        <div class="menu-item-desc">Fresh mozzarella, fresh basil, cherry tomatoes, extra-virgin olive oil &amp; Maldon salt.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Born to Be Mild</div>
+        <div class="menu-item-price">16</div>
+        <div class="menu-item-desc">Fresh mozzarella &amp; shredded mozzarella. Classic cheese pizza.</div>
+      </div>
+  </div>
+</section>
+<section class="menu-sec" id="burgers">
+  <div class="menu-sec-inner">
+    <p class="eyebrow">The Rock Kitchen</p>
+    <h2 class="section-title" style="margin-bottom:6px">Smash Hits</h2>
+    <div class="section-rule"></div>
+    <p class="menu-sec-note">All Smashies come with double beef patties and American cheese, with your choice of French fries or a side salad. Make any burger a triple stack +5.</p>
+      <div class="menu-item">
+        <div class="menu-item-name">The Classic</div>
+        <div class="menu-item-price">20</div>
+        <div class="menu-item-desc">Shaved onions, pickles &amp; Rock Sauce.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">The Twisted Pepper</div>
+        <div class="menu-item-price">21</div>
+        <div class="menu-item-desc">Grilled onions, applewood bacon, pickles &amp; pepperoncini aioli.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">The Outlaw</div>
+        <div class="menu-item-price">22</div>
+        <div class="menu-item-desc">Apple Bourbon BBQ sauce, crispy onion ring, applewood bacon &amp; pickles.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">The Paso Popper <span class="menu-star" title="Chef favorite">★</span></div>
+        <div class="menu-item-price">22</div>
+        <div class="menu-item-desc">Raspberry bacon jam, smoked whipped cream cheese &amp; shaved jalapeños.</div>
       </div>
   </div>
 </section>
 <section class="menu-sec" id="mains">
   <div class="menu-sec-inner">
     <p class="eyebrow">The Rock Kitchen</p>
-    <h2 class="section-title" style="margin-bottom:6px">Cali Classics</h2>
+    <h2 class="section-title" style="margin-bottom:6px">Legends</h2>
     <div class="section-rule"></div>
-    <p class="menu-sec-note">Add grilled chicken 4 · grilled shrimp 10 · 6oz beef patty 8 · Impossible™ patty 5</p>
+    <p class="menu-sec-note">The dishes that define The Rock.</p>
       <div class="menu-item">
-        <div class="menu-item-name">Hatch Burger</div>
-        <div class="menu-item-price">21</div>
-        <div class="menu-item-desc">6oz Niman Ranch patty, pepper jack, avocado, lettuce, tomatoes, red onion, bourbon pickles, hatch green chili and lime aioli, Martin&#x27;s bun w/ fries or salad. Add patty 8.</div>
+        <div class="menu-item-name">Chef&#x27;s Tri-Tip Sandwich <span class="menu-star" title="Chef favorite">★</span></div>
+        <div class="menu-item-price">23</div>
+        <div class="menu-item-desc">Award-winning red oak-fired tri-tip on a garlic French roll with Santa Maria-style salsa. Served with French fries or a side salad. BBQ sauce available upon request. Available Friday, Saturday &amp; Sunday.</div>
       </div>
       <div class="menu-item">
-        <div class="menu-item-name">Smashie</div>
+        <div class="menu-item-name">Texas Smoked Pastrami Reuben</div>
         <div class="menu-item-price">21</div>
-        <div class="menu-item-desc">Double smash patties, double American, pickles, shaved onion, rock sauce w/ fries or salad. Add patty 5.</div>
+        <div class="menu-item-desc">Smoked pastrami, sauerkraut, melted Swiss cheese &amp; smoky Russian dressing on grilled rye. Served with a pickle spear and your choice of French fries or a side salad.</div>
       </div>
       <div class="menu-item">
-        <div class="menu-item-name">Cali Turkey Sando</div>
-        <div class="menu-item-price">21</div>
-        <div class="menu-item-desc">House smoked turkey breast, lettuce, Bautista tomatoes, avocado, bacon, gruyere, smokehouse aioli, local sourdough w/ fries or salad.</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item-name">Smokey Chicken Sando</div>
-        <div class="menu-item-price">20</div>
-        <div class="menu-item-desc">Fig jam spread, chicken thigh, bacon, gruyere, arugula, red onion, smoked jalapenos on a French baguette w/ fries or salad.</div>
+        <div class="menu-item-name">Crispy Caesar Wrap</div>
+        <div class="menu-item-price">19</div>
+        <div class="menu-item-desc">Crispy chicken, romaine, shredded Parmesan, Caesar dressing, red onion &amp; avocado wrapped in a flour tortilla. Served with French fries. Upgrade to Buffalo chicken +2.</div>
       </div>
       <div class="menu-item">
         <div class="menu-item-name">Gold Coast Cubano</div>
         <div class="menu-item-price">20</div>
-        <div class="menu-item-desc">Mojo smoked pork, black roast ham, gruyere cheese, pickles, and Carolina gold mustard on a pressed French baguette w/ fries or salad.</div>
+        <div class="menu-item-desc">Smoked mojo pork, ham, Carolina Gold mustard, pickles &amp; Swiss cheese. Served with French fries or a side salad.</div>
       </div>
       <div class="menu-item">
-        <div class="menu-item-name">Baja Fish Tacos</div>
-        <div class="menu-item-price">19</div>
-        <div class="menu-item-desc">Two beer battered tacos, avocado coleslaw, pickled onions, cilantro, radish, lime, chipotle aioli, cilantro crema, chips &amp; black beans.</div>
+        <div class="menu-item-name">The 805 Club</div>
+        <div class="menu-item-price">21</div>
+        <div class="menu-item-desc">Smoked turkey, applewood bacon, sprouts, tomato, avocado &amp; smokehouse aioli on a toasted French roll. Served with French fries or a side salad.</div>
       </div>
       <div class="menu-item">
-        <div class="menu-item-name">Pesto Grilled Cheese</div>
-        <div class="menu-item-price">18</div>
-        <div class="menu-item-desc">Smoked mozzarella, gruyere, pistachio pesto, Bautista tomatoes, arugula, caramelized onions on local sourdough w/ fries or salad.</div>
+        <div class="menu-item-name">Loaded Mac &amp; Cheese</div>
+        <div class="menu-item-price">20 / 10</div>
+        <div class="menu-item-desc">BBQ chicken &amp; applewood bacon over house-made mac sauce and elbow noodles. Topped with toasted breadcrumbs, BBQ sauce drizzle, fresh shaved jalapeños &amp; cilantro. Large 20 / Small 10.</div>
       </div>
-      <div class="menu-item">
-        <div class="menu-item-name">Pub Mac N&#x27; Cheese</div>
-        <div class="menu-item-price">10</div>
-        <div class="menu-item-desc">House-made, crusted with herb bread crumbs. Small 10 / Large 16.</div>
-      </div>
-      <p class="menu-sides">Sides: Fries 4 · Side Salad 4 · Onion Rings 6</p>
+      <p class="menu-sides">On the side: Fries 4 · Side Salad 4 · Onion Rings 6 · Sweet Potato Fries 7</p>
   </div>
 </section>
-<section class="menu-sec" id="pizza">
+<section class="menu-sec" id="tacos">
   <div class="menu-sec-inner">
     <p class="eyebrow">The Rock Kitchen</p>
-    <h2 class="section-title" style="margin-bottom:6px">Rockin&#x27; Pizza</h2>
+    <h2 class="section-title" style="margin-bottom:6px">Tacos!</h2>
     <div class="section-rule"></div>
-    <p class="menu-sec-note">Add grilled chicken 4</p>
+    <p class="menu-sec-note">All tacos are served with black beans, chips &amp; salsa.</p>
       <div class="menu-item">
-        <div class="menu-item-name">BBQ Chicken</div>
-        <div class="menu-item-price">20</div>
-        <div class="menu-item-desc">R&amp;H BBQ, mozzarella, grilled chicken, bacon bits, smoked jalapeno, red onions, parm, cilantro.</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item-name">Rock Pepperoni</div>
+        <div class="menu-item-name">Pacific Baja Tacos</div>
         <div class="menu-item-price">19</div>
-        <div class="menu-item-desc">San Marzano, mozzarella, cup n&#x27; char pepperoni, peppadews, hot honey.</div>
+        <div class="menu-item-desc">Beer-battered white fish, avocado slaw, Baja lime crema, chipotle aioli, cilantro &amp; pickled red onions.</div>
       </div>
       <div class="menu-item">
-        <div class="menu-item-name">Fungie</div>
+        <div class="menu-item-name">Cantina Tacos</div>
         <div class="menu-item-price">18</div>
-        <div class="menu-item-desc">White sauce, herb ricotta cheese, mix wild mushrooms, caramelized onion, fresh arugula, parmesan cheese, balsamic reduction.</div>
+        <div class="menu-item-desc">Two loaded tacos with grilled adobo chicken, pico de gallo, chipotle aioli, cilantro &amp; fresh avocado.</div>
       </div>
       <div class="menu-item">
-        <div class="menu-item-name">Jack&#x27;s Cheese</div>
-        <div class="menu-item-price">16</div>
-        <div class="menu-item-desc">San Marzano, fresh mozzarella, parmesan, fresh herbs.</div>
+        <div class="menu-item-name">Sunset Shrimp Tacos <span class="menu-star" title="Chef favorite">★</span></div>
+        <div class="menu-item-price">20</div>
+        <div class="menu-item-desc">Grilled shrimp, mango slaw, pico de gallo, cotija cheese &amp; Baja lime crema.</div>
       </div>
   </div>
 </section>
 <section class="menu-sec" id="salads">
   <div class="menu-sec-inner">
     <p class="eyebrow">The Rock Kitchen</p>
-    <h2 class="section-title" style="margin-bottom:6px">Salads</h2>
+    <h2 class="section-title" style="margin-bottom:6px">From the Farm</h2>
     <div class="section-rule"></div>
-    <p class="menu-sec-note">Enjoy any salad as a wrap 1 · Add grilled chicken 4, grilled shrimp 10, 6oz beef patty 8 · Impossible™ patty to any sandwich or salad 5</p>
+    <p class="menu-sec-note">Fresh ingredients every day. Add grilled shrimp +6 · grilled chicken +4 · Make any salad a wrap +1</p>
       <div class="menu-item">
-        <div class="menu-item-name">Southwestern Chicken Adobo</div>
+        <div class="menu-item-name">Southwest Chicken Adobo</div>
         <div class="menu-item-price">19</div>
-        <div class="menu-item-desc">Adobo chicken thigh, cabbage, pico de gallo, smoked corn, black beans, cheddar, cilantro, tortilla strips, tomatillo avocado dressing.</div>
+        <div class="menu-item-desc">Spring mix and cabbage tossed with tomatillo dressing, roasted corn, pico de gallo, cheddar cheese, cilantro, tortilla strips, black beans &amp; grilled adobo chicken.</div>
       </div>
       <div class="menu-item">
-        <div class="menu-item-name">Complete Greens <span class="menu-gf">GF</span></div>
+        <div class="menu-item-name">SLO-Cal Caesar</div>
         <div class="menu-item-price">17</div>
-        <div class="menu-item-desc">Bautista greens, frisee lettuce, quinoa, green apples, Marcona almonds, red onion, feta, champagne vinaigrette.</div>
+        <div class="menu-item-desc">Romaine tossed with house-made Caesar dressing, Parmesan, focaccia croutons, red onion &amp; avocado.</div>
       </div>
       <div class="menu-item">
-        <div class="menu-item-name">Slo-Cal Caesar</div>
+        <div class="menu-item-name">Apple Poppy</div>
         <div class="menu-item-price">17</div>
-        <div class="menu-item-desc">Hearts of romaine, classic Caesar, avocado, red onion, parmesan, focaccia crouton.</div>
+        <div class="menu-item-desc">Spring mix, green apples, dried cranberries, roasted almonds, feta cheese &amp; poppy seed dressing.</div>
       </div>
       <div class="menu-item">
-        <div class="menu-item-name">Burrata &amp; Smoked Beets <span class="menu-gf">GF</span></div>
-        <div class="menu-item-price">16</div>
-        <div class="menu-item-desc">Bautista greens, burrata, smoked local beets, cherry tomatoes, bourbon pecans, sage gremolata, citrus vinaigrette.</div>
-      </div>
-  </div>
-</section>
-<section class="menu-sec" id="gluten-free">
-  <div class="menu-sec-inner">
-    <p class="eyebrow">The Rock Kitchen</p>
-    <h2 class="section-title" style="margin-bottom:6px">Gluten-Free</h2>
-    <div class="section-rule"></div>
-    <p class="menu-sec-note">Items on our menu marked GF. Please inform your server of any allergies.</p>
-      <div class="menu-item">
-        <div class="menu-item-name">Crispy Brussel Sprouts <span class="menu-gf">GF</span></div>
-        <div class="menu-item-price">16</div>
-        <div class="menu-item-desc">Tossed bourbon maple glaze, feta, almonds, balsamic reduction.</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item-name">Roasted Garlic Broccolini <span class="menu-gf">GF</span></div>
-        <div class="menu-item-price">12</div>
-        <div class="menu-item-desc">Make it spicy.</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item-name">Complete Greens <span class="menu-gf">GF</span></div>
-        <div class="menu-item-price">17</div>
-        <div class="menu-item-desc">Bautista greens, frisee lettuce, quinoa, green apples, Marcona almonds, red onion, feta, champagne vinaigrette.</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item-name">Burrata &amp; Smoked Beets <span class="menu-gf">GF</span></div>
-        <div class="menu-item-price">16</div>
-        <div class="menu-item-desc">Bautista greens, burrata, smoked local beets, cherry tomatoes, bourbon pecans, sage gremolata, citrus vinaigrette.</div>
+        <div class="menu-item-name">Crunchy Thai <span class="menu-star" title="Chef favorite">★</span></div>
+        <div class="menu-item-price">19</div>
+        <div class="menu-item-desc">Shredded green and purple cabbage, matchstick carrots, red bell pepper, edamame, chopped herbs, green onions &amp; crushed peanuts with spicy peanut dressing.</div>
       </div>
   </div>
 </section>
 <section class="menu-sec" id="kids">
   <div class="menu-sec-inner">
     <p class="eyebrow">The Rock Kitchen</p>
-    <h2 class="section-title" style="margin-bottom:6px">Kids Menu</h2>
+    <h2 class="section-title" style="margin-bottom:6px">Little Locals</h2>
     <div class="section-rule"></div>
-    <p class="menu-sec-note">12 and under.</p>
+    <p class="menu-sec-note">Good eats for our youngest fans.</p>
+      <div class="menu-item">
+        <div class="menu-item-name">Pizza Bread</div>
+        <div class="menu-item-price">9</div>
+      </div>
       <div class="menu-item">
         <div class="menu-item-name">Cheeseburger</div>
         <div class="menu-item-price">12</div>
-        <div class="menu-item-desc">4oz Niman Ranch patty on Martin&#x27;s bun, American cheese, pickles &amp; fries.</div>
       </div>
       <div class="menu-item">
         <div class="menu-item-name">Chicken Quesadilla</div>
         <div class="menu-item-price">12</div>
-        <div class="menu-item-desc">Chicken &amp; cheddar cheese melted between flour tortillas, served with fries.</div>
       </div>
       <div class="menu-item">
-        <div class="menu-item-name">Cheese Pizza</div>
+        <div class="menu-item-name">Clucks N&#x27; Fries</div>
         <div class="menu-item-price">10</div>
-        <div class="menu-item-desc">Red sauce, mozzarella.</div>
       </div>
       <div class="menu-item">
-        <div class="menu-item-name">Clucks n&#x27; Fries</div>
+        <div class="menu-item-name">Kids Mac &amp; Cheese</div>
         <div class="menu-item-price">10</div>
-        <div class="menu-item-desc">Breaded chicken strips served with fries.</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item-name">Mac n&#x27; Cheese</div>
-        <div class="menu-item-price">10</div>
-        <div class="menu-item-desc">House made macaroni &amp; cheese.</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item-name">Grilled Cheese</div>
-        <div class="menu-item-price">10</div>
-        <div class="menu-item-desc">American cheese, local sourdough &amp; fries.</div>
       </div>
   </div>
 </section>
@@ -600,23 +627,35 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
 <section class="menu-sec" id="desserts">
   <div class="menu-sec-inner">
     <p class="eyebrow">The Rock Kitchen</p>
-    <h2 class="section-title" style="margin-bottom:6px">Distiller Delights</h2>
+    <h2 class="section-title" style="margin-bottom:6px">Encore</h2>
     <div class="section-rule"></div>
-    
+    <p class="menu-sec-note">Sweet finishes. Bigger smiles.</p>
       <div class="menu-item">
-        <div class="menu-item-name">Double Chocolate Brownie</div>
-        <div class="menu-item-price">10</div>
-        <div class="menu-item-desc">Topped with house-made chocolate sauce. Serves two. Vanilla a la mode 3.</div>
+        <div class="menu-item-name">Funnel Cake Fries <span class="menu-star" title="Chef favorite">★</span></div>
+        <div class="menu-item-price">17 / 10</div>
+        <div class="menu-item-desc">Warm funnel cake fries dusted with powdered sugar and served with chocolate sauce. Large 17 / Small 10. Load them up with vanilla bean ice cream +3.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Cream Cheese-Filled Churros</div>
+        <div class="menu-item-price">12</div>
+        <div class="menu-item-desc">Tower of churros with cinnamon, powdered sugar &amp; caramel sauce.</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Large Cinnamon Pretzel</div>
+        <div class="menu-item-price">13</div>
+        <div class="menu-item-desc">Served with icing.</div>
       </div>
       <div class="menu-item">
         <div class="menu-item-name">Root Beer Float</div>
-        <div class="menu-item-price">10</div>
-        <div class="menu-item-desc">Vanilla bean ice cream floated with Barq&#x27;s root beer. Add shot 6.</div>
+        <div class="menu-item-price">8</div>
       </div>
       <div class="menu-item">
-        <div class="menu-item-name">Vanilla or Chocolate Milkshake</div>
-        <div class="menu-item-price">10</div>
-        <div class="menu-item-desc">Vanilla bean w/ sprinkles or chocolate ice cream, whipped topping. Add shot 6.</div>
+        <div class="menu-item-name">Chocolate Shake</div>
+        <div class="menu-item-price">8</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Vanilla Shake</div>
+        <div class="menu-item-price">8</div>
       </div>
   </div>
 </section>
@@ -733,6 +772,25 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
         <div class="menu-item-price">4</div>
         
       </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Bottled Coke</div>
+        <div class="menu-item-price">6</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Bottled Root Beer or Cream Soda</div>
+        <div class="menu-item-price">5</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Athletic Brewing N/A Beer</div>
+        <div class="menu-item-price">7.50</div>
+        <div class="menu-item-desc">Upside Dawn (golden) or Run Wild IPA. Same price as a pint.</div>
+      </div>
+      <p class="menu-subhd">Bottles to Go</p>
+      <div class="menu-item">
+        <div class="menu-item-name">Olive Oil</div>
+        <div class="menu-item-price">20</div>
+        <div class="menu-item-desc">Per bottle.</div>
+      </div>
   </div>
 </section>
 <section class="menu-sec" id="happy-hour">
@@ -740,41 +798,19 @@ footer{background:var(--dark-footer);padding:64px 60px 28px;border-top:3px solid
     <p class="eyebrow">The Rock Kitchen</p>
     <h2 class="section-title" style="margin-bottom:6px">Happy Hour</h2>
     <div class="section-rule"></div>
-    <p class="menu-sec-note">Tues–Fri · 3:00–6:00 PM  ·  Cocktails $9 · Beer Pints $5 · Wine by the Glass $8</p>
+    <p class="menu-sec-note">Tues–Fri · 3:00–6:00 PM  ·  Cocktails $9 · Beer Pints $5 · Wine by the Glass $8  ·  Good drinks. Great bites. Same good vibes.</p>
       <div class="menu-item">
-        <div class="menu-item-name">Chips and Salsa</div>
-        <div class="menu-item-price">6</div>
-        <div class="menu-item-desc">Crispy tortilla chips and salsa.</div>
+        <div class="menu-item-name">Whiskey Onion Dip</div>
+        <div class="menu-item-price">12</div>
+        <div class="menu-item-desc">Served with Ruffles &amp; veggies.</div>
       </div>
       <div class="menu-item">
-        <div class="menu-item-name">Basket of Fries</div>
+        <div class="menu-item-name">Pretzel &amp; Cheese</div>
+        <div class="menu-item-price">13</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-name">Chips &amp; Salsa</div>
         <div class="menu-item-price">10</div>
-        <div class="menu-item-desc">Curried aioli, R&amp;H whiskey BBQ, ketchup.</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item-name">Basket of Rings</div>
-        <div class="menu-item-price">12</div>
-        <div class="menu-item-desc">Charred poblano ranch, R&amp;H whiskey BBQ, ketchup.</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item-name">Rock Pepperoni</div>
-        <div class="menu-item-price">12</div>
-        <div class="menu-item-desc">Pepperoni, hot honey and pickled peppers.</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item-name">Jack&#x27;s Cheese Pizza</div>
-        <div class="menu-item-price">12</div>
-        <div class="menu-item-desc">San Marzanos tomato sauce, fresh mozz and herbs.</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item-name">R&amp;H Whiskey Onion Dip</div>
-        <div class="menu-item-price">10</div>
-        <div class="menu-item-desc">Served with kettle chips.</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item-name">Chef&#x27;s Seasonal Hummus</div>
-        <div class="menu-item-price">12</div>
-        <div class="menu-item-desc">Served with pita and veggies.</div>
       </div>
   </div>
 </section>
