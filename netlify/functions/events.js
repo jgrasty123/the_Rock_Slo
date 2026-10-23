@@ -37,6 +37,24 @@ const DETAIL_TIMEOUT_MS = 6000;
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const FULL_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const VENUE_TZ = 'America/Los_Angeles';
+
+/**
+ * Current wall-clock time at the venue as a YYYYMMDDHHMMSS key, comparable
+ * with the sortKeys parseM8Date builds. Netlify functions run in UTC, so
+ * using toISOString() here would roll "today" over at 5 PM Pacific and drop
+ * that night's show before doors open.
+ */
+function venueNowKey(now = new Date()) {
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat('en-US', {
+      timeZone: VENUE_TZ, hourCycle: 'h23',
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    }).formatToParts(now).map((p) => [p.type, p.value])
+  );
+  return `${parts.year}${parts.month}${parts.day}${parts.hour}${parts.minute}${parts.second}`;
+}
 
 /**
  * My805Tix records the room as "The Rock" or "Rod & Hammer Rock"; the site
@@ -343,6 +361,14 @@ function normalizeMy805(entry) {
   // drafts). They aren't shows and must not reach the calendar.
   if (!when || !E.name || E.tickets_active === false) return null;
 
+  // A show stays listed until it ends: the My805Tix end time when it's set
+  // and later than the start (covers shows running past midnight), otherwise
+  // the end of the show's own day at the venue.
+  const ends = parseM8Date(E.end);
+  const endKey = ends && ends.sortKey > when.sortKey
+    ? ends.sortKey
+    : when.sortKey.slice(0, 8) + '235959';
+
   const { name, support } = splitBilling(decodeEntities(E.name));
   const slug = String(E.slug || '').trim();
 
@@ -372,6 +398,7 @@ function normalizeMy805(entry) {
     image: (entry.Logo && entry.Logo.url) || (entry.Masthead && entry.Masthead.url) || '',
     imageSmall: (entry.Logo && entry.Logo.url) || '',
     date: when,
+    endKey,
     priceDisplay: '',
     soldOut: false,
     ageLabel: '',
@@ -402,9 +429,9 @@ export const handler = async () => {
     const raw = await fetchMy805Events();
     events = raw.map(normalizeMy805).filter(Boolean);
 
-    const todayKey = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    const nowKey = venueNowKey();
     events = events
-      .filter((e) => e.date.sortKey.slice(0, 8) >= todayKey)
+      .filter((e) => e.endKey >= nowKey)
       .sort((a, b) => a.date.sortKey.localeCompare(b.date.sortKey));
 
     // Same show occasionally exists twice (e.g. re-created under a new org).
